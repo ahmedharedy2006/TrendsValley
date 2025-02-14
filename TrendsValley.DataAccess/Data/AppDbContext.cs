@@ -27,6 +27,52 @@ namespace TrendsValley.DataAccess.Data
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+
+            modelBuilder.Entity<State>().HasData(
+                
+                new State
+                {
+                    Id = 1,
+                    Name = "California"
+                },
+
+                new State
+                {
+                    Id = 2,
+                    Name = "Florida"
+                }
+                );
+
+            modelBuilder.Entity<City>().HasData(
+
+                new City
+                {
+                    Id = 1,
+                    name = "Arcadia"
+                },
+
+                new City
+                {
+                    Id = 2,
+                    name = "Brea"
+                },
+
+                new City
+                {
+                    Id = 3,
+                    name = "Chico"
+                },
+                new City
+                {
+                    Id = 4,
+                    name = "Ajo"
+                },
+                new City
+                {
+                    Id = 5,
+                    name = "Clifton"
+                }
+                );
         }
     }
 }
