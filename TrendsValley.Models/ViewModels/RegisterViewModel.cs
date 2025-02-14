@@ -26,5 +26,22 @@ namespace TrendsValley.Models.ViewModels
         [DataType(DataType.Password)]
         [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
         public string ConfirmPassword { get; set; }
+
+        [Required]
+
+        public int StateId { get; set; }
+
+        [Required]
+
+        public int CityId { get; set; }
+
+        [Required]
+
+        public string StreetAddress { get; set; }
+
+        [Required]
+
+        public string PostalCode { get; set; }
+
     }
 }
