@@ -4,6 +4,7 @@ using TrendsValley.Models.Models;
 
 namespace TrendsValley.Areas.Customer.Controllers
 {
+    [Area("Customer")]
     public class AuthController : Controller
     {
         private readonly RoleManager<IdentityRole> _roleManager;
