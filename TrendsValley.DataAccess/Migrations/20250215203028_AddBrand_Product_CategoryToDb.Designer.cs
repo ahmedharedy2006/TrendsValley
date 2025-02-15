@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrendsValley.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using TrendsValley.DataAccess.Data;
 namespace TrendsValley.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250215203028_AddBrand_Product_CategoryToDb")]
+    partial class AddBrand_Product_CategoryToDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -289,33 +292,6 @@ namespace TrendsValley.DataAccess.Migrations
                     b.HasKey("Brand_Id");
 
                     b.ToTable("Brands");
-
-                    b.HasData(
-                        new
-                        {
-                            Brand_Id = 1,
-                            Brand_Name = "adidas"
-                        },
-                        new
-                        {
-                            Brand_Id = 2,
-                            Brand_Name = "NIKE"
-                        },
-                        new
-                        {
-                            Brand_Id = 3,
-                            Brand_Name = "Active"
-                        },
-                        new
-                        {
-                            Brand_Id = 4,
-                            Brand_Name = "ZARA"
-                        },
-                        new
-                        {
-                            Brand_Id = 5,
-                            Brand_Name = "H.M"
-                        });
                 });
 
             modelBuilder.Entity("TrendsValley.Models.Models.Category", b =>
@@ -333,23 +309,6 @@ namespace TrendsValley.DataAccess.Migrations
                     b.HasKey("Category_id");
 
                     b.ToTable("Categories");
-
-                    b.HasData(
-                        new
-                        {
-                            Category_id = 1,
-                            Category_Name = "T-Shirt"
-                        },
-                        new
-                        {
-                            Category_id = 2,
-                            Category_Name = "Pantalon"
-                        },
-                        new
-                        {
-                            Category_id = 3,
-                            Category_Name = "Shorts"
-                        });
                 });
 
             modelBuilder.Entity("TrendsValley.Models.Models.Product", b =>
@@ -384,26 +343,6 @@ namespace TrendsValley.DataAccess.Migrations
                     b.HasIndex("Category_id");
 
                     b.ToTable("Products");
-
-                    b.HasData(
-                        new
-                        {
-                            Product_Id = 1,
-                            Brand_Id = 2,
-                            Category_id = 3,
-                            Product_Details = "Nigga Black Short",
-                            Product_Name = "MoamenTheNigga",
-                            Product_Price = 69.00m
-                        },
-                        new
-                        {
-                            Product_Id = 2,
-                            Brand_Id = 5,
-                            Category_id = 1,
-                            Product_Details = "Nigga Black T_Shirt",
-                            Product_Name = "HaridyTheNigga",
-                            Product_Price = 54.00m
-                        });
                 });
 
             modelBuilder.Entity("TrendsValley.Models.Models.State", b =>
