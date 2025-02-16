@@ -1,0 +1,77 @@
+﻿@model TrendsValley.Models.ViewModels.ProductViewModel
+
+@{
+    var title = "Create Product";
+}
+<form method="post">
+    <div class="row p-3 border">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="product.Product_Id" />
+        @if (Model.product == null || Model.product.Product_Id != 0)
+        {
+            //edit
+            title = "Edit Product";
+        }
+        <div class="col-12 border-bottom">
+            <h2 class="text-primary">@title</h2>
+        </div>
+        <div class="col-8 pt-4">
+            <div class="form-group row py-2">
+                <div class="col-4">
+                    <label asp-for="product.Product_Name"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="product.Product_Name" class="form-control" />
+                    <span asp-validation-for="product.Product_Name" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row py-2">
+                <div class="col-4">
+                    <label asp-for="product.Product_Details"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="product.Product_Details" class="form-control" />
+                    <span asp-validation-for="product.Product_Details" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group row py-2">
+                <div class="col-4">
+                    <label asp-for="product.Product_Price"></label>
+                </div>
+                <div class="col-8">
+                    <input asp-for="product.Product_Price" class="form-control" />
+                    <span asp-validation-for="product.Product_Price" class="text-danger"></span>
+                </div>
+            </div>
+
+
+            <div class="form-group row py-2">
+                <div class="col-4">
+                    <label asp-for="product.Brand_Id"></label>
+                </div>
+                <div class="col-8">
+                    <select asp-for="product.Brand_Id" class="form-select" asp-items="@Model.BrandList">
+                        <option disabled selected>--Select Villa--</option>
+                    </select>
+                    <span asp-validation-for="product.Brand_Id" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row py-2">
+                <div class="col-4 offset-4">
+                    @if (Model.product == null)
+                    {
+                        <button type="submit" class="btn btn-primary form-control">Create</button>
+                    }
+                    else
+                    {
+                        <button type="submit" class="btn btn-primary form-control">Update</button>
+                    }
+                </div>
+                <div class="col-4">
+                    <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
