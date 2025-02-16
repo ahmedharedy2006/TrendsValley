@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@functions {
+    public string IsActive(string controller, string action)
+    {
+        var currentController = ViewContext.RouteData.Values["controller"].ToString();
+        var currentAction = ViewContext.RouteData.Values["action"].ToString();
+        return currentController == controller && currentAction == action ? "active" : "";
+    }
+    }
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -11,8 +19,6 @@
     <script src="https://kit.fontawesome.com/87ba71bd3b.js" crossorigin="anonymous"></script>
 
     <link rel="stylesheet" href="/css/admin.css">
-    <style>
-    </style>
 </head>
 
 <body>
@@ -33,21 +39,21 @@
                 </li>
 
                 <li>
-                    <a asp-area="Admin" asp-controller="Product" asp-action="Index">
+                    <a class="@IsActive("Product","Index")" asp-area="Admin" asp-controller="Product" asp-action="Index" >
                         <span class="fa-solid fa-shirt"></span>
                         <span> Clothes</span>
                     </a>
                 </li>
 
                 <li>
-                    <a asp-area="" asp-controller="Category" asp-action="Index">
+                    <a class="@IsActive("Category","Index")" asp-area="" asp-controller="Category" asp-action="Index">
                         <span class="fa-solid fa-list"></span>
                         <span>Categories</span>
                     </a>
                 </li>
 
                 <li>
-                    <a asp-area="" asp-controller="Brand" asp-action="Index">
+                    <a class="@IsActive("Brand","Index")" asp-area="" asp-controller="Brand" asp-action="Index">
                         <span class="fa-brands fa-bandcamp"></span>
                         <span>Brands</span>
                     </a>

@@ -24,9 +24,9 @@
         {
             <div class="alert alert-warning
         	            text-center p-5"
-                 role="alert">
+            role="alert">
                 <br>
-                There is no category in the database
+                There is no Product in the database
             </div>
         }
         else
@@ -57,8 +57,11 @@
 
             </table>
 
-                <div class="input-group my-3">
-                <a class="btn button1" asp-action="Upsert" asp-route-Id="@foreach(var product in Model){@product.Product_Id}">Add Product</a>
+            <div class="input-group my-3">
+                @foreach (var product in Model)
+                {
+                    <a class="btn button1" asp-action="Upsert" asp-route-Id="@product.Product_Id">Add Product</a>
+                }
                 </div>
             
         }

@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.Models.Models;
+using TrendsValley.Models.ViewModels;
 
 namespace TrendsValley.Areas.Admin.Controllers
 {
@@ -21,14 +23,19 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
         public IActionResult Upsert(int? id)
         {
-            Product obj = new();
+            ProductViewModel obj = new();
+            obj.BrandList = _db.Brands.Select(i => new SelectListItem
+            {
+                Text = i.Brand_Name,
+                Value = i.Brand_Id.ToString()
+            });
             if (id == null || id == 0)
             {
                 // to Create product
                 return View(obj);
             }
             //To Edit
-            obj = _db.Products.FirstOrDefault(u => u.Product_Id == id);
+            obj.product = _db.Products.FirstOrDefault(u => u.Product_Id == id);
             if (obj == null)
             {
                 return NotFound();
