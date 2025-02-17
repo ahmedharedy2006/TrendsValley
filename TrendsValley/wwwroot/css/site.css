@@ -1,5 +1,6 @@
-html {
+﻿html {
   font-size: 14px;
+  font-family: Roboto;
 }
 
 @media (min-width: 768px) {
@@ -19,4 +20,403 @@ html {
 
 body {
   margin-bottom: 60px;
+}
+
+/*Not Worked*/
+/*@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');*/
+
+.nav-button {
+    position: relative;
+    width: fit-content;
+    transition: 0.5s color 0.3s;
+    vertical-align: middle;
+}
+
+.nav-button:hover {
+}
+
+.nav-button::before {
+    content: '';
+    position: absolute;
+    height: 4px;
+    width: 0%;
+    background: blue;
+    left: 0;
+    bottom: 0;
+    transition: 0.5s
+}
+
+.nav-button:hover::before {
+    width: 100%;   
+}
+
+.nav-arrow span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+
+.nav-arrow span:after {
+    content: '⇨'; 
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+
+.nav-arrow:hover span {
+    padding-right: 25px;
+}
+
+ .nav-button:hover span:after {
+     opacity: 1;
+     right: 0;
+ }
+
+.search-bar {
+    background-color: white;
+    background-image: url('../pics/icons8-search.svg');
+    background-position: center left;
+    background-repeat: no-repeat;
+    padding-left: 30px;
+    background-size: 30px 30px;
+}
+
+.logo {
+    width: 40px;
+    height: 40px;
+    margin-right: 15px;
+}
+
+.hero-section {
+    position: relative;
+    margin-bottom: 50px;
+}
+
+.hero-img {
+    width: 100%;
+}
+
+.hero-group {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    align-content: center;
+}
+
+.hero-head {
+    width: max-content;
+    font-size: 60px
+}
+
+.hero-attention {
+    color: #04AA6D;
+    font-size: 58px;
+}
+
+.offer {
+    color: #6A6F6E;
+    font-size: 18px;
+}
+
+.hero-button {
+    border: none;
+    cursor: pointer;
+    width: 12%;
+    transition: 0.5s;
+}
+
+.hero-button:hover {
+    scale: 1.1;
+}
+
+.freeship-card {
+    align-content: center;
+    text-align: center;
+    vertical-align: central;
+    padding: 5px;
+    margin-left: 5%;
+    width: 100px;
+    height: 100%;
+    border-radius: 15px;
+    transition: 0.1s;
+}
+
+.first-card {
+    margin-left: 0px;
+    width: 50%;
+    height: 100%;
+}
+
+.benefits-card-p {
+    width: 100%;
+    margin: 5px 0px 5px 0px;
+    border-radius: 4px;
+}
+
+.p1 {
+    background-color: #A6A6FF;
+}
+
+.p2 {
+    background-color: #FFE177;
+}
+
+.p3 {
+    background-color: #E3584B;
+}
+
+.p4 {
+    background-color: #4EB7A2;
+}
+
+.p5 {
+    background-color: #9FD4FE;
+}
+
+.p6 {
+    background-color: #FBB0B7;
+}
+
+.benefits-img {
+    width: 60%;
+}
+
+a {
+    text-decoration-line: none;
+    color: black;
+}
+
+.freeship-card:hover {
+    box-shadow: 1px 1px 5px black;
+}
+
+.products-section {
+    text-align: center;
+}
+
+.row {
+    margin-bottom: 2%;
+}
+
+.cards {
+    text-align: left;
+    padding-top: 5px;
+}
+
+.price {
+    display: inline;
+    font-size: 20px;
+    color: #04AA6D;
+    left: 0px;
+}
+
+.company {
+    margin-bottom: 0px;
+    color: #A09E9F;
+}
+
+.but-button {
+    text-align: end;
+    align-self: end;
+}
+
+.star {
+    color: #FDB316;
+}
+
+.price {
+    position: absolute;
+    bottom: 5px;
+    left: 10px;
+}
+
+.buy-button {
+    position: absolute;
+    bottom: 5px;
+    margin-bottom: 0px;
+    border: none;
+    right: 10px;
+    background-color: #04AA6D;
+    transition: 0.5s;
+}
+
+.buy-button:hover {
+    background-color: #04AA6D;
+    scale:  1.1;
+}
+
+.description {
+    font-size: 20px;
+    width: 100%;
+    height: max-content;
+    margin-bottom: 0px;
+}
+
+.rating {
+    position: relative;
+    top: 0px;
+    height: max-content;
+    margin-bottom: 20px;
+}
+
+.repair-section-group {
+    align-content: center;
+    position: absolute;
+    text-align: center;
+    color: white;
+}
+
+.repair-h {
+    font-size: 30px;
+}
+
+.repair-p {
+    font-size: 60px;
+}
+
+.repair-offer {
+    color: red;
+}
+
+.repair-button {
+    background-color: white;
+    color: black;
+    border: none;
+    transition: 0.5s;
+}
+
+.repair-button:hover {
+    background-color: white;
+    scale: 1.5;
+    color: black;
+    border: none;
+}
+
+.collection-group {
+    align-content: center;
+}
+
+.firstcard-text {
+    /*Not Worked*/
+/*    font-family: "Oswald", Roboto;*/
+    font-size: 50px;
+    font-weight: 900;
+    margin-bottom: 5px;
+}
+
+.firstcard-title {
+    margin-bottom: 0px;
+    font-size: 20px;
+}
+
+.collection-group {
+    align-content: center;
+    color: white;
+}
+
+.firstcard-button {
+    margin-top: 5px;
+    border: none;
+    background-color: #04aa6d;
+}
+
+.firstcard-button:hover {
+    background-color: transparent;
+    border: 1px solid white;
+}
+
+.secondcard-button {
+    border: 1px solid white;
+    background-color: transparent;
+}
+
+.secondcard-button:hover {
+    background-color: #04aa6d;
+    border: none;
+}
+
+.thirdcard-title {
+    width: 100%;
+    font-size: 60px;
+    font-weight: 900;
+}
+
+.attention-collection {
+    color:red;
+    font-size: 25px;
+    width: 100%;
+}
+
+.details-group {
+    color: white;
+}
+
+.email-input {
+    width: 60%;
+    height: 60%;
+    position: relative;
+    display: inline;
+}
+
+.signup-button {
+    height: 57px;
+    position: absolute;
+    width: 8%;
+    border-radius: 0px;
+    background-color: #04AA6D;
+    border: none;
+    transition: 0.5ms;
+}
+
+.signup-button:hover {
+    opacity: 0.8;
+    background-color: #04AA6D;
+    border: none;
+}
+
+.signup-button:active {
+    opacity: 0.5;
+}
+
+.email-group {
+    align-content: center;
+}
+
+.logo-col {
+    margin-top: 0px;
+    padding: 10px;
+}
+
+a {
+    color: black;
+    text-decoration-line: none;
+    text-decoration: none;
+    color: black;
+}
+
+.about-col {
+    text-align: center;
+    color: black;
+}
+
+.app-store-logo {
+    width: 100%;
+    height: 50px;
+    background-size: cover;
+    display: inline;
+}
+
+.payment-method {
+    width: 100%;
+}
+
+.app-store-col,.google-play-col {
+    padding: 0px
+}
+
+.google-play-col {
+    margin-left: 2px;
 }
