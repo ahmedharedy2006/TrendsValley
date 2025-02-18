@@ -55,14 +55,14 @@ namespace TrendsValley.Areas.Customer.Controllers
 
             obj.CityList = _db.cities.Select(i => new SelectListItem
             {
-                Text = i.name,
-                Value = i.Id.ToString()
+                Text = i.City_Name,
+                Value = i.City_Id.ToString()
             });
 
             obj.Statelist = _db.states.Select(i => new SelectListItem
             {
-                Text = i.Name,
-                Value = i.Id.ToString()
+                Text = i.State_Name,
+                Value = i.State_Id.ToString()
             });
             return View(obj);
         }

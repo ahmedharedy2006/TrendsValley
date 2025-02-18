@@ -4,11 +4,11 @@ namespace BooksMine.Models
 {
     public class City
     {
-        public int Id { get; set; }
+        public int City_Id { get; set; }
 
         [StringLength(150)]
         [Required]
-        public string name { get; set; }
+        public string City_Name { get; set; }
 
     }
 }

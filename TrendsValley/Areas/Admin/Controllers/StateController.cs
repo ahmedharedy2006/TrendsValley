@@ -4,6 +4,7 @@ using TrendsValley.Models.Models;
 
 namespace TrendsValley.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class StateController : Controller
     {
         private readonly AppDbContext _db;
