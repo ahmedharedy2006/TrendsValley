@@ -72,14 +72,14 @@ namespace TrendsValley.DataAccess.Data
                 
                 new State
                 {
-                    Id = 1,
-                    Name = "California"
+                    State_Id = 1,
+                    State_Name = "California"
                 },
 
                 new State
                 {
-                    Id = 2,
-                    Name = "Florida"
+                    State_Id = 2,
+                    State_Name = "Florida"
                 }
                 );
 
