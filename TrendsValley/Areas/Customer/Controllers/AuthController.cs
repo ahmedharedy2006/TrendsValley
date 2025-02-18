@@ -84,5 +84,13 @@ namespace TrendsValley.Areas.Customer.Controllers
 
             return View(obj);
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> logOut()
+        {
+            await _signInManager.SignOutAsync();
+            return RedirectToAction("Index", "Home");
+        }
     }
 }
