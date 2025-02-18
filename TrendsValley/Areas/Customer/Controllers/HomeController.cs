@@ -12,6 +12,11 @@ namespace TrendsValley.Controllers
             return View();
         }
 
+        public IActionResult products()
+        {
+            return View();
+        }
+
         public IActionResult Privacy()
         {
             return View();
