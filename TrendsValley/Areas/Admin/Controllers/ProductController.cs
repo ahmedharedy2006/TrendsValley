@@ -24,10 +24,17 @@ namespace TrendsValley.Areas.Admin.Controllers
         public IActionResult Upsert(int? id)
         {
             ProductViewModel obj = new();
+            //Brand List
             obj.BrandList = _db.Brands.Select(i => new SelectListItem
             {
                 Text = i.Brand_Name,
                 Value = i.Brand_Id.ToString()
+            });
+            // Category List
+            obj.CategoryList = _db.Categories.Select(i => new SelectListItem
+            {
+                Text = i.Category_Name,
+                Value = i.Category_id.ToString()
             });
             if (id == null || id == 0)
             {
@@ -46,24 +53,21 @@ namespace TrendsValley.Areas.Admin.Controllers
         //Add and Update Column
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Upsert(Product obj)
+        public async Task<IActionResult> Upsert(ProductViewModel obj)
         {
-            if (ModelState.IsValid)
+
+            if (obj.product.Product_Id == 0)
             {
-                if (obj.Product_Id == 0)
-                {
-                    //Add Product
-                    await _db.Products.AddAsync(obj);
-                }
-                else
-                {
-                    //Update Product
-                    _db.Products.Update(obj);
-                }
-                await _db.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                //Add Product
+                await _db.Products.AddAsync(obj.product);
             }
-            return View(obj);
+            else
+            {
+                //Update Product
+                _db.Products.Update(obj.product);
+            }
+            await _db.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
         }
 
         //Delete

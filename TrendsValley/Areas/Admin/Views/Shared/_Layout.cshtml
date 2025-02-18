@@ -32,7 +32,7 @@
         <div class="sidebar-menu">
             <ul>
                 <li>
-                    <a href="#">
+                    <a href="../Areas/Customer/Views/Home">
                         <span class="fa-solid fa-house"></span>
                         <span>Hompage</span>
                     </a>
@@ -46,14 +46,14 @@
                 </li>
 
                 <li>
-                    <a class="@IsActive("Category","Index")" asp-area="" asp-controller="Category" asp-action="Index">
+                    <a class="@IsActive("Category","Index")" asp-area="Admin" asp-controller="Category" asp-action="Index">
                         <span class="fa-solid fa-list"></span>
                         <span>Categories</span>
                     </a>
                 </li>
 
                 <li>
-                    <a class="@IsActive("Brand","Index")" asp-area="" asp-controller="Brand" asp-action="Index">
+                    <a class="@IsActive("Brand","Index")" asp-area="Admin" asp-controller="Brand" asp-action="Index">
                         <span class="fa-brands fa-bandcamp"></span>
                         <span>Brands</span>
                     </a>

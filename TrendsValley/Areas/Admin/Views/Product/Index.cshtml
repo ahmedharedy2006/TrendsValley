@@ -42,26 +42,27 @@
                     </tr>
                 </thead>
                 <tbody>
+                    @{
+                        var i = 1;
+                    }
                     @foreach (var product in Model)
                     {
                         <tr>
-                            <td>@product.Product_Id</td>
+                            <td>@i</td>
                             <td>@product.Product_Name</td>
                             <td>
                                 <a class="btn btn-warning" asp-action="Upsert" asp-route-Id="@product.Product_Id">Edit</a>
                                 <a class="btn btn-danger" asp-action="Delete" asp-route-Id="@product.Product_Id">Delete</a>
                             </td>
                         </tr>
+                        i++;
                     }
                 </tbody>
 
             </table>
 
             <div class="input-group my-3">
-                @foreach (var product in Model)
-                {
-                    <a class="btn button1" asp-action="Upsert" asp-route-Id="@product.Product_Id">Add Product</a>
-                }
+                    <a class="btn button1" asp-action="Upsert" >Add Product</a>
                 </div>
             
         }
