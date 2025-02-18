@@ -87,30 +87,30 @@ namespace TrendsValley.DataAccess.Data
 
                 new City
                 {
-                    Id = 1,
-                    name = "Arcadia"
+                    City_Id = 1,
+                    City_Name = "Arcadia"
                 },
 
                 new City
                 {
-                    Id = 2,
-                    name = "Brea"
+                    City_Id = 2,
+                    City_Name = "Brea"
                 },
 
                 new City
                 {
-                    Id = 3,
-                    name = "Chico"
+                    City_Id = 3,
+                    City_Name = "Chico"
                 },
                 new City
                 {
-                    Id = 4,
-                    name = "Ajo"
+                    City_Id = 4,
+                    City_Name = "Ajo"
                 },
                 new City
                 {
-                    Id = 5,
-                    name = "Clifton"
+                    City_Id = 5,
+                    City_Name = "Clifton"
                 }
                 );
         }
