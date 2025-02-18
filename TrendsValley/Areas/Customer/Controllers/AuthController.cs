@@ -31,6 +31,24 @@ namespace TrendsValley.Areas.Customer.Controllers
             return View();
         }
 
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SignIn(LoginViewModel obj)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = await _signInManager.PasswordSignInAsync(obj.Email,obj.Password,obj.RememberMe , lockoutOnFailure: false);
+
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("Index", "Home");
+                }
+
+            }
+            return View(obj);
+        }
+
         public IActionResult Register()
         {
             RegisterViewModel obj = new();
