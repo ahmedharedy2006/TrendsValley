@@ -1,9 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.Models.Models;
 using TrendsValley.Models.ViewModels;
+using TrendsValley.Utilities;
 
 namespace TrendsValley.Areas.Customer.Controllers
 {
@@ -12,12 +14,15 @@ namespace TrendsValley.Areas.Customer.Controllers
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
+        private readonly UserManager<AppUser> _userManager;
         private readonly AppDbContext _db;
         public AuthController(SignInManager<AppUser> signInManager,
-            RoleManager<IdentityRole> roleManager , AppDbContext db)
+            RoleManager<IdentityRole> roleManager , 
+            UserManager<AppUser> userManager ,AppDbContext db)
         {
             _roleManager = roleManager;
             _signInManager = signInManager;
+            _userManager = userManager;
             _db = db;
         }
         
@@ -41,6 +46,42 @@ namespace TrendsValley.Areas.Customer.Controllers
                 Text = i.Name,
                 Value = i.Id.ToString()
             });
+            return View(obj);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(RegisterViewModel obj)
+        {
+            if (!_roleManager.RoleExistsAsync(SD.Admin).GetAwaiter().GetResult())
+            {
+                await _roleManager.CreateAsync(new IdentityRole(SD.Admin));
+                await _roleManager.CreateAsync(new IdentityRole(SD.User));
+            }
+
+            var user = new AppUser
+            {
+                UserName = obj.appUser.Email,
+                Email = obj.appUser.Email,
+                Fname = obj.appUser.Fname,
+                Lname = obj.appUser.Lname,
+                CityId = obj.appUser.CityId,
+                StateId = obj.appUser.StateId,
+                StreetAddress = obj.appUser.StreetAddress,
+                PhoneNumber = obj.appUser.PhoneNumber,
+            };
+
+            var result = await _userManager.CreateAsync(user , obj.Password);
+
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, SD.User);
+                await _signInManager.SignInAsync(user, isPersistent: true);
+
+                return RedirectToAction("Index" , "Home");
+            }
+
             return View(obj);
         }
     }
