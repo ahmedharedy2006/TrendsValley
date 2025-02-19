@@ -1,0 +1,27 @@
+﻿@using Microsoft.AspNetCore.Identity
+
+@inject SignInManager<TrendsValley.Models.Models.AppUser> SignInManager
+@inject UserManager<TrendsValley.Models.Models.AppUser> UserManager
+
+<ul class="navbar-nav">
+
+    @if (SignInManager.IsSignedIn(User))
+    {
+        <li class="nav-item">
+            <a class="nav-link" href="#">@UserManager.GetUserName(User)</a>
+        </li>
+        <li class="nav-item">
+            <form id="logoutForm" method="post" class="form-inline" asp-controller="auth" asp-action="logOut">
+                <button type="submit" class="btn nav-link">Logout</button>
+            </form>
+        </li>
+    }
+    else{
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="auth" asp-action="Register">Register</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" asp-controller="auth" asp-action="SignIn">Login</a>
+        </li>
+    }
+</ul>
