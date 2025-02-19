@@ -2,57 +2,62 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<AppUser> signinManager
 
-<div class="row col-md-10 offset-md-1">
-    <h1 class="text-primary text-center pt-2">Log in</h1>
-    <form method="post" asp-controller="auth" asp-action="SignIn" asp-route-returnurl="@ViewData["ReturnUrl"]">
-        <div class="border p-2 rounded">
-            <p class="text-center">Create a new account</p>
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email" class="col-12"></label>
-                <div class="col-md-12">
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-            </div>
-            
-            <div class="form-group">
-                <label asp-for="Password" class="col-12"></label>
-                <div class="col-md-12">
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group pt-2">
-                <div class="col-md-12">
-                    <div class="custom-checkbox">
-                        <label>
-                            <input asp-for="RememberMe" />
-                            Remember me
-                        </label>
-                    </div>
-                </div>
-            </div>
-            <div class="form-group pt-3">
+<link rel="stylesheet" href="/css/Login.css">
+<link rel="stylesheet" href="/fonts/material-icon/css/material-design-iconic-font.min.css">
 
-                <div class="col-md-6 offset-md-3">
-                    <button class="btn btn-success form-control" type="submit">
-                        Login
-                    </button>
+
+<div class="main">
+    <section class="sign-in">
+        <div class="container">
+            <div class="signin-content">
+                <div class="signin-image">
+                    <figure><img src="/pics/signin-image.jpg" alt="sing up image"></figure>
+                    <a href="#" class="signup-image-link">Create an account</a>
                 </div>
-                <div class="row">
-                    <div class="col-6">
-                        <a asp-action="Register"> Register as a new user?</a>
-                    </div>
-                    <div class="col-6 text-end">
-                        <a> Forgot your password?</a>
+
+                <div class="signin-form">
+                    <h2 class="form-title">Sign up</h2>
+                    @* Form *@
+                    <form method="POST" class="register-form" id="login-form">
+                        @* Email *@
+                        <div class="form-group">
+                            <label asp-for="Email" for="email">
+                                <i class="zmdi zmdi-email"></i>
+                            </label>
+                            <input asp-for="Email" type="email" name="email" id="email" placeholder="Your Email" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        @* Password *@
+                        <div class="form-group">
+                            <label asp-for="Password" for="your_pass"><i class="zmdi zmdi-lock"></i></label>
+                            <input asp-for="Password" type="password" name="your_pass" id="your_pass" placeholder="Password" />
+                            <span asp-validation-for="Email" class="text-danger"></span>
+
+                        </div>
+                        @* Remember Me *@
+                        <div class="form-group">
+                            <input type="checkbox" name="remember-me" id="remember-me" class="agree-term" />
+                            <label for="remember-me" class="label-agree-term"><span><span></span></span>Remember me</label>
+                        </div>
+                        @* Register *@
+                        <div class="form-group form-button">
+                            <input type="submit" name="signin" id="signin" class="form-submit" value="Log in" />
+                        </div>
+                    </form>
+                    <div class="social-login">
+                        <span class="social-label">Or login with</span>
+                        <ul class="socials">
+                            <li><a href="#"><i class="display-flex-center zmdi zmdi-facebook"></i></a></li>
+                            <li><a href="#"><i class="display-flex-center zmdi zmdi-twitter"></i></a></li>
+                            <li><a href="#"><i class="display-flex-center zmdi zmdi-google"></i></a></li>
+                        </ul>
                     </div>
                 </div>
             </div>
         </div>
-    </form>
+    </section>
 </div>
-
+<script src="vendor/jquery/jquery.min.js"></script>
 @section Scripts {
     @{
         await Html.RenderPartialAsync("_ValidationScriptsPartial");
