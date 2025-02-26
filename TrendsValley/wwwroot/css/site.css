@@ -420,3 +420,7 @@ a {
 .google-play-col {
     margin-left: 2px;
 }
+
+.filter-checkbox-label {
+    display: inline;
+}
