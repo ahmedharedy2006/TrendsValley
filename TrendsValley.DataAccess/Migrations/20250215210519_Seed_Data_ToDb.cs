@@ -39,8 +39,8 @@ namespace TrendsValley.DataAccess.Migrations
                 columns: new[] { "Product_Id", "Brand_Id", "Category_id", "Product_Details", "Product_Name", "Product_Price" },
                 values: new object[,]
                 {
-                    { 1, 2, 3, "Nigga Black Short", "MoamenTheNigga", 69.00m },
-                    { 2, 5, 1, "Nigga Black T_Shirt", "HaridyTheNigga", 54.00m }
+                    { 1, 2, 3, "Black Short", "Black Short", 69.00m },
+                    { 2, 5, 1, "Black T_Shirt", "Black T_Shirt", 54.00m }
                 });
         }
 
@@ -60,7 +60,7 @@ namespace TrendsValley.DataAccess.Migrations
             migrationBuilder.DeleteData(
                 table: "Brands",
                 keyColumn: "Brand_Id",
-                keyValue: 4);
+                keyValue: 4);   
 
             migrationBuilder.DeleteData(
                 table: "Categories",
