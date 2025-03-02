@@ -53,7 +53,8 @@ namespace TrendsValley.DataAccess.Data
                     Product_Details = "Black Short",
                     Product_Price = 69.00m,
                     Brand_Id = 2,
-                    Category_id = 3
+                    Category_id = 3,
+                    imgUrl = "test.jpg"
                 },
                 new Product
                 {
@@ -62,7 +63,9 @@ namespace TrendsValley.DataAccess.Data
                     Product_Details = "Black T_Shirt",
                     Product_Price = 54.00m,
                     Brand_Id = 5 ,
-                    Category_id = 1
+                    Category_id = 1,
+                    imgUrl = "test1.jpg"
+
                 });
 
             modelBuilder.Entity<State>().HasData(
