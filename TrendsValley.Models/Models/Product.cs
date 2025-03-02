@@ -15,6 +15,7 @@ namespace TrendsValley.Models.Models
         [Required]
         public string Product_Name { get; set; }
         public string Product_Details { get; set; }
+        public string imgUrl { get; set; }
         public decimal Product_Price { get; set; }
 
         //brand
