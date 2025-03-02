@@ -11,9 +11,11 @@ namespace TrendsValley.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly AppDbContext _db;
-        public ProductController(AppDbContext db)
+        private readonly IWebHostEnvironment _webHostEnvironment; 
+        public ProductController(AppDbContext db, IWebHostEnvironment webHostEnvironment)
         {
             _db = db;
+            _webHostEnvironment = webHostEnvironment;
         }
         //View All Product
         public IActionResult Index()
@@ -21,6 +23,7 @@ namespace TrendsValley.Areas.Admin.Controllers
             List<Product> objList = _db.Products.Include(u => u.Product_Brand).ToList();
             return View(objList);
         }
+        //Upsert
         public IActionResult Upsert(int? id)
         {
             ProductViewModel obj = new();
@@ -53,9 +56,20 @@ namespace TrendsValley.Areas.Admin.Controllers
         //Add and Update Column
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Upsert(ProductViewModel obj)
+        public async Task<IActionResult> Upsert(ProductViewModel obj, IFormFile? file)
         {
+            string wwwRootPath = _webHostEnvironment.WebRootPath;
+            if (file != null)
+            {
+                string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+                string productPath = Path.Combine(wwwRootPath, @"pics");
 
+                using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
+                {
+                    file.CopyTo(fileStream);
+                }
+                obj.product.imgUrl = @"\pics\" + fileName;
+            }
             if (obj.product.Product_Id == 0)
             {
                 //Add Product
