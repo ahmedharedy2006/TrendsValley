@@ -4,69 +4,83 @@
 <link href="~/css/InProduct.css" rel="stylesheet" />
 
 <div class="main-content">
-    <header>
-        <h2>
-            <label for="nav-toggle">
-                <span class="fa-solid fa-bars"></span>
-            </label> Categories
-        </h2>
-        <div class="user-wrapper">
-            <img src="img/admin.png" width="70px" alt="">
 
+    <main>
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4 p-1">
             <div>
-                <h4>Admin Account</h4>
-                <small>owner</small>
+                <p class="text-3xl font-semibold dark:text-black">
+                    <span class="fa-solid fa-list"></span>  Categories
+                </p>
+            </div>
+            <div>
+            </div>
+            <div>
+                <a asp-action="Upsert" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    Add Category +
+                </a>
             </div>
         </div>
-    </header>
-    <main>
+      
+        <br />
+        <hr />
+        <br />
+        <table id="filter-table" border="1">
+            <thead class="dark:bg-blue-600 text-white">
+                <tr>
+                    <th>
+                        <span class="flex items-center">
+                            Category Id
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4" />
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Category Name
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4" />
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
+                            Actions
+                            
+                        </span>
+                    </th>
 
-        @if (Model.Count() == 0)
-        {
-            <div class="alert alert-warning
-        	            text-center p-5"
-                 role="alert">
-                <br>
-                There is no Category in the database
-            </div>
-        }
-        else
-        {
-            <!-- LIST OF ALL Products -->
-            <h4 class="mt-5">All Categories</h4>
-            <table class="table table-hover table-striped table-bordered shadow">
-                <thead>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int i = 1;
+                }
+                @foreach(var cat in Model)
+                {
                     <tr>
-                        <th>#</th>
-                        <th>Category Name</th>
-                        <th>Action</th>
+                        <td class="font-medium text-gray-900 whitespace-nowrap dark:text-black">@i</td>
+
+                        <td class="font-medium text-gray-900 whitespace-nowrap dark:text-black">@cat.Category_Name</td>
+                        <td class="font-medium text-gray-900 whitespace-nowrap dark:text-black">
+                            <a asp-action="Upsert" asp-route-id="@cat.Category_id" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Yellow</a>
+                            <a asp-action="Delete" class="focus:outline-none text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900">Red</a>
+
+                        </td>
+
                     </tr>
-                </thead>
-                <tbody>
-                    @{
-                        var i = 1;
-                    }
-                    @foreach (var category in Model)
-                    {
-                        <tr>
-                            <td>@i</td>
-                            <td>@category.Category_Name</td>
-                            <td>
-                                <a class="btn btn-warning" asp-action="Upsert" asp-route-Id="@category.Category_id">Edit</a>
-                                <a class="btn btn-danger" asp-action="Delete" asp-route-Id="@category.Category_id">Delete</a>
-                            </td>
-                        </tr>
-                        i++;
-                    }
-                </tbody>
+                    i++;
+                }
+               
+                
+            </tbody>
+        </table>
 
-            </table>
 
-            <div class="input-group my-3">
-                <a class="btn button1" asp-action="Upsert">Add Category</a>
-            </div>
-
-        }
     </main>
 
 </div>
+
+@section Scripts {
+    <script src="~/js/categories.js"></script>
+}
