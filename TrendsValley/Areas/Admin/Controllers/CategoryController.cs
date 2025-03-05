@@ -40,10 +40,14 @@ namespace TrendsValley.Areas.Admin.Controllers
             if (obj.Category_id == 0)
             {
                 await _db.Categories.AddAsync(obj);
+                TempData["Success"] = "Category Added Successfully";
+
             }
             else
             {
                 _db.Categories.Update(obj);
+                TempData["Success"] = "Category Updated Successfully";
+
             }
             await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
@@ -60,8 +64,10 @@ namespace TrendsValley.Areas.Admin.Controllers
             else
             {
                 _db.Categories.Remove(obj);
+                TempData["Success"] = "Category Removed Successfully";
+
             }
-             _db.SaveChanges();
+            _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
     }

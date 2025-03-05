@@ -19,6 +19,7 @@
     <link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
     <script src="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css"
 
     @* <link rel="stylesheet" href="/css/admin.css"> *@
 </head>
@@ -139,6 +140,8 @@
 
     <div class="p-4 sm:ml-64">
         <div class="p-4  mt-14">
+            <partial name="_Notification" />
+
         @RenderBody()
         </div>
     </div>
