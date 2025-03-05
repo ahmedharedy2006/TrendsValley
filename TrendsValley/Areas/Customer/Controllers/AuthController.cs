@@ -42,9 +42,16 @@ namespace TrendsValley.Areas.Customer.Controllers
 
                 if (result.Succeeded)
                 {
-                    return RedirectToAction("Index", "Home");
-                }
+                    var user = await _userManager.GetUserAsync(User);
 
+                    if (await _userManager.IsInRoleAsync(user, SD.Admin))
+                    {
+                        return RedirectToAction("Index", "Dashboard", new { area = "Admin" });
+                    }
+
+                    return RedirectToAction("Index", "Home", new { area = "Customer" });
+
+                }
             }
             return View(obj);
         }
