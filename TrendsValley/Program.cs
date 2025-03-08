@@ -16,6 +16,13 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
+builder.Services.Configure<IdentityOptions>(opt =>
+{
+    opt.User.RequireUniqueEmail = true; //  => For unique emails 
+    opt.Password.RequireDigit = false; // => Controll RequireCapitale 
+    opt.Password.RequireLowercase = false; 
+    opt.Password.RequireNonAlphanumeric = false; 
+});
 
 var app = builder.Build();
 
