@@ -17,15 +17,15 @@ namespace TrendsValley.Areas.Customer.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly AppDbContext _db;
         public AuthController(SignInManager<AppUser> signInManager,
-            RoleManager<IdentityRole> roleManager , 
-            UserManager<AppUser> userManager ,AppDbContext db)
+            RoleManager<IdentityRole> roleManager,
+            UserManager<AppUser> userManager, AppDbContext db)
         {
             _roleManager = roleManager;
             _signInManager = signInManager;
             _userManager = userManager;
             _db = db;
         }
-        
+
         public IActionResult SignIn()
         {
             return View();
@@ -38,7 +38,7 @@ namespace TrendsValley.Areas.Customer.Controllers
         {
             if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(obj.Email,obj.Password,obj.RememberMe , lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(obj.Email, obj.Password, obj.RememberMe, lockoutOnFailure: false);
 
                 if (result.Succeeded)
                 {
@@ -98,16 +98,14 @@ namespace TrendsValley.Areas.Customer.Controllers
                 PhoneNumber = obj.appUser.PhoneNumber,
             };
 
-            var existingUser = _userManager.FindByEmailAsync(user.Email);
+            var existingUser = await _userManager.FindByEmailAsync(user.Email);
 
             if (existingUser != null)
             {
                 ModelState.AddModelError(string.Empty, "Email Already Exists !");
             }
 
-
-
-            var result = await _userManager.CreateAsync(user , obj.Password);
+            var result = await _userManager.CreateAsync(user, obj.Password);
 
 
             if (result.Succeeded)
@@ -115,7 +113,7 @@ namespace TrendsValley.Areas.Customer.Controllers
                 await _userManager.AddToRoleAsync(user, SD.User);
                 await _signInManager.SignInAsync(user, isPersistent: true);
 
-                return RedirectToAction("Index" , "Home");
+                return RedirectToAction("Index", "Home");
             }
 
             obj.CityList = _db.cities.Select(i => new SelectListItem
