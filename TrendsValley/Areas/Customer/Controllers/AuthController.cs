@@ -53,6 +53,7 @@ namespace TrendsValley.Areas.Customer.Controllers
 
                 }
             }
+
             return View(obj);
         }
 
@@ -97,7 +98,17 @@ namespace TrendsValley.Areas.Customer.Controllers
                 PhoneNumber = obj.appUser.PhoneNumber,
             };
 
+            var existingUser = _userManager.FindByEmailAsync(user.Email);
+
+            if (existingUser != null)
+            {
+                ModelState.AddModelError(string.Empty, "Email Already Exists !");
+            }
+
+
+
             var result = await _userManager.CreateAsync(user , obj.Password);
+
 
             if (result.Succeeded)
             {
@@ -107,6 +118,17 @@ namespace TrendsValley.Areas.Customer.Controllers
                 return RedirectToAction("Index" , "Home");
             }
 
+            obj.CityList = _db.cities.Select(i => new SelectListItem
+            {
+                Text = i.name,
+                Value = i.Id.ToString()
+            });
+
+            obj.Statelist = _db.states.Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.Id.ToString()
+            });
             return View(obj);
         }
 
