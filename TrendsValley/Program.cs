@@ -2,6 +2,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.Models.Models;
+using TrendsValley.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -56,9 +57,11 @@ using (var scope = app.Services.CreateScope())
     string adminPassword = "Admin@123";      // Change this
 
     // Ensure "Admin" role exists
-    if (!await roleManager.RoleExistsAsync("Admin"))
+    if (!await roleManager.RoleExistsAsync(SD.Admin))
     {
-        await roleManager.CreateAsync(new IdentityRole("Admin"));
+        await roleManager.CreateAsync(new IdentityRole(SD.Admin));
+        await roleManager.CreateAsync(new IdentityRole(SD.User));
+
     }
 
     // Ensure admin user exists

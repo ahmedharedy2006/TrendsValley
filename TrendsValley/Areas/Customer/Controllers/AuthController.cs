@@ -80,11 +80,7 @@ namespace TrendsValley.Areas.Customer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel obj)
         {
-            if (!_roleManager.RoleExistsAsync(SD.Admin).GetAwaiter().GetResult())
-            {
-                await _roleManager.CreateAsync(new IdentityRole(SD.Admin));
-                await _roleManager.CreateAsync(new IdentityRole(SD.User));
-            }
+          
 
             var user = new AppUser
             {
