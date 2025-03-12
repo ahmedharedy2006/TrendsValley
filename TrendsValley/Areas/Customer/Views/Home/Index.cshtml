@@ -7,11 +7,11 @@
         <!--hero section-->
         <div class="container-fluid hero-section">
             <div class="container-fluid hero-group">
-                <p style="font-size: 30px; margin-bottom: 0px">Trad-in-offer</p>
-                <p class="hero-head"> Bring life to fashion </p>
-                <h1 class="hero-attention"> Super Value Deals</h1>
-                <p class="offer">Save more coupons &amp; up to 70% of!</p>
-                <button class="hero-button btn btn-primary">Shop Now</button>
+            <p style="font-size: 30px; margin-bottom: 0px">Trad-in-offer</p>
+            <p class="hero-head"> Bring life to fashion </p>
+            <h1 class="hero-attention"> Super Value Deals</h1>
+            <p class="offer">Save more coupons &amp; up to 70% of!</p>
+            <button class="hero-button btn btn-primary">Shop Now</button>
             </div>
             <img src="~/pics/WhatsApp Image 2025-02-11 at 3.14.44 PM.jpeg" alt="Alternate Text" class="hero-img"/>
         </div>
@@ -120,7 +120,8 @@
                                         <p class="card-text price">78$</p>
                                     </div>
                                     <div class="col col-button">
-                                        <a href="#"><p class="btn btn-primary buy-button">
+                                <a href="#">
+                                    <p class="btn btn-primary buy-button">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
                                                 <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
                                             </svg>
@@ -166,7 +167,7 @@
                               </div>
                               <div class="col col-button">
                               <a href="#">
-                                  <p class="btn btn-primary buy-button">
+                                  <p class="btn btn-primary buy-button translate">
                                       <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-cart" viewBox="0 0 16 16">
                                           <path d="M0 1.5A.5.5 0 0 1 .5 1H2a.5.5 0 0 1 .485.379L2.89 3H14.5a.5.5 0 0 1 .491.592l-1.5 8A.5.5 0 0 1 13 12H4a.5.5 0 0 1-.491-.408L2.01 3.607 1.61 2H.5a.5.5 0 0 1-.5-.5M3.102 4l1.313 7h8.17l1.313-7zM5 12a2 2 0 1 0 0 4 2 2 0 0 0 0-4m7 0a2 2 0 1 0 0 4 2 2 0 0 0 0-4m-7 1a1 1 0 1 1 0 2 1 1 0 0 1 0-2m7 0a1 1 0 1 1 0 2 1 1 0 0 1 0-2" />
                                       </svg>
@@ -473,7 +474,7 @@
         <!-- Products -->
 
         <!-- Repair Off-->
-        <div class="card text-bg-dark" style="margin-bottom: 15%">
+        <div class="card text-bg-dark" style="margin-bottom: 11%">
             <img src="~/pics/WhatsApp Image 2025-02-15 at 9.00.38 PM.jpeg" class="card-img" alt="...">
             <div class="card-img-overlay repair-section-group">
                 <h5 class="card-title repair-h">Rpairt services</h5>
@@ -484,7 +485,7 @@
         <!-- Repair Off-->
 
         <!--New Arrivals-->
-        <div class="container-fluid products-section" style="margin-bottom:10%">
+        <div class="container-fluid products-section" style="margin-bottom: 10%">
             <h1> New Arrivals </h1>
             <p> Summer Collection New Modern Design</p>
             <!-- First Row-->
@@ -960,8 +961,11 @@
             <p>Get E-mail update about our latest shop and <span style="color: #FDB316;font-weight: bold;">special offers</span></p>
             </div>
             <div class="col email-group">
-                <input type="text" class="email-input" placeholder="Enter your Email"/>
-                <button class="btn btn-primary signup-button"> Sign Up</button>
+                <div class="form-floating col-md-12 emailInput">
+                    <input type="email" class="form-control" id="floatingInput" placeholder="name@example.com" style="width: 70%;display: inline;">
+                    <label for="floatingInput">Email address</label>
+                    <button class="btn btn-primary signup-button"> Sign Up</button>
+                </div>
             </div>
         </div>
         <!--Get Updated-->

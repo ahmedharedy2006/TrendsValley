@@ -57,15 +57,6 @@ body {
     transition: 0.5s;
 }
 
-.nav-arrow span:after {
-    content: '⇨'; 
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -20px;
-    transition: 0.5s;
-}
-
 .nav-arrow:hover span {
     padding-right: 25px;
 }
@@ -108,7 +99,7 @@ body {
 
 .hero-head {
     width: max-content;
-    font-size: 60px
+    font-size: 60px;
 }
 
 .hero-attention {
@@ -118,7 +109,7 @@ body {
 
 .offer {
     color: #6A6F6E;
-    font-size: 18px;
+    font-size: 18px !important;
 }
 
 .hero-button {
@@ -195,6 +186,7 @@ a {
 
 .products-section {
     text-align: center;
+    margin-bottom: 0px !important;
 }
 
 .row {
@@ -245,7 +237,7 @@ a {
 
 .buy-button:hover {
     background-color: #04AA6D;
-    scale:  1.1;
+    scale: 1.1;
 }
 
 .description {
@@ -362,13 +354,14 @@ a {
 }
 
 .signup-button {
-    height: 57px;
+    height: 58px;
     position: absolute;
-    width: 8%;
+    width: 20%;
     border-radius: 0px;
     background-color: #04AA6D;
     border: none;
     transition: 0.5ms;
+    padding: 10px;
 }
 
 .signup-button:hover {
@@ -447,35 +440,51 @@ a {
     justify-content: center;
 }
 
-    #navbar li {
-        list-style: none;
-        padding: 0 20px;
-        position: relative;
-    }
+#navbar li {
+    list-style: none;
+    padding: 0 20px;
+    position: relative;
+}
 
-        #navbar li a {
-            text-decoration: none;
-            font-size: 16px;
-            font-weight: 600;
-            color: #1a1a1a;
-            transition: 0.3s ease;
-        }
+#navbar li a {
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: 600;
+    color: #1a1a1a;
+    transition: 0.3s ease;
+}
 
-            #navbar li a:hover,
-            #navbar li a.active {
-                color: #088178;
-            }
+#navbar li a:hover,
+#navbar li a.active {
+    color: #088178;
+}
 
-                #navbar li a.active::after,
-                #navbar li a:hover::after {
-                    content: "";
-                    width: 30%;
-                    height: 2px;
-                    background: #088178;
-                    position: absolute;
-                    bottom: -4px;
-                    left: 20px;
-                }
+#navbar li a.active::after,
+#navbar li a:hover::before {
+    content: "";
+    width: 30%;
+    height: 2px;
+    background: #088178;
+    position: absolute;
+    bottom: -4px;
+    left: 20px;
+}
+
+/*=======================Transition for under line underline of navlinks=======================*/
+
+/*#navbar li a::before {
+    content: '';
+    position: absolute;
+    width: 0%;
+    background: #088178;
+    left: 0;
+    bottom: 0;
+    transition: all 0.5s ease-in-out;
+}
+
+#navbar li a:hover::before {
+    width: 30%;
+}*/
 
 
 .search__title {
@@ -506,18 +515,60 @@ a {
     transform-style: preserve-3d;
 }
 
-  .search__input::placeholder {
-        color: rgba(87, 87, 86, 0.8);
-        letter-spacing: 1.5px;
-    }
+.search__input::placeholder {
+      color: rgba(87, 87, 86, 0.8);
+      letter-spacing: 1.5px;
+  }
 
-    
+/*=======================adjust for the register and login underline=======================*/
 
+/*.nav-link {
+    padding: 0px; 
+}*/
 
+.emailInput,
+.passwordInput {
+    margin-bottom: 10px;
+}
 
+.signInForm {
+    position:relative;
+    top:50%;
+    left: 50%;
+    transform: translate(-50%, 0%);
+    width: 60%;
+    height: 100%;
+}
 
+.singInEmail,
+.signInPassword {
+    width: 100%;
+    margin-top: 10px;
+}
 
+.formContainer {
+    border-radius: 10px;
+    height: 350px;
+    display: flex;
+    align-content: center;
+    justify-content: center;
+}
 
-    
+.test {
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-57%, -5%);
+}
 
-    
+/*=======================for website theme=======================*/
+
+input:focus {
+    border-color: #04AA6D !important; /* Change border color */
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5) !important; /* Change focus ring */
+    outline: none !important; /*Remove default outline */
+}
+
+input[type="checkbox"] {
+    accent-color: #04AA6D;
+}
