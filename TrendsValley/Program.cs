@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using TrendsValley.DataAccess.Data;
+using TrendsValley.DataAccess.Repository;
+using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
 using TrendsValley.Utilities;
 
@@ -24,6 +26,13 @@ builder.Services.Configure<IdentityOptions>(opt =>
     opt.Password.RequireLowercase = false; 
     opt.Password.RequireNonAlphanumeric = false; 
 });
+
+builder.Services.AddScoped<IStateRepo, StateRepo>();
+builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
+builder.Services.AddScoped<IProductRepo, ProductRepo>();
+builder.Services.AddScoped<ICityRepo, CityRepo>();
+builder.Services.AddScoped<IBrandRepo, BrandRepo>();
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 var app = builder.Build();
 
