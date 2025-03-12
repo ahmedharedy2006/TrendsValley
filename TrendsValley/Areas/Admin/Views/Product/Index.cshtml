@@ -37,6 +37,7 @@
                 <thead>
                     <tr>
                         <th>#</th>
+                        <th>Product Photo</th>
                         <th>Product Name</th>
                         <th>Action</th>
                     </tr>
@@ -49,6 +50,7 @@
                     {
                         <tr>
                             <td>@i</td>
+                            <td><img src="@product.imgUrl" alt="Alternate Text" width="70px"  /></td>
                             <td>@product.Product_Name</td>
                             <td>
                                 <a class="btn btn-warning" asp-action="Upsert" asp-route-Id="@product.Product_Id">Edit</a>
