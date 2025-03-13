@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using System.Linq.Expressions;
 using TrendsValley.DataAccess.Data;
+using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
 using TrendsValley.Models.ViewModels;
 
@@ -10,31 +12,46 @@ namespace TrendsValley.Areas.Admin.Controllers
     [Area("Admin")]
     public class ProductController : Controller
     {
-        private readonly AppDbContext _db;
+        private readonly IUnitOfWork _unitOfWork;
         private readonly IWebHostEnvironment _webHostEnvironment; 
-        public ProductController(AppDbContext db, IWebHostEnvironment webHostEnvironment)
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
         {
-            _db = db;
+            _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
         }
         //View All Product
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Product> objList = _db.Products.Include(u => u.Product_Brand).ToList();
+           var products = await _unitOfWork.ProductRepo.GetAllAsync(
+
+                null,
+                new Expression<Func<Product, object>>[]
+                {
+                    p => p.Product_Brand,
+                    p => p.Product_Category
+                }
+
+                );
+
+            List<Product> objList = products.ToList();
+
             return View(objList);
         }
         //Upsert
-        public IActionResult Upsert(int? id)
+        public async Task<IActionResult> Upsert(int? id)
         {
             ProductViewModel obj = new();
             //Brand List
-            obj.BrandList = _db.Brands.Select(i => new SelectListItem
+            var brands = await _unitOfWork.BrandRepo.GetAllAsync();
+            obj.BrandList = brands.Select(i => new SelectListItem
             {
                 Text = i.Brand_Name,
                 Value = i.Brand_Id.ToString()
             });
             // Category List
-            obj.CategoryList = _db.Categories.Select(i => new SelectListItem
+            var categories = await _unitOfWork.CategoryRepo.GetAllAsync();
+
+            obj.CategoryList = categories.Select(i => new SelectListItem
             {
                 Text = i.Category_Name,
                 Value = i.Category_id.ToString()
@@ -45,7 +62,8 @@ namespace TrendsValley.Areas.Admin.Controllers
                 return View(obj);
             }
             //To Edit
-            obj.product = _db.Products.FirstOrDefault(u => u.Product_Id == id);
+
+            obj.product = await _unitOfWork.ProductRepo.GetAsync(u => u.Product_Id == id);
             if (obj == null)
             {
                 return NotFound();
@@ -73,14 +91,13 @@ namespace TrendsValley.Areas.Admin.Controllers
             if (obj.product.Product_Id == 0)
             {
                 //Add Product
-                await _db.Products.AddAsync(obj.product);
+                await _unitOfWork.ProductRepo.CreateAsync(obj.product);
             }
             else
             {
                 //Update Product
-                _db.Products.Update(obj.product);
+               await _unitOfWork.ProductRepo.UpdateAsync(obj.product);
             }
-            await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -88,13 +105,12 @@ namespace TrendsValley.Areas.Admin.Controllers
         public async Task<IActionResult> Delete(int id)
         {
             Product obj = new();
-            obj = await _db.Products.FirstOrDefaultAsync(u => u.Product_Id == id);
+            obj = await _unitOfWork.ProductRepo.GetAsync(u => u.Product_Id == id);
             if (obj == null)
             {
                 return NotFound();
             }
-            _db.Products.Remove(obj);
-            await _db.SaveChangesAsync();
+            await _unitOfWork.ProductRepo.RemoveAsync(obj);
             return RedirectToAction(nameof(Index));
         }
     }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TrendsValley.DataAccess.Data;
+using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
 
 namespace TrendsValley.Areas.Admin.Controllers
@@ -7,17 +8,17 @@ namespace TrendsValley.Areas.Admin.Controllers
     [Area("Admin")]
     public class CategoryController : Controller
     {
-        private readonly AppDbContext _db;
-        public CategoryController(AppDbContext db)
+        private readonly ICategoryRepo _categoryRepo;
+        public CategoryController(ICategoryRepo categoryRepo)
         {
-            _db = db;
+            _categoryRepo = categoryRepo;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Category> objList = _db.Categories.ToList();
+            List<Category> objList = await _categoryRepo.GetAllAsync();
             return View(objList);
         }
-        public IActionResult Upsert(int? id)
+        public async Task<IActionResult> Upsert(int? id)
         {
             Category obj = new();
             if(id == null || id == 0)
@@ -26,7 +27,7 @@ namespace TrendsValley.Areas.Admin.Controllers
                 return View(obj);
             }
             //edit
-            obj = _db.Categories.FirstOrDefault(u => u.Category_id == id);
+            obj = await _categoryRepo.GetAsync(u => u.Category_id == id);
             if(obj == null)
             {
                 return NotFound();
@@ -39,35 +40,33 @@ namespace TrendsValley.Areas.Admin.Controllers
         {
             if (obj.Category_id == 0)
             {
-                await _db.Categories.AddAsync(obj);
+                await _categoryRepo.CreateAsync(obj);
                 TempData["Success"] = "Category Added Successfully";
 
             }
             else
             {
-                _db.Categories.Update(obj);
+                await _categoryRepo.UpdateAsync(obj);
                 TempData["Success"] = "Category Updated Successfully";
 
             }
-            await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
         //Remove
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             Category obj = new();
-             obj = _db.Categories.FirstOrDefault(c => c.Category_id == id);
+             obj = await _categoryRepo.GetAsync(c => c.Category_id == id);
             if (obj == null)
             {
                 return NotFound();
             }
             else
             {
-                _db.Categories.Remove(obj);
+                await _categoryRepo.RemoveAsync(obj);
                 TempData["Success"] = "Category Removed Successfully";
 
             }
-            _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
     }

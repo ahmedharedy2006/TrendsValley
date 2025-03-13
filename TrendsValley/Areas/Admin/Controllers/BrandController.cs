@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
 using TrendsValley.DataAccess.Data;
+using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
 
 namespace TrendsValley.Areas.Admin.Controllers
@@ -8,28 +9,28 @@ namespace TrendsValley.Areas.Admin.Controllers
     [Area("Admin")]
     public class BrandController : Controller
     {
-        private readonly AppDbContext _db;
-        public BrandController(AppDbContext db)
+        private readonly IBrandRepo _brandRepo;
+        public BrandController(IBrandRepo brandRepo)
         {
-            _db = db;
+            _brandRepo = brandRepo;
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<Brand> objList = _db.Brands.ToList(); 
+            List<Brand> objList = await _brandRepo.GetAllAsync(); 
             return View(objList);
         }
 
 
-        public IActionResult Upsert(int? id)
+        public async Task<IActionResult> Upsert(int? id)
         {
             Brand obj = new();
             if(id == null || id == 0)
             {
                 return View(obj);
             }
-            obj = _db.Brands.FirstOrDefault(u => u.Brand_Id == id);
+            obj = await _brandRepo.GetAsync(u => u.Brand_Id == id);
             if(obj == null)
             {
                 return NotFound();
@@ -44,22 +45,21 @@ namespace TrendsValley.Areas.Admin.Controllers
         {
             if (obj.Brand_Id == 0)
             {
-                await _db.Brands.AddAsync(obj);
+                await _brandRepo.CreateAsync(obj);
             }
             else
             {
-                _db.Brands.Update(obj);
+                _brandRepo.UpdateAsync(obj);
             }
-            await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
         
         // remove
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             Brand obj = new();
-            obj = _db.Brands.FirstOrDefault(c => c.Brand_Id == id);
+            obj = await _brandRepo.GetAsync(c => c.Brand_Id == id);
 
             if (obj == null)
             {
@@ -67,9 +67,9 @@ namespace TrendsValley.Areas.Admin.Controllers
             }
             else
             {
-                _db.Brands.Remove(obj);
+                await _brandRepo.RemoveAsync(obj);
             }
-            _db.SaveChanges();
+
             return RedirectToAction(nameof(Index));
         }
     }

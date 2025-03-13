@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TrendsValley.DataAccess.Data;
+using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
 
 namespace TrendsValley.Areas.Admin.Controllers
@@ -7,28 +8,28 @@ namespace TrendsValley.Areas.Admin.Controllers
     [Area("Admin")]
     public class StateController : Controller
     {
-        private readonly AppDbContext _db;
-        public StateController(AppDbContext db)
+        private readonly IStateRepo _stateRepoo;
+        public StateController(IStateRepo stateRepo)
         {
-            _db = db;
+            _stateRepoo = stateRepo;
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            List<State> objList = _db.states.ToList();
+            List<State> objList = await _stateRepoo.GetAllAsync();
             return View(objList);
         }
 
 
-        public IActionResult Upsert(int? id)
+        public async Task<IActionResult> Upsert(int? id)
         {
             State obj = new();
             if (id == null || id == 0)
             {
                 return View(obj);
             }
-            obj = _db.states.FirstOrDefault(u => u.Id == id);
+            obj = await _stateRepoo.GetAsync(u => u.Id == id);
             if (obj == null)
             {
                 return NotFound();
@@ -43,29 +44,27 @@ namespace TrendsValley.Areas.Admin.Controllers
         {
             if (obj == null)
             {
-                await _db.states.AddAsync(obj);
+                await _stateRepoo.CreateAsync(obj);
             }
             else
             {
-                _db.states.Update(obj);
+                await _stateRepoo.UpdateAsync(obj);
             }
-            await _db.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Delete(int id)
+        public async Task<IActionResult> Delete(int id)
         {
             State obj = new();
-            obj = _db.states.FirstOrDefault(s => s.Id == id);
+            obj = await _stateRepoo.GetAsync(s => s.Id == id);
             if (obj == null)
             {
                 return NotFound();
             }
             else
             {
-                _db.states.Remove(obj);
+                await _stateRepoo.RemoveAsync(obj);
             }
-            _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
     }
