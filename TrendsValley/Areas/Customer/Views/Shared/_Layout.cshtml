@@ -9,29 +9,29 @@
     <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
-    <section id="header">
-        <a asp-area="customer" asp-controller="Home" asp-action="index"><img src="~/pics/logo.png" alt="logo"></a>
-        <!-- Search -->
-        <form action="#"
-              method="get">
-            <div class="col-rt-3 equal-height">
-                    <div class="search__container">
-                        <input class="search__input" type="search" placeholder="Need Something ?" aria-describedby="basic-addon2"
-                               aria-label="Need Something ?"
-                               name="key">
-                    </div>
-            </div>
-        </form>
-        <!-- End of Search -->
-        <div>
-            <ul id="navbar">
-                <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products">Shop</a></li>
-                <li><a href="#">About</a></li>
-                <li><a href="#">Contact</a></li>
-               <partial name="_LoginPartialView" />
-            </ul>
-        </div>
-    </section>
+    @* <section id="header"> *@
+    @*     <a asp-area="customer" asp-controller="Home" asp-action="index"><img src="~/pics/logo.png" alt="logo"></a> *@
+    @*     <!-- Search --> *@
+    @*     <form action="#" *@
+    @*           method="get"> *@
+    @*         <div class="col-rt-3 equal-height"> *@
+    @*                 <div class="search__container"> *@
+    @*                     <input class="search__input" type="search" placeholder="Need Something ?" aria-describedby="basic-addon2" *@
+    @*                            aria-label="Need Something ?" *@
+    @*                            name="key"> *@
+    @*                 </div> *@
+    @*         </div> *@
+    @*     </form> *@
+    @*     <!-- End of Search --> *@
+    @*     <div> *@
+    @*         <ul id="navbar"> *@
+    @*             <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products">Shop</a></li> *@
+    @*             <li><a href="#">About</a></li> *@
+    @*             <li><a href="#">Contact</a></li> *@
+    @*            <partial name="_LoginPartialView" /> *@
+    @*         </ul> *@
+    @*     </div> *@
+    @* </section> *@
 
     @* <header> *@
     @*     <nav class="navbar bg-light navbar-expand-lg bg-body-tertiary fixed-top"> *@
@@ -84,7 +84,7 @@
 
     <div class="container-fluid">
         <div class="row mb-0">
-            <div class="col">
+            <div class="col-lg-3 col-sm-12 text-center">
                 <img src="~/pics/Screenshot_17-2-2025_1121_miro.com.jpeg" style="margin-bottom: 20px;"/>
                 <p> Address: Any Address</p>
                 <p> Phones: Phone1/Phone2</p>
@@ -118,7 +118,7 @@
                     </a>
                 </span>
             </div>
-            <div class="col about-col">
+            <div class="col-lg-3 col-sm-12 about-col text-center mt-5">
                 <a href="#"><h5 style="font-weight: 900;">My Account</h5></a>
                 <a href="#"><p>About Us</p></a>
                 <a href="#"><p>Delivery Information</p></a>
@@ -126,7 +126,7 @@
                 <a href="#"><p>Term &amp; Condition</p></a>
                 <a href="#"><p>Contact Us</p></a>
             </div>
-            <div class="col">
+            <div class="col-lg-3 col-sm-12 text-center mt-5">
                 <a href="#"><h5 style="font-weight: 900;">My Account</h5></a>
                 <a href="#"><p>Sing in</p></a>
                 <a href="#"><p>View Cost</p></a>
@@ -134,9 +134,9 @@
                 <a href="#"><p>Term &amp; Condition</p></a>
                 <a href="#"><p>Help</p></a>
             </div>
-            <div class="col">
-                <a href="#"><h5 style="font-weight: 900;">Install app</h5></a>
-                <p style="font-weight: 500;"> From App Store or Google Play</p>
+            <div class="col-lg-3 col-sm-12 text-cetner mt-5">
+                <a class="text-center" href="#"><h5 style="font-weight: 900;">Install app</h5></a>
+                <p class="text-center" style="font-weight: 500;"> From App Store or Google Play</p>
                 <div class="row">
                     <div class="col app-store-col">
                         <a href="#"><img src="~/pics/app-store-logo.png" class="app-store-logo" /></a>
@@ -146,7 +146,7 @@
                     </div>
                 </div>
                 
-                <p style="margin-top: 16px; margin-bottom: 8px;"> Payment Methods</p>
+                <p class="text-center" style="margin-top: 16px; margin-bottom: 8px;"> Payment Methods</p>
                 <a href="#"><img src="~/pics/R.png" class="payment-method" /></a>
             </div>
         </div>

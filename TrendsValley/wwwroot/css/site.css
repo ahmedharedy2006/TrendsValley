@@ -86,37 +86,37 @@ body {
     margin-bottom: 50px;
 }
 
-.hero-img {
-    width: 100%;
-}
-
-.hero-group {
-    position: absolute;
-    height: 100%;
-    width: 100%;
-    align-content: center;
+.heroStart {
+    font-size: clamp(15px, 2vw, 60px);
+    margin-bottom: 0px;
 }
 
 .hero-head {
-    width: max-content;
-    font-size: 60px;
+/*    width: max-content;*/
+/*    font-size: clamp(12px, 60px, 50px);*/
+/*    font-size: inherit;*/
+    font-size: clamp(15px, 3vw, 60px);
+    margin-bottom: 0px;
 }
 
 .hero-attention {
     color: #04AA6D;
     font-size: 58px;
+    font-size: clamp(18px, 4vw, 60px);
 }
 
 .offer {
     color: #6A6F6E;
-    font-size: 18px !important;
+    font-size: clamp(8px, 1.5vw, 60px);
+    margin-bottom: 5px;
 }
 
 .hero-button {
     border: none;
     cursor: pointer;
-    width: 12%;
-    transition: 0.5s;
+    font-size: clamp(15px, 1.5vw, 60px) !important;
+    border-radius: 12px;
+    transition: all 0.5s ease;
 }
 
 .hero-button:hover {
@@ -132,7 +132,7 @@ body {
     width: 100px;
     height: 100%;
     border-radius: 15px;
-    transition: 0.1s;
+    transition: all 0.2s ease;
 }
 
 .first-card {
@@ -145,6 +145,8 @@ body {
     width: 100%;
     margin: 5px 0px 5px 0px;
     border-radius: 4px;
+    font-size: clamp(10px, 1vw, 40px);
+    white-space: nowrap;
 }
 
 .p1 {
@@ -259,14 +261,18 @@ a {
     position: absolute;
     text-align: center;
     color: white;
+    padding-top: 0px;
+/*    padding-bottom: 0px;*/
 }
 
 .repair-h {
-    font-size: 30px;
+/*    font-size: 30px;*/
+    font-size: clamp(15px, 1.563vw, 50px)
 }
 
 .repair-p {
-    font-size: 60px;
+/*    font-size: 60px;*/
+    font-size: clamp(15px, 3.125vw, 50px);
 }
 
 .repair-offer {
@@ -277,7 +283,9 @@ a {
     background-color: white;
     color: black;
     border: none;
-    transition: 0.5s;
+    font-size: clamp(2px, 2vw, 40px);
+    border-radius: 12px;
+    transition: all 0.5s ease;
 }
 
 .repair-button:hover {
@@ -293,16 +301,20 @@ a {
 
 .firstcard-text {
     /*Not Worked*/
-/*    font-family: "Oswald", Roboto;*/
-    font-size: 50px;
+    /*    font-family: "Oswald", Roboto;*/
+/*    font-size: 50px;*/
     font-weight: 900;
     margin-bottom: 5px;
+    font-size: clamp(15px, 2.604vw, 60px);
 }
 
 .firstcard-title {
     margin-bottom: 0px;
-    font-size: 20px;
+/*    font-size: 20px;*/
+    font-size: clamp(15px, 1.042vw, 50px);
 }
+
+
 
 .collection-group {
     align-content: center;
@@ -313,6 +325,7 @@ a {
     margin-top: 5px;
     border: none;
     background-color: #04aa6d;
+    font-size: clamp(10px, 1.2vw, 50px);
 }
 
 .firstcard-button:hover {
@@ -320,8 +333,13 @@ a {
     border: 1px solid white;
 }
 
+.secondeCardText {
+    font-size: clamp(px, 1vw, 50px);
+}
+
 .secondcard-button {
     border: 1px solid white;
+    font-size: clamp(10px, 1.2vw, 50px);
     background-color: transparent;
 }
 
@@ -332,18 +350,24 @@ a {
 
 .thirdcard-title {
     width: 100%;
-    font-size: 60px;
+    font-size: clamp(35px, 3.125vw, 50px); 
     font-weight: 900;
 }
 
 .attention-collection {
-    color:red;
+    color: red;
     font-size: 25px;
+    font-size: clamp(25px, 1.302vw, 50px);
     width: 100%;
 }
 
 .details-group {
     color: white;
+    font-size: clamp(10px, 1.042vw, 50px);
+}
+
+.textResponsive {
+    font-size: clamp(10px, 6vw, 50px);
 }
 
 .email-input {
@@ -351,12 +375,14 @@ a {
     height: 60%;
     position: relative;
     display: inline;
+    font-size: clamp(5px, 1.042vw, 50px);
+    width: clamp(fit-content, 2vw, 500px);
 }
 
 .signup-button {
-    height: 58px;
+    /*    height: 60px;*/
+    height: clamp(51px, 1vw, 60px);
     position: absolute;
-    width: 20%;
     border-radius: 0px;
     background-color: #04AA6D;
     border: none;
@@ -571,4 +597,12 @@ input:focus {
 
 input[type="checkbox"] {
     accent-color: #04AA6D;
+}
+
+.col-sm-12 {
+    margin-top: 15px;
+}
+
+.col-lg-3 .col-sm-12 {
+    text-align: center;
 }
