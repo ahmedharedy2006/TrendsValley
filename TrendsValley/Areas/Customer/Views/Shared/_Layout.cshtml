@@ -9,29 +9,29 @@
     <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
-    @* <section id="header"> *@
-    @*     <a asp-area="customer" asp-controller="Home" asp-action="index"><img src="~/pics/logo.png" alt="logo"></a> *@
-    @*     <!-- Search --> *@
-    @*     <form action="#" *@
-    @*           method="get"> *@
-    @*         <div class="col-rt-3 equal-height"> *@
-    @*                 <div class="search__container"> *@
-    @*                     <input class="search__input" type="search" placeholder="Need Something ?" aria-describedby="basic-addon2" *@
-    @*                            aria-label="Need Something ?" *@
-    @*                            name="key"> *@
-    @*                 </div> *@
-    @*         </div> *@
-    @*     </form> *@
-    @*     <!-- End of Search --> *@
-    @*     <div> *@
-    @*         <ul id="navbar"> *@
-    @*             <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products">Shop</a></li> *@
-    @*             <li><a href="#">About</a></li> *@
-    @*             <li><a href="#">Contact</a></li> *@
-    @*            <partial name="_LoginPartialView" /> *@
-    @*         </ul> *@
-    @*     </div> *@
-    @* </section> *@
+    <section id="header">
+         <a asp-area="customer" asp-controller="Home" asp-action="index"><img src="~/pics/logo.png" alt="logo"></a>
+         <!-- Search -->
+         <form action="#"
+               method="get">
+             <div class="col-rt-3 equal-height">
+                     <div class="search__container"> 
+                         <input class="search__input" type="search" placeholder="Need Something ?" aria-describedby="basic-addon2"
+                                aria-label="Need Something ?"
+                                name="key">
+                     </div>
+             </div>
+         </form>
+         <!-- End of Search -->
+         <div>
+             <ul id="navbar">
+                 <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products">Shop</a></li>
+                 <li><a href="#">About</a></li>
+                 <li><a href="#">Contact</a></li>
+                <partial name="_LoginPartialView" />
+             </ul>
+         </div>
+     </section>
 
     @* <header> *@
     @*     <nav class="navbar bg-light navbar-expand-lg bg-body-tertiary fixed-top"> *@
