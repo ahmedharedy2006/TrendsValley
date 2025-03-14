@@ -26,7 +26,12 @@
          <div>
              <ul id="navbar">
                  <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products">Shop</a></li>
-                 <li><a href="#">About</a></li>
+                <li>
+                    <a href="#">
+                        Cart
+                    </a>
+                    <span class="badge bg-success">0</span>
+                </li>
                  <li><a href="#">Contact</a></li>
                 <partial name="_LoginPartialView" />
              </ul>
