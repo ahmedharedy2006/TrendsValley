@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace BooksMine.Models
+namespace TrendsValley.Models.Models
 {
     public class City
     {

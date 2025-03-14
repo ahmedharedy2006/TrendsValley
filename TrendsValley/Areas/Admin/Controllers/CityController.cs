@@ -1,4 +1,4 @@
-﻿using BooksMine.Models;
+﻿using TrendsValley.Models.Models;
 using Microsoft.AspNetCore.Mvc;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.DataAccess.Repository.Interfaces;

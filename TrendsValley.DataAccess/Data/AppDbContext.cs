@@ -1,4 +1,4 @@
-﻿using BooksMine.Models;
+﻿using TrendsValley.Models.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
