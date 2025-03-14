@@ -84,6 +84,19 @@
     <div>
         <main role="main" class="pb-3">
             @RenderBody()
+            <!-- Floating Chat Bubble -->
+            <button class="chat-button" onclick="toggleChat()">
+                💬
+            </button>
+
+            <!-- Chat Window -->
+            <div class="chat-container" id="chatBox">
+                <div class="chat-header">
+                    Chat Support
+                    <button class="close-button" onclick="toggleChat()">✖</button>
+                </div>
+                <iframe src="https://copilotstudio.microsoft.com/environments/Default-5d3edc64-3c81-4c40-89c6-d3f5e1095f71/bots/cr1c4_faqBot/webchat?__version__=2" frameborder="0" style="width: 100%; height: 100%;"></iframe>
+            </div>
         </main>
     </div>
 

@@ -70,7 +70,6 @@ using (var scope = app.Services.CreateScope())
     {
         await roleManager.CreateAsync(new IdentityRole(SD.Admin));
         await roleManager.CreateAsync(new IdentityRole(SD.User));
-
     }
 
     // Ensure admin user exists
