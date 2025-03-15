@@ -668,3 +668,25 @@ input[type="checkbox"] {
     height: 100%;
     border: none;
 }
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+.registerSignInBrands {
+    border: 1px solid black;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.signInLogos {
+    width: 40px;
+    height: 40px;
+    border-radius: 400px;
+}
+
+.registerButton {
+    width: 100%;
+}
