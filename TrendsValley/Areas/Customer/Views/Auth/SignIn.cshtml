@@ -46,27 +46,8 @@
                             Login
                         </button>
                     </div>
-                        <form asp-controller="Auth" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" role="form">
 
-                    <p class="text-center mt-4 fs-4 fw-bold">Or Sign In With</p>
-                    <div class="text-center mt-4">
-                        <span class="me-2">
-                            <button class="registerSignInBrands">
-                                <img src="~/pics/google-logo-png-suite-everything-you-need-know-about-google-newest-0.png" alt="Alternate Text" class="signInLogos" />
-                            </button>
-                        </span>
-                        <span class="me-2">
-                            <button class="registerSignInBrands">
-                                <img src="~/pics/Facebook_Logo_2023.png" alt="Alternate Text" class="signInLogos" />
-                            </button>
-                        </span>
-                        <span class="me-2">
-                            <button class="registerSignInBrands">
-                                <img src="~/pics/lalala.png" alt="Alternate Text" class="signInLogos" />
-                            </button>
-                        </span>
-                    </div>
-                    </form>
+
                     <div class="row mt-xxl-5 mb-0 optionsContainer">
                         <div class="col-6 ps-0" style="height: 100%;">
                             <a asp-action="Register" class="" style="width:fit-content;height:fit-content;">New Account</a>
@@ -80,6 +61,26 @@
 
         </div>
     </form>
+    @{
+        var schemes = await signinManager.GetExternalAuthenticationSchemesAsync();
+        var loginProviders = schemes.ToList();
+    }
+    @if (loginProviders.Count() > 0)
+    {
+        <form asp-controller="Auth" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" role="form">
+            <p class="text-center mt-4 fs-4 fw-bold">Or Sign In With</p>
+            <div class="text-center mt-4">
+                @foreach (var provider in loginProviders)
+                {
+                    <span class="me-2">
+                        <button class="registerSignInBrands" type="submit" name="provider" value="@provider.Name">
+                            <img src="~/pics/@(provider.Name.ToLower()).png" alt="@provider.Name Logo" class="signInLogos" />
+                        </button>
+                    </span>
+                }
+            </div>
+        </form>
+    }
 </div>
 
 @section Scripts {
