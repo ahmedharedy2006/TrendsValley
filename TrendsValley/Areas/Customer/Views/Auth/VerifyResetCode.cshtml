@@ -16,6 +16,15 @@
                     </div>
                 </div>
 
+                @if (TempData["Message"] != null)
+                {
+                    <p style="color: green;">@TempData["Message"]</p>
+                }
+                @if (TempData["ErrorMessage"] != null)
+                {
+                    <p style="color: red;">@TempData["ErrorMessage"]</p>
+                }
+
 
                 <div class="form-group">
                     <div class="col-md-2">
