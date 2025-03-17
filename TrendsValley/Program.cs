@@ -1,9 +1,11 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.DataAccess.Repository;
 using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
+using TrendsValley.Services;
 using TrendsValley.Utilities;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -33,6 +35,9 @@ builder.Services.AddScoped<IProductRepo, ProductRepo>();
 builder.Services.AddScoped<ICityRepo, CityRepo>();
 builder.Services.AddScoped<IBrandRepo, BrandRepo>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+
+builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
