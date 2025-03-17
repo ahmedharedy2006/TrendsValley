@@ -1,7 +1,9 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using System.Security.Claims;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.Models.Models;
 using TrendsValley.Models.ViewModels;
@@ -16,14 +18,17 @@ namespace TrendsValley.Areas.Customer.Controllers
         private readonly SignInManager<AppUser> _signInManager;
         private readonly UserManager<AppUser> _userManager;
         private readonly AppDbContext _db;
+        private readonly IEmailSender _emailSender;
+
         public AuthController(SignInManager<AppUser> signInManager,
             RoleManager<IdentityRole> roleManager,
-            UserManager<AppUser> userManager, AppDbContext db)
+            UserManager<AppUser> userManager, AppDbContext db ,IEmailSender emailSender)
         {
             _roleManager = roleManager;
             _signInManager = signInManager;
             _userManager = userManager;
             _db = db;
+            _emailSender = emailSender;
         }
 
         public IActionResult SignIn()
@@ -124,6 +129,42 @@ namespace TrendsValley.Areas.Customer.Controllers
                 Value = i.Id.ToString()
             });
             return View(obj);
+        }
+
+        [HttpGet]
+        public ActionResult ForgotPassword()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                ModelState.AddModelError("", "No account found with this email.");
+                return View();
+            }
+
+            // Generate a 6-digit code
+            var resetCode = new Random().Next(100000, 999999).ToString();
+
+            // Store the code in a temporary place (e.g., user claims)
+            await _userManager.RemoveClaimsAsync(user, await _userManager.GetClaimsAsync(user));
+            await _userManager.AddClaimAsync(user, new Claim("ResetCode", resetCode));
+
+            // Send email using SendGrid
+            await _emailSender.SendEmailAsync(user.Email, "Password Reset Code",
+                $"Your password reset code is: {resetCode}");
+
+            return RedirectToAction("VerifyResetCode", new { email = user.Email });
         }
 
         [HttpPost]
