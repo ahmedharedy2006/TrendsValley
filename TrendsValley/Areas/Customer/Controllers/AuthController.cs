@@ -203,6 +203,43 @@ namespace TrendsValley.Areas.Customer.Controllers
             return RedirectToAction("ResetPassword", new { email = model.Email });
         }
 
+        [HttpGet]
+        public ActionResult ResetPassword(string email)
+        {
+            var model = new ResetPasswordViewModel
+            {
+                Email = email
+            };
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> ResetPassword(ResetPasswordViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var user = await _userManager.FindByEmailAsync(model.Email);
+            if (user == null)
+            {
+                return RedirectToAction("ResetPasswordConfirmation");
+            }
+
+            var result = await _userManager.RemovePasswordAsync(user);
+            if (result.Succeeded)
+            {
+                result = await _userManager.AddPasswordAsync(user, model.NewPassword);
+                if (result.Succeeded)
+                {
+                    return RedirectToAction("ResetPasswordConfirmation");
+                }
+            }
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> logOut()
