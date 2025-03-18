@@ -112,8 +112,18 @@ namespace TrendsValley.Areas.Customer.Controllers
             if (result.Succeeded)
             {
                 await _userManager.AddToRoleAsync(user, SD.User);
-                await _signInManager.SignInAsync(user, isPersistent: true);
 
+                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
+                var callbackurl = Url.Action("ConfirmEmail", "Auth", new
+                {
+                    userId = user.Id,
+                    code = code
+                }, protocol: HttpContext.Request.Scheme);
+
+
+                await _emailSender.SendEmailAsync(obj.appUser.Email, "Confirm your account - TrendsValley",
+                    "Please confirm your account by clicking here: <a href=\"" + callbackurl + "\">link</a>");
+                await _signInManager.SignInAsync(user, isPersistent: false);
                 return RedirectToAction("Index", "Home");
             }
 
