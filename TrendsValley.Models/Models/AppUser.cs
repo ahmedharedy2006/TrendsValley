@@ -7,6 +7,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc.Rendering;
 
 namespace TrendsValley.Models.Models
 {
@@ -35,5 +36,12 @@ namespace TrendsValley.Models.Models
 
         [Required]
         public string PostalCode { get; set; }
+
+        [NotMapped]
+        public string RoleId { get; set; }
+        [NotMapped]
+        public string Role { get; set; }
+        [NotMapped]
+        public IEnumerable<SelectListItem> RoleList { get; set; }
     }
 }
