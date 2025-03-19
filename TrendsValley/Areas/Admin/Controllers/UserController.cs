@@ -85,5 +85,18 @@ namespace TrendsValley.Areas.Admin.Controllers
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult Delete(string userId)
+        {
+            AppUser obj = new();
+            obj = _db.appUsers.FirstOrDefault(u => u.Id == userId);
+            if (obj == null)
+            {
+                return NotFound();
+            }
+            _db.appUsers.Remove(obj);
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
