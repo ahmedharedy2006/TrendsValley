@@ -98,5 +98,23 @@ namespace TrendsValley.Areas.Admin.Controllers
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+        public IActionResult LockUnlock(string userId)
+        {
+            var objFromDb = _db.appUsers.FirstOrDefault(u => u.Id == userId);
+            if (objFromDb == null)
+            {
+                return NotFound();
+            }
+            if (objFromDb.LockoutEnd != null && objFromDb.LockoutEnd > DateTime.Now)
+            {
+                objFromDb.LockoutEnd = DateTime.Now;
+            }
+            else
+            {
+                objFromDb.LockoutEnd = DateTime.Now.AddDays(10);
+            }
+            _db.SaveChanges();
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
