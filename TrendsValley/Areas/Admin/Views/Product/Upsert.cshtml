@@ -1,10 +1,9 @@
 ﻿@model TrendsValley.Models.ViewModels.ProductViewModel
-
 @{
     var title = "Create Product";
 }
 <form method="post" enctype="multipart/form-data">
-    <div class="row p-3 border">
+    <div>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="product.Product_Id" />
         @if (Model.product == null || Model.product.Product_Id != 0)
@@ -12,90 +11,63 @@
             //edit
             title = "Edit Product";
         }
-        <div class="col-12 border-bottom">
-            <h2 class="text-primary">@title</h2>
+        <div>
+            <h2 class="text-3xl font-semibold dark:text-black">@title</h2>
+            <br />
+
+            <hr />
         </div>
         <div class="col-8 pt-4">
-            <div class="form-group row py-2">
-                <div class="col-4">
-                    <label asp-for="product.Product_Name">Product Name</label>
+            <div class="col-8 pt-4">
+                <div class="mb-5">
+                    <label class="font-semibold dark:text-black">Product Name</label>
+                    <input asp-for="product.Product_Name" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           placeholder="Product Name" required />
                 </div>
-                <div class="col-8">
-                    <input asp-for="product.Product_Name" class="form-control" />
-                    <span asp-validation-for="product.Product_Name" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row py-2">
-                <div class="col-4">
-                    <label asp-for="product.Product_Details"> Product Details</label>
-                </div>
-                <div class="col-8">
-                    <input asp-for="product.Product_Details" class="form-control" />
-                    <span asp-validation-for="product.Product_Details" class="text-danger"></span>
-                </div>
-            </div>
 
-            <div class="form-group row py-2">
-                <div class="col-4">
-                    <label asp-for="product.Product_Price">Price</label>
+                <div class="mb-5">
+                    <label class="font-semibold dark:text-black">Product Details</label>
+                    <input asp-for="product.Product_Details" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           placeholder="Product Details" required />
                 </div>
-                <div class="col-8">
-                    <input asp-for="product.Product_Price" class="form-control" />
-                    <span asp-validation-for="product.Product_Price" class="text-danger"></span>
-                </div>
-            </div>
-            <div class="form-group row py-2">
-                <div class="col-4">
-                    <label asp-for="product.Product_Details"> Product Photo</label>
-                </div>
-                <div class="col-8">
-                    <input type="file" name="file" class="form-control" />
-                    <span asp-validation-for="product.imgUrl" class="text-danger"></span>
-                </div>
-            </div>
 
-
-
-            @* brand List *@
-            <div class="form-group row py-2">
-                <div class="col-4">
-                    <label asp-for="product.Brand_Id">Brand</label>
+                <div class="mb-5">
+                    <label class="font-semibold dark:text-black">Product Price</label>
+                    <input asp-for="product.Product_Price" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           required />
                 </div>
-                <div class="col-8">
-                    <select asp-for="product.Brand_Id" class="form-select" asp-items="@Model.BrandList">
+
+                <div class="mb-5">
+                    <label asp-for="product.imgUrl" class="font-semibold dark:text-black">Product Photo</label>
+                    <input type="file" name="file" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                           required />
+                </div>
+
+                <div class="mb-5">
+                    <label class="font-semibold dark:text-black">Brand</label>
+                    <select asp-for="product.Brand_Id" asp-items="@Model.BrandList" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option disabled selected>--Select Brand--</option>
                     </select>
-                    <span asp-validation-for="product.Brand_Id" class="text-danger"></span>
                 </div>
-            </div>
 
-            @* Category List *@
-            <div class="form-group row py-2">
-                <div class="col-4">
-                    <label asp-for="product.Category_id">Category</label>
-                </div>
-                <div class="col-8">
-                    <select asp-for="product.Category_id" class="form-select" asp-items="@Model.CategoryList">
+                <div class="mb-5">
+                    <label class="font-semibold dark:text-black">category</label>
+                    <select asp-for="product.Category_id" asp-items="@Model.CategoryList" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
                         <option disabled selected>--Select Category--</option>
                     </select>
-                    <span asp-validation-for="product.Category_id" class="text-danger"></span>
                 </div>
-            </div>
+                @if (Model.product == null)
+                {
+                    <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                        Add +
+                    </button>
+                }
+                else
+                {
+                    <button type="submit" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Update</button>
 
-            <div class="form-group row py-2">
-                <div class="col-4 offset-4">
-                    @if (Model.product == null)
-                    {
-                        <button type="submit" class="btn btn-primary form-control">Create</button>
-                    }
-                    else
-                    {
-                        <button type="submit" class="btn btn-primary form-control">Update</button>
-                    }
-                </div>
-                <div class="col-4">
-                    <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
-                </div>
+                }
+                <a asp-action="Index" class="text-white bg-gray-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-blue-800">Back to List</a>
             </div>
         </div>
     </div>
