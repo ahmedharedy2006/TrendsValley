@@ -1,0 +1,47 @@
+﻿@model TrendsValley.Models.Models.AppUser
+@{
+    var title = "Edit User";
+}
+<form method="post">
+    <div>
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input type="hidden" asp-for="@Model.Id" />
+
+        <div>
+            <h2 class="text-3xl font-semibold dark:text-black">@title</h2>
+            <br />
+
+            <hr />
+        </div>
+        <div class="col-8 pt-4">
+            <div class="mb-5">
+                <label class="font-semibold dark:text-black">First Name</label>
+                <input asp-for="@Model.Fname" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                       placeholder="First Name" required />
+            </div>
+
+            <div class="mb-5">
+                <label class="font-semibold dark:text-black">Last Name</label>
+            <input asp-for="@Model.Lname" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                   placeholder="Last Name" required />
+           </div>
+
+            <div class="mb-5">
+                <label class="font-semibold dark:text-black">Email</label>
+                <input asp-for="@Model.Email" readonly type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                       placeholder="Last Name" required />
+            </div>
+
+            <div class="mb-5">
+                <label class="font-semibold dark:text-black">Role</label>
+                <select asp-for="RoleId" asp-items="@Model.RoleList" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500">
+                    <option disabled selected>--Select Roles--</option>
+                </select>
+            </div>
+
+                <button type="submit" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Edit</button>
+            <a asp-action="Index" class="text-white bg-gray-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-blue-800">Back to List</a>
+        </div>
+    </div>
+    </div>
+</form>
