@@ -1,9 +1,9 @@
 ﻿@model TrendsValley.Models.Models.City
 @{
-    var title = "Create City";
+    var title = "Add City";
 }
 <form method="post">
-    <div class="row p-3 border">
+    <div>
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
         <input type="hidden" asp-for="Id" />
         @if (Model.Id != 0)
@@ -11,34 +11,30 @@
             //edit
             title = "Edit City";
         }
-        <div class="col-12 border-bottom">
-            <h2 class="text-primary">@title</h2>
+        <div>
+            <h2 class="text-3xl font-semibold dark:text-black">@title</h2>
+            <br />
+
+            <hr />
         </div>
         <div class="col-8 pt-4">
-            <div class="form-group row py-2">
-                <div class="col-4">
-                    <label asp-for="name"> Name</label>
-                </div>
-                <div class="col-8">
-                    <input asp-for="name" class="form-control" />
-                    <span asp-validation-for="name" class="text-danger"></span>
-                </div>
+            <div class="mb-5">
+
+                <input asp-for="@Model.name" type="text" id="email" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-100  dark:placeholder-gray-400 dark:text-black dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                       placeholder="Category Name" required />
             </div>
-            <div class="form-group row">
-                <div class="col-4 offset-4">
-                    @if (Model.Id != 0)
-                    {
-                        <button type="submit" class="btn btn-primary form-control">Update</button>
-                    }
-                    else
-                    {
-                        <button type="submit" class="btn btn-primary form-control">Create</button>
-                    }
-                </div>
-                <div class="col-4">
-                    <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
-                </div>
-            </div>
+            @if (Model.Id != 0)
+            {
+                <button type="submit" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">Update</button>
+            }
+            else
+            {
+                <button type="submit" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5 me-2 mb-2 dark:bg-blue-600 dark:hover:bg-blue-700 focus:outline-none dark:focus:ring-blue-800">
+                    Add +
+                </button>
+            }
+            <a asp-action="Index" class="text-white bg-gray-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-xl px-5 py-2.5 me-2 mb-2 dark:bg-gray-600 dark:hover:bg-gray-700 focus:outline-none dark:focus:ring-blue-800">Back to List</a>
         </div>
+    </div>
     </div>
 </form>
