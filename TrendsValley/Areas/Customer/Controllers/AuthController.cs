@@ -186,6 +186,7 @@ namespace TrendsValley.Areas.Customer.Controllers
             return View("Error");
         }
 
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ResendEmailCode(string email)
@@ -213,6 +214,14 @@ namespace TrendsValley.Areas.Customer.Controllers
 
             TempData["Message"] = "A new code has been sent to your email.";
             return RedirectToAction("VerifyEmailCode", new { email = user.Email });
+        }
+
+
+        [HttpGet]
+        [AllowAnonymous]
+        public IActionResult EmailConfirmationSuccess()
+        {
+            return View();
         }
 
         [HttpGet]
