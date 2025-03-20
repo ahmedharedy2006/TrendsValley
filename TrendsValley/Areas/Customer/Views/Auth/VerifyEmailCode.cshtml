@@ -4,6 +4,7 @@
     <h1 class="text-info">Confirm Your Email</h1>
     <div class="row">
         <div class="col-md-8">
+            <form asp-controller="Auth" asp-action="VerifyEmailCode" method="post" role="form">
                 <input asp-for="UserId" hidden />
 
                 <h4>Enter your Code.</h4>
