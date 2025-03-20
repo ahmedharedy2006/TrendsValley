@@ -113,18 +113,14 @@ namespace TrendsValley.Areas.Customer.Controllers
             {
                 await _userManager.AddToRoleAsync(user, SD.User);
 
-                var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
-                var callbackurl = Url.Action("ConfirmEmail", "Auth", new
-                {
-                    userId = user.Id,
-                    code = code
-                }, protocol: HttpContext.Request.Scheme);
+                var verificationCode = new Random().Next(100000, 999999).ToString();
 
+                await _userManager.AddClaimAsync(user, new Claim("EmailVerificationCode", verificationCode));
 
-                await _emailSender.SendEmailAsync(obj.appUser.Email, "Confirm your account - TrendsValley",
-                    "Please confirm your account by clicking here: <a href=\"" + callbackurl + "\">link</a>");
-                await _signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Index", "Home");
+                await _emailSender.SendEmailAsync(user.Email, "Email Confirmation Code",
+                    $"Your email confirmation code is: {verificationCode}");
+
+                return RedirectToAction("VerifyEmailCode", new { userId = user.Id });
             }
 
             obj.CityList = _db.cities.Select(i => new SelectListItem
