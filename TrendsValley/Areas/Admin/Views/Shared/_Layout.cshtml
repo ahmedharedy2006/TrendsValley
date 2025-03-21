@@ -127,7 +127,11 @@
                 <li>
                     <a  class=" flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <span class="fa-solid fa-right-from-bracket fa-flip-horizontal"></span>
-                        <span class="ms-3">Logout</span>
+                        <span class="ms-3">
+                            <form id="logoutForm" method="post" class="form-inline" asp-area="Customer" asp-controller="Auth" asp-action="Logout">
+                                <button type="submit" class="btn nav-link">Logout</button>
+                            </form>
+                        </span>
                     </a>
                 </li>
             </ul>
