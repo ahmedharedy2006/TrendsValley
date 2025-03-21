@@ -1,15 +1,17 @@
 ﻿@model LoginViewModel
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<AppUser> signinManager
-
-<div class="row offset-md-1 mb-xxl-5 mt-xxl-5 test">
-    <h1 class="text-primary text-center pt-2 h1-test">Log in</h1>
-    <form method="post" asp-controller="auth" asp-action="SignIn" asp-route-returnurl="@ViewData["ReturnUrl"]" class="signInForm">
-        <div class="row border p-2 rounded-5 mb-5 formContainer" style="height: 100%;">
-            <div class="col-lg-6">
-                <img src="~/pics/pngtree-comicstyle-login-icon-with-password-access-on-white-background-vector-png-image_12861189.png" alt="Alternate Text" class="w-100 h-100" />
+<div class="fullscreen-div2">
+    <br />
+    <div class="row  col-md-10 offset-md-1">
+    <form method="post" asp-controller="auth" asp-action="SignIn" asp-route-returnurl="@ViewData["ReturnUrl"]" class="signInForm ">
+            <div class="row border p-2 rounded-5 mb-5 formContainer register" style="height: 100%;">
+            <div class="col-lg-8">
+                    <img src="https://img.freepik.com/free-photo/pretty-girl-black-hat-red-coat-raised-hands-holding-cap-studio-white-wall_273443-4631.jpg?t=st=1742563758~exp=1742567358~hmac=e26a72650ee24d5fb1d99692569466ddfbba103774dc3dcef64b77757b3e581c&w=1380" alt="Alternate Text" style="height: 73vh; width: 100%;" />
             </div>
-            <div class="col-lg-6 mt-5">
+            <div class="col-lg-4 mt-5">
+                    <h1 class="text-center pt-2 h1-test">Log in</h1>
+                    <hr />
                 @* <div asp-validation-summary="All" class="text-danger"></div> *@
                 <div class="form-group singInEmail">
                     @* <label asp-for="Email" class="col-12"></label> *@
@@ -26,6 +28,7 @@
                         <div class="form-floating col-md-12 passwordInput">
                             <input asp-for="Password" type="password" class="form-control" id="floatingPassword" placeholder="Password">
                             <label for="floatingPassword">Password</label>
+                                <a asp-action="ForgotPassword" class="text-primary">Forgot password ?</a>
                         </div>
                         @* <input asp-for="Password" class="form-control"/> *@
                         <span asp-validation-for="Password" class="text-danger" style="font-weight: bold;"></span>
@@ -42,25 +45,23 @@
                 </div>
                 <div class="form-group pt-3" style="height: 70%;">
                     <div class="col-md-12">
-                        <button class="btn btn-success form-control rounded-pill" type="submit">
+                        <button class="btn btn-success form-control " type="submit">
                             Login
                         </button>
                     </div>
 
 
                     <div class="row mt-xxl-5 mb-0 optionsContainer">
-                        <div class="col-6 ps-0" style="height: 100%;">
-                            <a asp-action="Register" class="" style="width:fit-content;height:fit-content;">New Account</a>
-                        </div>
-                        <div class="col-6 text-end pe-xxl-4">
-                            <a asp-action="ForgotPassword">Forgot password</a>
-                        </div>
+                        <center>
+                                <span class="" style="width:fit-content;height:fit-content;">Don't Have An Account ? <a asp-action="Register" style="text-decoration:underline">Create One Now</a></span>
+                            </center>
                     </div>
                 </div>
             </div>
 
         </div>
     </form>
+    
     @{
         var schemes = await signinManager.GetExternalAuthenticationSchemesAsync();
         var loginProviders = schemes.ToList();
@@ -81,6 +82,8 @@
             </div>
         </form>
     }
+</div>
+
 </div>
 
 @section Scripts {
