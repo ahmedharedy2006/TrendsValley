@@ -5,6 +5,7 @@ using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrendsValley.Models.Models;
 
 namespace TrendsValley.Models.ViewModels
 {
@@ -41,11 +42,8 @@ namespace TrendsValley.Models.ViewModels
         [Display(Name = "Profile Image")]
         public string ProfileImageUrl { get; set; }
 
-        [Display(Name = "state")]
-        public string state { get; set; }
+        public AppUser appUser { get; set; }
 
-        [Display(Name = "City")]
-        public string city { get; set; }
 
         public List<SelectListItem> GenderOptions { get; set; } = new List<SelectListItem>
         {
