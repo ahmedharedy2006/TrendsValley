@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
@@ -6,6 +7,7 @@ using TrendsValley.Models.Models;
 namespace TrendsValley.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class StateController : Controller
     {
         private readonly IStateRepo _stateRepoo;

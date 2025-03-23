@@ -3,10 +3,13 @@ using Microsoft.AspNetCore.Mvc;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace TrendsValley.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
+
     public class CityController : Controller
     {
         private readonly ICityRepo _cityRepo;

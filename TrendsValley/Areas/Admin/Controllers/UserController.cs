@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.Models.Models;
@@ -6,6 +7,8 @@ using TrendsValley.Models.Models;
 namespace TrendsValley.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
+
     public class UserController : Controller
     {
         private readonly UserManager<AppUser> _userManager;

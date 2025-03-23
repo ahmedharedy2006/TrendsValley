@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.DataAccess.Repository.Interfaces;
@@ -7,6 +8,7 @@ using TrendsValley.Models.Models;
 namespace TrendsValley.Areas.Admin.Controllers
 {
     [Area("Admin")]
+    [Authorize(Roles = "Admin")]
     public class BrandController : Controller
     {
         private readonly IBrandRepo _brandRepo;
