@@ -22,6 +22,8 @@ namespace TrendsValley.Models.Models
         [Required]
         public string StreetAddress { get; set; }
 
+        public Profile Profile { get; set; }
+
         [Required]
         [ForeignKey("city")]
         public int CityId { get; set; }
