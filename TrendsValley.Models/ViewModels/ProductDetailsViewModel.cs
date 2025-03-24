@@ -9,6 +9,7 @@ namespace TrendsValley.Models.ViewModels
 {
     public class ProductDetailsViewModel
     {
+        public int Id { get; set; }
         public Product product { get; set; }
         public string CategoryName { get; set; }
 
