@@ -180,7 +180,7 @@ namespace TrendsValley.Areas.Customer.Controllers
             if (result.Succeeded)
             {
                 await _signInManager.SignInAsync(user, isPersistent: false);
-                return RedirectToAction("Index", "Home");
+                return RedirectToAction("EmailConfirmationSuccess", "Home");
             }
 
             return View("Error");
