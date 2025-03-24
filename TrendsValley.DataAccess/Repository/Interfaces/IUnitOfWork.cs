@@ -13,6 +13,8 @@ namespace TrendsValley.DataAccess.Repository.Interfaces
         IProductRepo ProductRepo { get; }
         ICategoryRepo CategoryRepo { get; }
         ICityRepo CityRepo { get; }
+
+        IShoppingCartRepo ShoppingCartRepo { get; }
         Task SaveAsync();
     }
 }

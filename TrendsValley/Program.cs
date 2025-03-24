@@ -42,7 +42,7 @@ builder.Services.AddScoped<IProductRepo, ProductRepo>();
 builder.Services.AddScoped<ICityRepo, CityRepo>();
 builder.Services.AddScoped<IBrandRepo, BrandRepo>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
-
+builder.Services.AddScoped<IShoppingCartRepo, ShoppingCartRepo>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
