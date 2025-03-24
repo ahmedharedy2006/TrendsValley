@@ -11,11 +11,14 @@ namespace TrendsValley.Models.ViewModels
 {
     public class ProfileViewModel
     {
-        public int Id { get; set; }
+        public string Id { get; set; }
 
         [Required]
-        [Display(Name = "Full Name")]
-        public string Name { get; set; }
+        [Display(Name = "First Name")]
+        public string FName { get; set; }
+
+        [Display(Name = "Last Name")]
+        public string LName { get; set; }
 
         [Required]
         [EmailAddress]
@@ -28,23 +31,20 @@ namespace TrendsValley.Models.ViewModels
         [Display(Name = "Address")]
         public string Address { get; set; }
 
-        [Display(Name = "Current City")]
         public string CurrentCity { get; set; }
+
+        public string CurrentState { get; set; }
+
+        public int CityId { get; set; }
+
+        public int stateId { get; set; }
 
         [Display(Name = "Postal Code")]
         public string PostalCode { get; set; }
 
-        [Display(Name = "Gender")]
-        public string Gender { get; set; }
+        public IEnumerable<SelectListItem> Cities { get; set; }
 
-        public AppUser User { get; set; }
-        public List<SelectListItem> GenderOptions { get; set; } = new List<SelectListItem>
-        {
-            new SelectListItem { Value = "Male", Text = "Male" },
-            new SelectListItem { Value = "Female", Text = "Female" }
-        };
+        public IEnumerable<SelectListItem> States { get; set; }
 
-        [Display(Name = "Profile Image")]
-        public string ProfileImageUrl { get; set; }
     }
 }

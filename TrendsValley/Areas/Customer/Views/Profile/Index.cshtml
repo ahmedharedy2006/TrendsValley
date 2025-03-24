@@ -11,38 +11,27 @@
 <section>
     <!-- Profile Header -->
     <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold text-[#008080] mb-2">Profile Settings</h1>
+        <h1 class="text-4xl font-bold text-[#1f2937] mb-2">Profile Settings</h1>
         <p class="text-gray-600">View and manage your personal information.</p>
     </div>
 
-    <!-- Profile Photo Section -->
-    <div class="flex flex-col items-center mb-8">
-        <div class="relative w-40 h-40 mb-4">
-            <div class="w-40 h-40 rounded-full border-4 border-[#008080] flex items-center justify-center overflow-hidden shadow-lg">
-                <img id="profileImage" src="@Model.ProfileImageUrl" alt="User Avatar" class="w-full h-full object-cover">
-            </div>
-            <!-- Upload Button -->
-            <form asp-action="UpdateProfileImage" method="post" enctype="multipart/form-data">
-                <label for="fileInput" class="absolute bottom-0 right-0 bg-white border-2 border-[#008080] text-[#008080] px-3 py-1 rounded-full cursor-pointer text-lg font-bold shadow-md hover:bg-[#008080] hover:text-white transition-colors duration-200">
-                    <i class="fa-solid fa-camera"></i>
-                </label>
-                <input type="file" id="fileInput" name="file" class="hidden" accept="image/*" onchange="this.form.submit()">
-            </form>
-        </div>
-        <p class="text-gray-600">Click the camera icon to update your profile photo.</p>
-    </div>
-
+   
     <!-- Personal Information Section -->
     <div class="bg-white p-6 rounded-lg shadow-xl border border-gray-200">
-        <h2 class="text-2xl font-semibold text-[#008080] mb-4">Personal Information</h2>
+        <h2 class="text-2xl font-semibold text-[#6366f1] mb-4">Personal Information</h2>
         <form asp-action="UpdateProfile" method="post">
             <div class="space-y-4">
                 <!-- Full Name (Left) and Email (Right) -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <p class="text-gray-700 font-medium">First Name</p>
-                        <input asp-for="Name" class="text-gray-900 w-full p-2 border border-gray-300 rounded-md" placeholder="Enter your first name" />
-                        <span asp-validation-for="Name" class="text-red-600"></span>
+                        <p class="text-gray-700 font-medium">First Name </p>
+                        <input asp-for="FName" class="text-gray-900 w-full p-2 border border-gray-300 rounded-md" placeholder="Enter your first name" />
+                        <span asp-validation-for="FName" class="text-red-600"></span>
+                    </div>
+                    <div>
+                        <p class="text-gray-700 font-medium">Last Name</p>
+                        <input asp-for="LName" value="@Model.LName" class="text-gray-900 w-full p-2 border border-gray-300 rounded-md" placeholder="Enter your first name" />
+                        <span asp-validation-for="LName" class="text-red-600"></span>
                     </div>
 
                 </div>
@@ -70,29 +59,40 @@
                     </div>
                     <div>
                         <p class="text-gray-700 font-medium">Postal Code</p>
-                        <input asp-for="PostalCode" class="text-gray-900 w-full p-2 border border-gray-300 rounded-md" placeholder="Enter your postal code" />
+                        <input asp-for="PostalCode" class="text-gray-900 w-full p-2 border border-gray-300 rounded-md" value="@Model.PostalCode" placeholder="Enter your postal code" />
                         <span asp-validation-for="PostalCode" class="text-red-600"></span>
                     </div>
                 </div>
 
                 <!-- Gender -->
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    
                     <div>
-                        <p class="text-gray-700 font-medium">Gender</p>
-                        <select asp-for="Gender" asp-items="Model.GenderOptions" class="text-gray-900 w-full p-2 border border-gray-300 rounded-md">
-                            <option value="">-- Select Gender --</option>
+                        <p class="text-gray-700 font-medium">Current City : <span class="text-blue-700 font-bold">@Model.CurrentCity</span></p>
+                        <select asp-for="CityId" class="border w-full p-2.5">
+                            <option disabled selected>--Select City--</option>
+                            @foreach (var city in Model.Cities)
+                            {
+                                <option value="@city.Value">@city.Text</option>
+                            }
                         </select>
-                        <span asp-validation-for="Gender" class="text-red-600"></span>
                     </div>
                     <div>
-                        <!-- Empty for alignment -->
+                        <p class="text-gray-700 font-medium">Current State : <span class="text-blue-700 font-bold">@Model.CurrentState</span></p>
+                        <select asp-for="stateId" class="border w-full p-2.5">
+                            <option disabled selected>--Select State--</option>
+                            @foreach (var state in Model.States)
+                            {
+                                <option value="@state.Value">@state.Text</option>
+                            }
+                        </select>
                     </div>
                 </div>
             </div>
 
             <!-- Edit Button -->
             <div class="mt-6">
-                <button type="submit" class="bg-[#008080] text-white px-6 py-2 rounded-md hover:bg-[#006666] transition-colors duration-200">Save Changes</button>
+                <button type="submit" class="bg-[#6366f1] text-white px-6 py-2 rounded-md hover:bg-[#6366f1] transition-colors duration-200">Save Changes</button>
             </div>
         </form>
     </div>
