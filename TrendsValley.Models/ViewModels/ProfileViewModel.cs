@@ -12,7 +12,7 @@ namespace TrendsValley.Models.ViewModels
     public class ProfileViewModel
     {
         public string Id { get; set; }
-
+        public string UserId => Id;
         [Required]
         [Display(Name = "First Name")]
         public string FName { get; set; }
