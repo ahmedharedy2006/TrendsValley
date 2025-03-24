@@ -9,6 +9,8 @@ using System.Security.Claims;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.Models.Models;
 using TrendsValley.Models.ViewModels;
+using System.Net;
+using Microsoft.AspNetCore.Http;
 
 namespace TrendsValley.Areas.Customer.Controllers
 {
@@ -159,7 +161,7 @@ namespace TrendsValley.Areas.Customer.Controllers
             var model = new VerifyEmailCodeViewModel
             {
                 UserId = user.Id,
-                Email = user.Email 
+                Email = user.Email
             };
 
             return View(model);
@@ -215,6 +217,54 @@ namespace TrendsValley.Areas.Customer.Controllers
 
             return RedirectToAction("Security", "Profile", new { area = "Customer", message = "Email verified successfully!" });
         }
-    }
+        [HttpGet]
+        public IActionResult ChangePassword()
+        {
+            return View(new ChangePasswordViewModel());
+        }
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> ChangePassword(ChangePasswordViewModel model)
+        {
+            if (!ModelState.IsValid) return View(model);
 
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
+            // Get client information
+            var ipAddress = GetClientIpAddress();
+            var deviceName = System.Net.Dns.GetHostName();
+            var changeTime = DateTime.Now;
+
+            // Change password
+            var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
+            if (!result.Succeeded)
+            {
+                foreach (var error in result.Errors)
+                {
+                    ModelState.AddModelError(string.Empty, error.Description);
+                }
+                return View(model);
+            }
+
+            // Generate password reset link
+            var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
+            var passwordResetLink = Url.Action(
+                "ResetPassword",
+                "Auth",
+                new { userId = user.Id, code = resetToken },
+                protocol: HttpContext.Request.Scheme
+            );
+
+            // Send email notification
+            var emailSubject = "Your password has been changed";
+            var emailBody = GeneratePasswordChangeEmail(user, ipAddress, deviceName, changeTime, passwordResetLink);
+            await _emailSender.SendEmailAsync(user.Email, emailSubject, emailBody);
+
+            TempData["SuccessMessage"] = "Your password has been changed successfully!";
+            return RedirectToAction("Security");
+        }
+
+       
+    }
 }
