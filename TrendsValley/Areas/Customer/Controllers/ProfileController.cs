@@ -101,5 +101,10 @@ namespace TrendsValley.Areas.Customer.Controllers
             TempData["SuccessMessage"] = "Profile updated successfully!";
             return RedirectToAction(nameof(Index));
         }
+
+        public IActionResult Security()
+        {
+            return View();
+        }
     }
 }
