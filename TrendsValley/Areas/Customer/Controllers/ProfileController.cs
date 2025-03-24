@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -17,20 +18,22 @@ namespace TrendsValley.Areas.Customer.Controllers
         private readonly UserManager<AppUser> _userManager;
         private readonly AppDbContext _db;
         private readonly IWebHostEnvironment _env;
+        private readonly IEmailSender _emailSender;
 
 
         public ProfileController(UserManager<AppUser> userManager,
-                                  AppDbContext db)
+                                  AppDbContext db, IEmailSender emailSender)
         {
             _userManager = userManager;
             _db = db;
+            _emailSender = emailSender;
         }
         [HttpGet]
         public async Task<IActionResult> Index()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value; // Get the current user's ID
-           
+
 
             // Fetch the user's profile
             var profile = await _db.appUsers.Where(u => u.Id == userId).Include(u => u.state).Include(c => c.city).FirstOrDefaultAsync();
@@ -118,5 +121,84 @@ namespace TrendsValley.Areas.Customer.Controllers
             };
             return View(model);
         }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> SendEmailVerificationCode()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return View("Error");
+            }
+
+            var verificationCode = new Random().Next(100000, 999999).ToString();
+
+            TempData["EmailVerificationCode"] = verificationCode;
+
+            try
+            {
+                await _emailSender.SendEmailAsync(user.Email, "Your Verification Code", $"Your verification code is: {verificationCode}");
+                Console.WriteLine("Email sent successfully to: " + user.Email);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Error sending email: " + ex.Message);
+            }
+
+            return RedirectToAction("VerifyEmailCode", new { userId = user.Id });
+        }
+        [HttpGet]
+        [AllowAnonymous]
+        public async Task<IActionResult> VerifyEmailCode(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null) return NotFound();
+
+            var model = new VerifyEmailCodeViewModel
+            {
+                UserId = user.Id,
+                Email = user.Email 
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [AllowAnonymous]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> VerifyEmailCode(VerifyEmailCodeViewModel model)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(model);
+            }
+
+            var storedCode = TempData["EmailVerificationCode"] as string;
+
+            if (string.IsNullOrEmpty(storedCode) || storedCode != model.Code)
+            {
+                ModelState.AddModelError("", "Invalid or expired code.");
+
+                var user = await _userManager.FindByIdAsync(model.UserId);
+                if (user == null) return View("Error");
+
+                model.Email = user.Email;  
+
+                TempData["EmailVerificationCode"] = storedCode;
+
+                return View(model);
+            }
+
+            var verifiedUser = await _userManager.FindByIdAsync(model.UserId);
+            if (verifiedUser == null) return View("Error");
+
+            verifiedUser.EmailConfirmed = true;
+            await _userManager.UpdateAsync(verifiedUser);
+
+            return RedirectToAction("Security", "Profile");
+        }
     }
+
 }

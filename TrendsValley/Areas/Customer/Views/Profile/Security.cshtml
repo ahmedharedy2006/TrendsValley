@@ -1,7 +1,9 @@
 ﻿@model TrendsValley.Models.ViewModels.ProfileViewModel
+
 @{
     Layout = "~/Areas/Customer/Views/Shared/_ProfileLayout.cshtml";
 }
+
 <section>
     <!-- Login and Security Header -->
     <div class="text-center mb-8">
@@ -13,24 +15,29 @@
     <div class="bg-white p-6 rounded-lg shadow-xl border border-gray-200">
         <h2 class="text-2xl font-semibold text-[#6366f1] mb-4">Security Settings</h2>
         <div class="space-y-6">
+
             <!-- Email Confirmation -->
             <div class="flex flex-col">
                 <label class="text-gray-700 font-medium">Email Address</label>
                 <div class="flex items-center justify-between mt-1">
                     <p class="text-gray-900">@Model.Email</p>
-                    <!-- Conditional Display for Email Confirmation Status -->
-                    @if(Model.IsEmailConfirmed)
+
+                    @if (Model.IsEmailConfirmed)
                     {
-                    <p class="text-green-600">Confirmed!</p>
+                        <p class="text-green-600">Confirmed!</p>
                     }
                     else
                     {
-                    <div class="flex items-center gap-2"> 
-                         <p class="text-red-600">Not Confirmed</p>
-                            <button class="bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">Confirm Email</button>
-                    </div> 
+                        <form asp-controller="Profile" asp-action="SendEmailVerificationCode" method="post">
+                            <input type="hidden" name="userId" value="@Model.UserId" />
+                            <div class="flex items-center gap-2">
+                                <p class="text-red-600">Not Confirmed</p>
+                                <button class="bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
+                                    Confirm Email
+                                </button>
+                            </div>
+                        </form>
                     }
-
                 </div>
             </div>
 
@@ -42,12 +49,9 @@
                 <label class="text-gray-700 font-medium">Password</label>
                 <div class="flex items-center justify-between mt-1">
                     <p class="text-gray-900">********</p>
-                    @using (Html.BeginForm("ChangePaassword", "Home", FormMethod.Get))
-                    {
-                        <button type="submit" class="bg-[#6366f1] text-white px-6 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
-                            Change Password
-                        </button>
-                    }
+                    <button type="submit" class="bg-[#6366f1] text-white px-6 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
+                        Change Password
+                    </button>
                 </div>
             </div>
 
@@ -59,7 +63,9 @@
                 <label class="text-gray-700 font-medium">Two-Factor Authentication</label>
                 <div class="flex items-center justify-between mt-1">
                     <p class="text-gray-900">Disabled</p>
-                    <button class="bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">Enable 2FA</button>
+                    <button class="bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
+                        Enable 2FA
+                    </button>
                 </div>
             </div>
 
@@ -73,10 +79,9 @@
                     <p class="text-gray-900">iPhone 14 Pro (Last active: 2 hours ago)</p>
                     <p class="text-gray-900">MacBook Pro (Last active: 5 days ago)</p>
                 </div>
-                @using (Html.BeginForm("ManageDevices", "Home", FormMethod.Get))
-                {
-                    <button class="mt-2 bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">Manage Devices</button>
-                }
+                <button class="mt-2 bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
+                    Manage Devices
+                </button>
             </div>
 
             <!-- Separator Line -->
