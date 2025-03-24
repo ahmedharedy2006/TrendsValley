@@ -1,8 +1,12 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
+using System.Linq.Expressions;
 using TrendsValley.DataAccess.Data;
+using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models;
+using TrendsValley.Models.Models;
+using TrendsValley.Models.ViewModels;
 
 namespace TrendsValley.Controllers
 {
@@ -11,12 +15,13 @@ namespace TrendsValley.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _db;
+        private readonly IProductRepo _productRepo;
 
-
-        public HomeController(ILogger<HomeController> logger, AppDbContext db)
+        public HomeController(ILogger<HomeController> logger, AppDbContext db , IProductRepo productRepo)
         {
             _logger = logger;
             _db = db;
+            _productRepo = productRepo;
         }
         public IActionResult Index()
         {
@@ -30,6 +35,28 @@ namespace TrendsValley.Controllers
                                     .ToListAsync();
 
             return View(products);
+        }
+
+        public async Task<IActionResult> product_Details(int id)
+        {
+            var product = await _productRepo.GetAsync(u => u.Product_Id == id , 
+                false,
+                new Expression<Func<Product, object>>[] {
+                    b => b.Product_Category,
+                    b => b.Product_Brand
+                });
+
+            ProductDetailsViewModel productDetailsViewModel = new ProductDetailsViewModel
+            {
+                product = product,
+
+                CategoryName = product.Product_Category.Category_Name,
+
+                Brandname = product.Product_Brand.Brand_Name
+            };
+
+            return View(productDetailsViewModel);
+
         }
 
         public IActionResult Privacy()

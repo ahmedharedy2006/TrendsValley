@@ -76,6 +76,7 @@
                     <div class="col-lg-3">
                                 @foreach (var product in Model)
                     {
+                      <a asp-action="product_Details" asp-route-id="@product.Product_Id">
                         <div class="card h-100">
                                 <img src="@product.imgUrl" class="card-img-top" alt="@product.Product_Name">
                             <div class="card-body cards">
@@ -121,6 +122,7 @@
                                 </div>
                             </div>
                         </div>
+                        </a>
                     }
                     </div>
                     <!--End cards -->

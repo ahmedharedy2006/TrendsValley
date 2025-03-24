@@ -717,3 +717,42 @@ input[type="number"]::-webkit-inner-spin-button {
     background-color:white;
     margin-bottom:20px;
 }
+
+.t-shirtImg {
+    width: 50vh;
+}
+
+.horizontalLine {
+    background-color: black;
+    height: 4px;
+    border: none;
+}
+
+.addToCartBtn {
+    width: 40%;
+    background-color: black !important; /* color of the site */
+    color: blue;
+    box-shadow: 0 0 0 rgba(255, 255, 255, 1) !important;
+    outline: none !important;
+    /* transform: translate(0px, 0px); */
+    /* transition: all 0.5s ease; */
+}
+
+    .addToCartBtn:hover {
+        transform: translate(-10px, -10px);
+        background-color: #088178 !important;
+        transition: all 0.5s ease;
+    }
+
+    .addToCartBtn:active {
+        scale: 0.8;
+        /* transition: all 0.5s ease; */
+    }
+
+.h1SimilarSection {
+    font-size: 60px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 60px;
+    margin-top:  100px;
+}

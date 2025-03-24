@@ -1,0 +1,48 @@
+﻿@model TrendsValley.Models.ViewModels.ProductDetailsViewModel
+<div class="row  p-4" style="margin-left:200px">
+    <div class="col-lg-7 col-md-7 col-sm-12" style="width: fit-content;">
+        <img src="@Model.product.imgUrl" class="img-fluid t-shirtImg" alt="...">
+    </div>
+    <div class="col-lg-5 col-md-5 col-sm-12">
+        <h1>@Model.product.Product_Name</h1>
+        <h3>Brand : @Model.Brandname</h3>
+        <div class="mb-2">
+            <h4 class="d-inline">Category : @Model.CategoryName</h4>
+</div>
+        <br />
+
+        <h5 class="text-secondary">Description :</h5>
+        <p> @Model.product.Product_Details</p>
+        <br />
+        <!-- sizes -->
+        <div class="align-middle">
+            <label for="" class="fs-2" style="vertical-align: bottom;">Sizes  </label>
+            <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
+                <label class="btn btn-outline-success" for="btnradio1">Small</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio2" autocomplete="off">
+                <label class="btn btn-outline-success" for="btnradio2">Medium</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio3" autocomplete="off">
+                <label class="btn btn-outline-success" for="btnradio3">Large</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio4" autocomplete="off">
+                <label class="btn btn-outline-success" for="btnradio4">X-Large</label>
+
+                <input type="radio" class="btn-check" name="btnradio" id="btnradio5" autocomplete="off">
+                <label class="btn btn-outline-success" for="btnradio5">2X-Large</label>
+            </div>
+        </div>
+
+        <div>
+            <br />
+            <p class="fs-2 fw-bold"> Price : @Model.product.Product_Price $</p>
+        </div>
+        <button class="btn btn-success"> Add To Cart </button>
+        <a asp-action="products" class="btn btn-warning"> Go Back </a>
+
+    </div>
+</div>
+    </div>
+<!-- main end -->
