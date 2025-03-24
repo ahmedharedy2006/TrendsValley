@@ -25,6 +25,8 @@ namespace TrendsValley.Models.ViewModels
         [Display(Name = "Email")]
         public string Email { get; set; }
 
+        public bool IsEmailConfirmed { get; set; }
+
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
 

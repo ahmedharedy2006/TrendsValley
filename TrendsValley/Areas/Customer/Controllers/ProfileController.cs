@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -102,9 +103,20 @@ namespace TrendsValley.Areas.Customer.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        public IActionResult Security()
+        public async Task<IActionResult> Security()
         {
-            return View();
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            var model = new ProfileViewModel
+            {
+                Email = user.Email,
+                IsEmailConfirmed = user.EmailConfirmed
+            };
+            return View(model);
         }
     }
 }
