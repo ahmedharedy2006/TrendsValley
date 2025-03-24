@@ -170,34 +170,50 @@ namespace TrendsValley.Areas.Customer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> VerifyEmailCode(VerifyEmailCodeViewModel model)
         {
+            // Basic model validation
             if (!ModelState.IsValid)
             {
-                return View(model);
-            }
-
-            var storedCode = TempData["EmailVerificationCode"] as string;
-
-            if (string.IsNullOrEmpty(storedCode) || storedCode != model.Code)
-            {
-                ModelState.AddModelError("", "Invalid or expired code.");
-
                 var user = await _userManager.FindByIdAsync(model.UserId);
-                if (user == null) return View("Error");
-
-                model.Email = user.Email;  
-
-                TempData["EmailVerificationCode"] = storedCode;
-
+                if (user != null) model.Email = user.Email;
+                ModelState.AddModelError("Code", "Please enter a valid 6-digit code.");
                 return View(model);
             }
 
+            // Get the stored code WITHOUT reading it (to prevent deletion)
+            var storedCode = TempData.Peek("EmailVerificationCode")?.ToString();
+
+            if (string.IsNullOrEmpty(storedCode)
+                || storedCode != model.Code
+                || string.IsNullOrEmpty(model.UserId))
+            {
+                var invalidCodeUser = await _userManager.FindByIdAsync(model.UserId);
+                if (invalidCodeUser != null) model.Email = invalidCodeUser.Email;
+
+                ModelState.AddModelError("Code", "The verification code is invalid or has expired.");
+                return View(model);
+            }
+
+            // Only remove the code AFTER successful verification
+            TempData.Remove("EmailVerificationCode");
+
+            // Update user's email confirmation status
             var verifiedUser = await _userManager.FindByIdAsync(model.UserId);
-            if (verifiedUser == null) return View("Error");
+            if (verifiedUser == null)
+            {
+                return View("Error");
+            }
 
             verifiedUser.EmailConfirmed = true;
-            await _userManager.UpdateAsync(verifiedUser);
+            var result = await _userManager.UpdateAsync(verifiedUser);
 
-            return RedirectToAction("Security", "Profile");
+            if (!result.Succeeded)
+            {
+                ModelState.AddModelError("", "Failed to verify email. Please try again.");
+                model.Email = verifiedUser.Email;
+                return View(model);
+            }
+
+            return RedirectToAction("Security", "Profile", new { area = "Customer", message = "Email verified successfully!" });
         }
     }
 
