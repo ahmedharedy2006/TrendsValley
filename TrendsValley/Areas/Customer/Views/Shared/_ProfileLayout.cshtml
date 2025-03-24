@@ -1,4 +1,12 @@
-﻿<!DOCTYPE html>
+﻿@functions {
+    public string IsActive(string controller, string action)
+    {
+        var currentController = ViewContext.RouteData.Values["controller"].ToString();
+        var currentAction = ViewContext.RouteData.Values["action"].ToString();
+        return currentController == controller && currentAction == action ? "bg-gray-700" : "";
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -15,9 +23,9 @@
 </head>
 
 <body>
-
+        
     <!-- Navigation Bar -->
-    <nav class="fixed top-0 z-50 w-full bg-[#008080] border-b border-gray-200">
+    <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center justify-start">
@@ -65,15 +73,15 @@
     </nav>
 
     <!-- Sidebar -->
-    <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 bg-[#008080] border-r border-gray-200 transform -translate-x-full sm:translate-x-0 transition-transform duration-200 ease-in-out">
+    <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0 dark:bg-indigo-500 dark:border-gray-700">
         <div class="h-full px-3 pb-4 overflow-y-auto">
             <ul class="space-y-2 font-large">
                 <!-- Active Profile Link -->
-                <li><a asp-controller="Profile" asp-action="Index" class="flex items-center p-2 text-white rounded-lg bg-[#006666]"><i class="fa-solid fa-user"></i> <span class="ms-3">Profile</span></a></li>
-                <li><a asp-controller="Profile" asp-action="Security" class="flex items-center p-2 text-white rounded-lg hover:bg-[#006666]"><i class="fa-solid fa-lock"></i> <span class="ms-3">Login & Security</span></a></li>
-                <li><a asp-controller="Profile" asp-action="Payments" class="flex items-center p-2 text-white rounded-lg hover:bg-[#006666]"><i class="fa-solid fa-credit-card"></i> <span class="ms-3">Your Payments</span></a></li>
-                <li><a asp-controller="Profile" asp-action="Orders" class="flex items-center p-2 text-white rounded-lg hover:bg-[#006666]"><i class="fa-solid fa-box"></i> <span class="ms-3">Your Orders</span></a></li>
-                <li><a asp-controller="Profile" asp-action="ContactUs" class="flex items-center p-2 text-white rounded-lg hover:bg-[#006666]"><i class="fa-solid fa-envelope"></i> <span class="ms-3">Contact Us</span></a></li>
+                <li><a asp-controller="Profile" asp-action="Index" class="@IsActive("Profile","Index") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-user"></i> <span class="ms-3">Profile</span></a></li>
+                <li><a asp-controller="Profile" asp-action="Security" class="@IsActive("Dashboard","Index") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-lock"></i> <span class="ms-3">Login & Security</span></a></li>
+                <li><a asp-controller="Profile" asp-action="Payments" class="@IsActive("Dashboard","Index") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-credit-card"></i> <span class="ms-3">Your Payments</span></a></li>
+                <li><a asp-controller="Profile" asp-action="Orders" class="@IsActive("Dashboard","Index") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-box"></i> <span class="ms-3">Your Orders</span></a></li>
+                <li><a asp-controller="Profile" asp-action="ContactUs" class="@IsActive("Dashboard","Index") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-envelope"></i> <span class="ms-3">Contact Us</span></a></li>
             </ul>
         </div>
     </aside>
