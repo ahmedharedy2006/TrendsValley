@@ -1,12 +1,15 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Linq.Expressions;
+using System.Security.Claims;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models;
 using TrendsValley.Models.Models;
 using TrendsValley.Models.ViewModels;
+using static System.Reflection.Metadata.BlobBuilder;
 
 namespace TrendsValley.Controllers
 {
@@ -16,12 +19,14 @@ namespace TrendsValley.Controllers
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _db;
         private readonly IProductRepo _productRepo;
+        private readonly IShoppingCartRepo _shoppingCartRepo;
 
-        public HomeController(ILogger<HomeController> logger, AppDbContext db , IProductRepo productRepo)
+        public HomeController(ILogger<HomeController> logger, IShoppingCartRepo shoppingCartRepo , AppDbContext db , IProductRepo productRepo)
         {
             _logger = logger;
             _db = db;
             _productRepo = productRepo;
+            _shoppingCartRepo = shoppingCartRepo;
         }
         public IActionResult Index()
         {
@@ -56,6 +61,24 @@ namespace TrendsValley.Controllers
             };
 
             return View(productDetailsViewModel);
+
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        [Authorize]
+        public async Task<IActionResult> product_Details(ProductDetailsViewModel productDetailsViewModel)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            ShoppingCart shoppingCart = new()
+            {
+                ProductId = productDetailsViewModel.product.Product_Id,
+                UserId = userId
+            };
+            await _shoppingCartRepo.CreateAsync(shoppingCart);
+
+            return RedirectToAction(nameof(products));
 
         }
 
