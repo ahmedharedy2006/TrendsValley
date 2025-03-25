@@ -11,6 +11,10 @@ using TrendsValley.Models.Models;
 using TrendsValley.Models.ViewModels;
 using System.Net;
 using Microsoft.AspNetCore.Http;
+using System.Diagnostics.Metrics;
+using System.Numerics;
+using System.Globalization;
+using System.Security.Cryptography;
 
 namespace TrendsValley.Areas.Customer.Controllers
 {
@@ -119,7 +123,8 @@ namespace TrendsValley.Areas.Customer.Controllers
             var model = new ProfileViewModel
             {
                 Email = user.Email,
-                IsEmailConfirmed = user.EmailConfirmed
+                IsEmailConfirmed = user.EmailConfirmed,
+                IsTwoFactorEnabled = await _userManager.GetTwoFactorEnabledAsync(user)
             };
             return View(model);
         }
@@ -551,6 +556,179 @@ namespace TrendsValley.Areas.Customer.Controllers
     </div>
 </body>
 </html>";
+
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> Enable2FA()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
+            if (!user.EmailConfirmed)
+            {
+                TempData["ErrorMessage"] = "Please confirm your email first";
+                return RedirectToAction("Security");
+            }
+
+            // Generate cryptographically secure random code
+            var code = GenerateSecureSixDigitCode();
+            HttpContext.Session.SetString("2FA_Code", code);
+            HttpContext.Session.SetString("2FA_User", user.Id);
+            HttpContext.Session.SetString("2FA_Expiry",
+                DateTime.Now.AddMinutes(5).ToString(CultureInfo.InvariantCulture));
+            string twoFAMessage = $@"
+<!DOCTYPE html>
+<html lang='en'>
+<head>
+    <meta charset='UTF-8'>
+    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
+    <style>
+        body {{
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 20px;
+        }}
+        .email-container {{
+            max-width: 600px;
+            margin: 0 auto;
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }}
+        .header {{
+            text-align: center;
+            margin-bottom: 25px;
+            border-bottom: 1px solid #eaeaea;
+            padding-bottom: 15px;
+        }}
+        .header h1 {{
+            color: #6366f1;
+            margin: 0;
+            font-size: 24px;
+        }}
+        .content {{
+            margin-bottom: 25px;
+            line-height: 1.6;
+        }}
+        .verification-code {{
+            font-size: 28px;
+            font-weight: bold;
+            color: #6366f1;
+            letter-spacing: 3px;
+            text-align: center;
+            margin: 25px 0;
+            padding: 15px;
+            background-color: #f8f9fa;
+            border-radius: 6px;
+            border: 1px dashed #6366f1;
+        }}
+        .security-alert {{
+            background-color: #f8f9fa;
+            border-left: 4px solid #6366f1;
+            padding: 15px;
+            margin: 20px 0;
+            border-radius: 4px;
+        }}
+        .footer {{
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+            margin-top: 25px;
+            border-top: 1px solid #eaeaea;
+            padding-top: 15px;
+        }}
+    </style>
+</head>
+<body>
+    <div class='email-container'>
+        <div class='header'>
+            <h1>Two-Factor Authentication Code</h1>
+        </div>
+        
+        <div class='content'>
+            <p>Hello {user.Fname + " " + user.Lname},</p>
+            
+            <p>Your login attempt requires verification. Use this code to complete your sign-in:</p>
+            
+            <div class='verification-code'>
+                {code}
+            </div>
+            
+            <p>This code expires in 10 minutes. Do not share it with anyone.</p>
+            
+            <div class='security-alert'>
+                <strong>⚠️ Security Alert:</strong> If you didn't request this code, your account may be compromised. 
+                Change your password immediately.
+            </div>
+        </div>
+        
+        <div class='footer'>
+            <p>&copy; {DateTime.Now.Year} YourAppName. All rights reserved.</p>
+            <p>Sent to {user.Email} for account security.</p>
+        </div>
+    </div>
+</body>
+</html>";
+            await _emailSender.SendEmailAsync(
+                user.Email,
+                "Enable 2FA - Verification Code",
+                twoFAMessage
+            );
+
+            return View(new TwoFactorSetupViewModel { Email = user.Email });
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Verify2FACode(string code)
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
+            // Validate code expiration
+            var expiry = DateTime.Parse(HttpContext.Session.GetString("2FA_Expiry"));
+            if (DateTime.Now > expiry)
+            {
+                TempData["ErrorMessage"] = "Code has expired";
+                return RedirectToAction("Enable2FA");
+            }
+
+            // Case-insensitive comparison and trim whitespace
+            var storedCode = HttpContext.Session.GetString("2FA_Code");
+            if (string.Equals(code?.Trim(), storedCode, StringComparison.OrdinalIgnoreCase))
+            {
+                await _userManager.SetTwoFactorEnabledAsync(user, true);
+
+                // Clear session data
+                HttpContext.Session.Remove("2FA_Code");
+                HttpContext.Session.Remove("2FA_Expiry");
+
+                TempData["SuccessMessage"] = "Two-factor authentication enabled successfully!";
+                return RedirectToAction("Security");
+            }
+
+            TempData["ErrorMessage"] = "Invalid verification code";
+            return RedirectToAction("Enable2FA");
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Resend2FACode()
+        {
+            // Prevent rapid resend attacks
+            await Task.Delay(1000); // 1 second delay
+            return RedirectToAction("Enable2FA");
+        }
+
+        // Helper method for secure code generation
+        private static string GenerateSecureSixDigitCode()
+        {
+            using var rng = RandomNumberGenerator.Create();
+            var bytes = new byte[4];
+            rng.GetBytes(bytes);
+            var number = BitConverter.ToUInt32(bytes, 0) % 1000000;
+            return number.ToString("D6");
         }
 
     }
