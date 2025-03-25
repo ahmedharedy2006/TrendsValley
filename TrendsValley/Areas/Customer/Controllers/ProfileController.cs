@@ -25,14 +25,17 @@ namespace TrendsValley.Areas.Customer.Controllers
         private readonly AppDbContext _db;
         private readonly IWebHostEnvironment _env;
         private readonly IEmailSender _emailSender;
+        private readonly SignInManager<AppUser> _signInManager;
+
 
 
         public ProfileController(UserManager<AppUser> userManager,
-                                  AppDbContext db, IEmailSender emailSender)
+                                  AppDbContext db, IEmailSender emailSender, SignInManager<AppUser> signInManager)
         {
             _userManager = userManager;
             _db = db;
             _emailSender = emailSender;
+            signInManager = _signInManager;
         }
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -711,6 +714,30 @@ namespace TrendsValley.Areas.Customer.Controllers
 
             TempData["ErrorMessage"] = "Invalid verification code";
             return RedirectToAction("Enable2FA");
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Disable2FA()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            // Disable 2FA
+            var disableResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
+
+            if (!disableResult.Succeeded)
+            {
+                TempData["ErrorMessage"] = "Failed to disable 2FA. Please try again.";
+                return RedirectToAction("Security");
+            }
+
+            TempData["SuccessMessage"] = "Two-factor authentication has been disabled. You have been logged out for security reasons.";
+            return RedirectToAction("Security");
+
         }
 
         [HttpPost]
