@@ -9,37 +9,37 @@
     <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
-    <section id="header" >
-         <a asp-area="customer" asp-controller="Home" asp-action="index">
+    <section id="header">
+        <a asp-area="customer" asp-controller="Home" asp-action="index">
             <img src="~/pics/logo.png" class="img-fluid" alt="logo" style="width:190px;margin-left:-50px;margin-bottom:-50px; margin-top:-90px">
-             </a>
-         <!-- Search -->
-         <form action="#"
-               method="get">
-             <div class="col-rt-3 equal-height">
-                     <div class="search__container"> 
-                         <input class="search__input" type="search" placeholder="Need Something ?" aria-describedby="basic-addon2"
-                                aria-label="Need Something ?"
-                                name="key">
-                     </div>
-             </div>
-         </form>
-         <!-- End of Search -->
-         <div>
-             <ul id="navbar">
+        </a>
+        <!-- Search -->
+        <form action="#"
+              method="get">
+            <div class="col-rt-3 equal-height">
+                <div class="search__container">
+                    <input class="search__input" type="search" placeholder="Need Something ?" aria-describedby="basic-addon2"
+                           aria-label="Need Something ?"
+                           name="key">
+                </div>
+            </div>
+        </form>
+        <!-- End of Search -->
+        <div>
+            <ul id="navbar">
                 <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products">Shop</a></li>
                 <li class="navShop"><a asp-area="customer" asp-controller="Profile" asp-action="Index">Profile</a></li>
-                <li>
+                <li class="navShop">
                     <a href="#">
-                        Cart
+
+                        <span>Cart <span class="badge bg-success">@ViewBag.CartCount</span></span>
+
                     </a>
-                    <span class="badge bg-success">0</span>
                 </li>
-                 <li><a href="#">Contact</a></li>
                 <partial name="_LoginPartialView" />
-             </ul>
-         </div>
-     </section>
+            </ul>
+        </div>
+    </section>
 
     @* <header> *@
     @*     <nav class="navbar bg-light navbar-expand-lg bg-body-tertiary fixed-top"> *@
@@ -106,16 +106,16 @@
     <div class="container-fluid">
         <div class="row mb-0">
             <div class="col-lg-3 col-sm-12 text-center">
-                <img src="~/pics/logo.png" style="margin-top: -40px; width:130px;"/>
+                <img src="~/pics/logo.png" style="margin-top: -40px; width:130px;" />
                 <p> Address: Any Address</p>
                 <p> Phones: Phone1/Phone2</p>
                 <p> Hours: from ___ / to ___ </p>
                 <p style="margin-bottom: 0px"> Follow Us</p>
                 <span class="follow-icons">
                     <a href="#">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
-                        <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
-                    </svg>
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-facebook" viewBox="0 0 16 16">
+                            <path d="M16 8.049c0-4.446-3.582-8.05-8-8.05C3.58 0-.002 3.603-.002 8.05c0 4.017 2.926 7.347 6.75 7.951v-5.625h-2.03V8.05H6.75V6.275c0-2.017 1.195-3.131 3.022-3.131.876 0 1.791.157 1.791.157v1.98h-1.009c-.993 0-1.303.621-1.303 1.258v1.51h2.218l-.354 2.326H9.25V16c3.824-.604 6.75-3.934 6.75-7.951" />
+                        </svg>
                     </a>
                     <a href="#">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-instagram" viewBox="0 0 16 16">
@@ -166,13 +166,13 @@
                         <a href="#"><img src="~/pics/Screenshot_17-2-2025_14144_www.bing.com.jpeg" class="app-store-logo" /></a>
                     </div>
                 </div>
-                
+
                 <p class="text-center" style="margin-top: 16px; margin-bottom: 8px;"> Payment Methods</p>
                 <a href="#"><img src="~/pics/R.png" class="payment-method" /></a>
             </div>
         </div>
     </div>
-   
+
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>

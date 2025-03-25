@@ -21,7 +21,7 @@ namespace TrendsValley.Controllers
         private readonly IProductRepo _productRepo;
         private readonly IShoppingCartRepo _shoppingCartRepo;
 
-        public HomeController(ILogger<HomeController> logger, IShoppingCartRepo shoppingCartRepo , AppDbContext db , IProductRepo productRepo)
+        public HomeController(ILogger<HomeController> logger, IShoppingCartRepo shoppingCartRepo, AppDbContext db, IProductRepo productRepo)
         {
             _logger = logger;
             _db = db;
@@ -30,11 +30,33 @@ namespace TrendsValley.Controllers
         }
         public IActionResult Index()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                ViewBag.CartCount = _shoppingCartRepo.GetAllAsync(u => u.UserId == userId).Result.Count();
+            }
+            else
+            {
+                ViewBag.CartCount = 0;
+            }
             return View();
         }
 
-        public async Task <IActionResult> products()
+        public async Task<IActionResult> products()
         {
+            if (User.Identity.IsAuthenticated)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                ViewBag.CartCount = _shoppingCartRepo.GetAllAsync(u => u.UserId == userId).Result.Count();
+            }
+            else
+            {
+                ViewBag.CartCount = 0;
+            }
             var products = await _db.Products
                                     .Include(p => p.Product_Brand)
                                     .ToListAsync();
@@ -44,7 +66,18 @@ namespace TrendsValley.Controllers
 
         public async Task<IActionResult> product_Details(int id)
         {
-            var product = await _productRepo.GetAsync(u => u.Product_Id == id , 
+            if (User.Identity.IsAuthenticated)
+            {
+                var claimsIdentity = (ClaimsIdentity)User.Identity;
+                var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+                ViewBag.CartCount = _shoppingCartRepo.GetAllAsync(u => u.UserId == userId).Result.Count();
+            }
+            else
+            {
+                ViewBag.CartCount = 0;
+            }
+            var product = await _productRepo.GetAsync(u => u.Product_Id == id,
                 false,
                 new Expression<Func<Product, object>>[] {
                     b => b.Product_Category,
@@ -69,10 +102,13 @@ namespace TrendsValley.Controllers
         [Authorize]
         public async Task<IActionResult> product_Details(ProductDetailsViewModel productDetailsViewModel)
         {
+
+
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
             ShoppingCart shoppingCart = new()
             {
+                ProductDetailsViewModel = productDetailsViewModel,
                 ProductId = productDetailsViewModel.product.Product_Id,
                 UserId = userId
             };
