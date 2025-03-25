@@ -77,10 +77,6 @@
                         <td class="font-medium text-gray-900 whitespace-nowrap dark:text-black">@User.Email</td>
                         <td class="font-medium text-gray-900 whitespace-nowrap dark:text-black">@User.Role</td>
                         <td class="font-medium text-gray-900 whitespace-nowrap dark:text-black">
-                            <a asp-action="Edit" asp-route-userId="@User.Id" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">
-                                <i class="fa-solid fa-pen-to-square"></i>
-                            </a>
-
                             <a asp-action="makeAdmin" asp-route-userId="@User.Id" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">
                                 Make Admin
                             </a>

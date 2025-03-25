@@ -63,33 +63,6 @@ namespace TrendsValley.Areas.Admin.Controllers
             return View(objFromDb);
         }
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(AppUser user)
-        {
-
-            var objFromDb = _db.appUsers.FirstOrDefault(u => u.Id == user.Id);
-            if (objFromDb == null)
-            {
-                return NotFound();
-            }
-            var userRole = _db.UserRoles.FirstOrDefault(u => u.UserId == objFromDb.Id);
-            if (userRole != null)
-            {
-                var previousRoleName = _db.Roles.Where(u => u.Id == userRole.RoleId).Select(e => e.Name).FirstOrDefault();
-                //removing the old role
-                await _userManager.RemoveFromRoleAsync(objFromDb, previousRoleName);
-
-            }
-
-            //add new role
-            await _userManager.AddToRoleAsync(objFromDb, _db.Roles.FirstOrDefault(u => u.Id == user.RoleId).Name);
-            objFromDb.Fname = user.Fname;
-            objFromDb.Lname = user.Lname;
-            _db.SaveChanges();
-            return RedirectToAction(nameof(Index));
-        }
-
         public IActionResult Delete(string userId)
         {
             AppUser obj = new();
