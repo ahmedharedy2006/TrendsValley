@@ -18,6 +18,7 @@ namespace TrendsValley.Models.Models
 
         public Product Product { get; set; }
 
+        [NotMapped]
         public ProductDetailsViewModel ProductDetailsViewModel { get; set; }
 
         [ForeignKey("appUser")]
