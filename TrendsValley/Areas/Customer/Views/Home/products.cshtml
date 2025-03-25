@@ -73,14 +73,14 @@
                 <!-- First Row-->
                 <div class="row">
                     <!--Start cards -->
-                    <div class="col-lg-3">
                                 @foreach (var product in Model)
                     {
+                        <div class="col-lg-3" style="margin-bottom:20px">
+
                       <a asp-action="product_Details" asp-route-id="@product.Product_Id">
                         <div class="card h-100">
                                 <img src="@product.imgUrl" class="card-img-top" alt="@product.Product_Name">
                             <div class="card-body cards">
-                                <p class="company">@product.Product_Brand</p>
                                 <h5 class="card-title description">@product.Product_Name</h5>
                                 <!-- Stars -->
                                 <div class="rating">
@@ -123,8 +123,9 @@
                             </div>
                         </div>
                         </a>
+                        </div>
+
                     }
-                    </div>
                     <!--End cards -->
                 </div>
                 <!-- Second Row-->
