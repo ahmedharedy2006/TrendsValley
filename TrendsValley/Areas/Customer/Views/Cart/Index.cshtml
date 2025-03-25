@@ -1,0 +1,40 @@
+﻿@model ShoppingCartViewModel
+<br />
+<br />
+<div class="container">
+<h2>Your Cart</h2>
+<hr />
+<table class="table table-striped">
+    <thead class="table-success">
+        <tr>
+            <th>Id</th>
+            <th>Product Name</th>
+            <th>Product Price</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{
+            var i = 1;
+
+        }
+        @foreach (var item in Model.ListCart)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@item.Product.Product_Name</td>
+                <td>@item.Product.Product_Price$</td>
+                <td>
+                        <a class="btn btn-danger btn-sm">x</a>
+                </td>
+            </tr>
+
+            i++;
+        }
+    </tbody>
+</table>
+<h3>Total Price : @Model.OrderHeader.orderTotal$</h3>
+    <a asp-action="summary" class="btn btn-success">Procced With Order</a>
+</div>
+<br />
+<br />
