@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.Models.Models;
+using TrendsValley.Utilities;
 
 namespace TrendsValley.Areas.Admin.Controllers
 {
@@ -101,6 +102,27 @@ namespace TrendsValley.Areas.Admin.Controllers
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> makeAdmin(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (await _userManager.IsInRoleAsync(user, SD.Admin))
+            {
+
+                await _userManager.RemoveFromRoleAsync(user, SD.Admin);
+                return RedirectToAction(nameof(Index));
+            }
+
+            await _userManager.AddToRoleAsync(user, SD.Admin);
+            return RedirectToAction(nameof(Index));
+        }
+
         public IActionResult LockUnlock(string userId)
         {
             var objFromDb = _db.appUsers.FirstOrDefault(u => u.Id == userId);
