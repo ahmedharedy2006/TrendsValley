@@ -26,6 +26,7 @@ namespace TrendsValley.Models.ViewModels
         public string Email { get; set; }
 
         public bool IsEmailConfirmed { get; set; }
+        public bool IsTwoFactorEnabled { get; set; }
 
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
