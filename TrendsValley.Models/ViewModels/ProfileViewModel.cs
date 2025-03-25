@@ -12,7 +12,7 @@ namespace TrendsValley.Models.ViewModels
     public class ProfileViewModel
     {
         public string Id { get; set; }
-
+        public string UserId => Id;
         [Required]
         [Display(Name = "First Name")]
         public string FName { get; set; }
@@ -24,6 +24,9 @@ namespace TrendsValley.Models.ViewModels
         [EmailAddress]
         [Display(Name = "Email")]
         public string Email { get; set; }
+
+        public bool IsEmailConfirmed { get; set; }
+        public bool IsTwoFactorEnabled { get; set; }
 
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }

@@ -1,0 +1,118 @@
+﻿@using Microsoft.AspNetCore.Identity
+@model TrendsValley.Models.ViewModels.ProfileViewModel
+@inject UserManager<AppUser> _userManager
+
+@{
+    Layout = "~/Areas/Customer/Views/Shared/_ProfileLayout.cshtml";
+}
+
+<section>
+    <!-- Login and Security Header -->
+    <div class="text-center mb-8">
+        <h1 class="text-4xl font-bold text-[#1f2937] mb-2">Login & Security</h1>
+        <p class="text-gray-600">Manage your login credentials and security settings.</p>
+    </div>
+
+    <!-- Login and Security Settings -->
+    <div class="bg-white p-6 rounded-lg shadow-xl border border-gray-200">
+        <h2 class="text-2xl font-semibold text-[#6366f1] mb-4">Security Settings</h2>
+        <div class="space-y-6">
+
+            <!-- Email Confirmation -->
+            <div class="flex flex-col">
+                <label class="text-gray-700 font-medium">Email Address</label>
+                <div class="flex items-center justify-between mt-1">
+                    <p class="text-gray-900">@Model.Email</p>
+
+                    @if (Model.IsEmailConfirmed)
+                    {
+                        <p class="text-green-600">Confirmed!</p>
+                    }
+                    else
+                    {
+                        <form asp-controller="Profile" asp-action="SendEmailVerificationCode" method="post">
+                            <input type="hidden" name="userId" value="@Model.UserId" />
+                            <div class="flex items-center gap-2">
+                                <p class="text-red-600">Not Confirmed</p>
+                                <button class="bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
+                                    Confirm Email
+                                </button>
+                            </div>
+                        </form>
+                    }
+                </div>
+            </div>
+
+            <!-- Separator Line -->
+            <hr class="border-gray-200">
+
+            <!-- Change Password -->
+            <div class="flex flex-col">
+                <label class="text-gray-700 font-medium">Password</label>
+                <div class="flex items-center justify-between mt-1">
+                    <p class="text-gray-900">********</p>
+                    <a asp-controller="Profile"
+                       asp-action="ChangePassword"
+                       class="bg-[#6366f1] text-white px-6 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
+                        Change Password
+                    </a>
+                </div>
+            </div>
+
+            <!-- Separator Line -->
+            <hr class="border-gray-200">
+
+            <!-- Two-Factor Authentication (2FA) -->
+            <!-- In Security.cshtml -->
+            <div class="flex flex-col">
+                <label class="text-gray-700 font-medium">Two-Factor Authentication</label>
+                <div class="flex items-center justify-between mt-1">
+                    <p class="text-gray-900">@(Model.IsTwoFactorEnabled ? "Enabled" : "Disabled")</p>
+                    @if (Model.IsTwoFactorEnabled)
+                    {
+                        <form asp-action="Disable2FA" method="post">
+                            <button type="submit"
+                                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors duration-200">
+                                Disable
+                            </button>
+                        </form>
+                    }
+                    else
+                    {
+                        <a asp-action="Enable2FA"
+                           class="bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
+                            Enable
+                        </a>
+                    }
+                </div>
+            </div>
+
+            <!-- Separator Line -->
+            <hr class="border-gray-200">
+
+            <!-- Connected Devices -->
+            <div class="flex flex-col">
+                <label class="text-gray-700 font-medium">Connected Devices</label>
+                <div class="mt-1">
+                    <p class="text-gray-900">iPhone 14 Pro (Last active: 2 hours ago)</p>
+                    <p class="text-gray-900">MacBook Pro (Last active: 5 days ago)</p>
+                </div>
+                <button class="mt-2 bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
+                    Manage Devices
+                </button>
+            </div>
+
+            <!-- Separator Line -->
+            <hr class="border-gray-200">
+
+            <!-- Recent Security Activity -->
+            <div class="flex flex-col">
+                <label class="text-gray-700 font-medium">Recent Security Activity</label>
+                <div class="mt-1">
+                    <p class="text-gray-900">Password changed on October 10, 2023</p>
+                    <p class="text-gray-900">Logged in from a new device on October 8, 2023</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

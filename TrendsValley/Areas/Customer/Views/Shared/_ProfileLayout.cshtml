@@ -32,7 +32,7 @@
                     <!-- Sidebar Toggle Button (Visible on Mobile) -->
                     <button data-drawer-target="logo-sidebar" data-drawer-toggle="logo-sidebar" aria-controls="logo-sidebar"
                             type="button" class="inline-flex items-center p-2 text-sm text-white rounded-lg sm:hidden
-                        hover:bg-[#006666] focus:outline-none focus:ring-2 focus:ring-gray-200">
+                        hover:bg-[#6366f1] focus:outline-none focus:ring-2 focus:ring-gray-200">
                         <span class="sr-only">Open sidebar</span>
                         <svg class="w-6 h-6" aria-hidden="true" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
                             <path clip-rule="evenodd" fill-rule="evenodd" d="M2 4.75A.75.75 0 012.75 4h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 4.75zm0 10.5a.75.75 0 01.75-.75h7.5a.75.75 0 010 1.5h-7.5a.75.75 0 01-.75-.75zM2 10a.75.75 0 01.75-.75h14.5a.75.75 0 010 1.5H2.75A.75.75 0 012 10z"></path>
@@ -78,10 +78,10 @@
             <ul class="space-y-2 font-large">
                 <!-- Active Profile Link -->
                 <li><a asp-controller="Profile" asp-action="Index" class="@IsActive("Profile","Index") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-user"></i> <span class="ms-3">Profile</span></a></li>
-                <li><a asp-controller="Profile" asp-action="Security" class="@IsActive("Dashboard","Index") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-lock"></i> <span class="ms-3">Login & Security</span></a></li>
-                <li><a asp-controller="Profile" asp-action="Payments" class="@IsActive("Dashboard","Index") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-credit-card"></i> <span class="ms-3">Your Payments</span></a></li>
-                <li><a asp-controller="Profile" asp-action="Orders" class="@IsActive("Dashboard","Index") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-box"></i> <span class="ms-3">Your Orders</span></a></li>
-                <li><a asp-controller="Profile" asp-action="ContactUs" class="@IsActive("Dashboard","Index") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-envelope"></i> <span class="ms-3">Contact Us</span></a></li>
+                <li><a asp-controller="Profile" asp-action="Security" class="@IsActive("Profile","Security") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-lock"></i> <span class="ms-3">Login & Security</span></a></li>
+                <li><a asp-controller="Profile" asp-action="Payments" class="@IsActive("Profile","Payments") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-credit-card"></i> <span class="ms-3">Your Payments</span></a></li>
+                <li><a asp-controller="Profile" asp-action="Orders" class="@IsActive("Profile","Orders") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-box"></i> <span class="ms-3">Your Orders</span></a></li>
+                <li><a asp-controller="Profile" asp-action="ContactUs" class="@IsActive("Profile","ContactUs") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-envelope"></i> <span class="ms-3">Contact Us</span></a></li>
             </ul>
         </div>
     </aside>

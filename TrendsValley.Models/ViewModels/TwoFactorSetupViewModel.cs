@@ -7,13 +7,13 @@ using System.Threading.Tasks;
 
 namespace TrendsValley.Models.ViewModels
 {
-    public class VerifyEmailCodeViewModel
+    public class TwoFactorSetupViewModel
     {
-        public string UserId { get; set; }
-
         [Required]
-        [Display(Name = "Verification Code")]
+        [StringLength(6, MinimumLength = 6, ErrorMessage = "Code must be 6 digits")]
+        [RegularExpression(@"^\d+$", ErrorMessage = "Only numbers are allowed")]
         public string Code { get; set; }
-        public string Email { get; set; }  // Ensure this exists
+
+        public string Email { get; set; }
     }
 }
