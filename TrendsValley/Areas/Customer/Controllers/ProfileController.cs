@@ -576,11 +576,23 @@ namespace TrendsValley.Areas.Customer.Controllers
 
             // Generate cryptographically secure random code
             var code = GenerateSecureSixDigitCode();
+            var emailBody = GenerateEmailEnable2FA(user, code);
+
             HttpContext.Session.SetString("2FA_Code", code);
             HttpContext.Session.SetString("2FA_User", user.Id);
             HttpContext.Session.SetString("2FA_Expiry",
                 DateTime.Now.AddMinutes(5).ToString(CultureInfo.InvariantCulture));
-            string twoFAMessage = $@"
+            await _emailSender.SendEmailAsync(
+                user.Email,
+                "Enable 2FA - Verification Code",
+                emailBody
+            );
+
+            return View(new TwoFactorSetupViewModel { Email = user.Email });
+        }
+        private string GenerateEmailEnable2FA(AppUser user, string confirmationCode)
+        {
+            return $@"
 <!DOCTYPE html>
 <html lang='en'>
 <head>
@@ -616,6 +628,11 @@ namespace TrendsValley.Areas.Customer.Controllers
             margin-bottom: 25px;
             line-height: 1.6;
         }}
+        .content p {{
+            font-size: 16px;
+            color: #333333;
+            margin-bottom: 15px;
+        }}
         .verification-code {{
             font-size: 28px;
             font-weight: bold;
@@ -643,6 +660,19 @@ namespace TrendsValley.Areas.Customer.Controllers
             border-top: 1px solid #eaeaea;
             padding-top: 15px;
         }}
+        .button {{
+            display: inline-block;
+            padding: 12px 24px;
+            background-color: #6366f1;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin: 20px auto;
+            text-align: center;
+        }}
+        .info-item {{
+            margin-bottom: 8px;
+        }}
     </style>
 </head>
 <body>
@@ -657,31 +687,40 @@ namespace TrendsValley.Areas.Customer.Controllers
             <p>Your login attempt requires verification. Use this code to complete your sign-in:</p>
             
             <div class='verification-code'>
-                {code}
+                {confirmationCode}
             </div>
             
-            <p>This code expires in 10 minutes. Do not share it with anyone.</p>
+            <p>This code will expire in 15 minutes. If you didn't request this, please ignore this email.</p>
             
             <div class='security-alert'>
-                <strong>⚠️ Security Alert:</strong> If you didn't request this code, your account may be compromised. 
-                Change your password immediately.
+                <p><strong>Security Tip:</strong> Never share this code with anyone. Trendsvalley will never ask for your verification code.</p>
             </div>
+            
+            <p>Alternatively, you can click the button below to verify your Two-Factor Authentication:</p>
+            
+            <a href=""{GenerateEnable2FALink(user, confirmationCode)}"" class='button'>Verify Email Address</a>
+            
+            <p>If the button doesn't work, copy and paste this link into your browser:</p>
+            <p style=""word-break: break-all;"">{GenerateEnable2FALink(user, confirmationCode)}</p>
         </div>
         
         <div class='footer'>
-            <p>&copy; {DateTime.Now.Year} YourAppName. All rights reserved.</p>
-            <p>Sent to {user.Email} for account security.</p>
+            <p>&copy; {DateTime.Now.Year} TrendsValley. All rights reserved.</p>
+            <p>This email was sent to {user.Email} as part of our verification process.</p>
         </div>
     </div>
 </body>
 </html>";
-            await _emailSender.SendEmailAsync(
-                user.Email,
-                "Enable 2FA - Verification Code",
-                twoFAMessage
-            );
+        }
 
-            return View(new TwoFactorSetupViewModel { Email = user.Email });
+        private string GenerateEnable2FALink(AppUser user, string code)
+        {
+            return Url.Action(
+                "Enable2FA",
+                "Profile",
+                new { userId = user.Id, code = code },
+                protocol: HttpContext.Request.Scheme
+            );
         }
 
         [HttpPost]
@@ -743,12 +782,10 @@ namespace TrendsValley.Areas.Customer.Controllers
         [HttpPost]
         public async Task<IActionResult> Resend2FACode()
         {
-            // Prevent rapid resend attacks
-            await Task.Delay(1000); // 1 second delay
+            await Task.Delay(1000); 
             return RedirectToAction("Enable2FA");
         }
 
-        // Helper method for secure code generation
         private static string GenerateSecureSixDigitCode()
         {
             using var rng = RandomNumberGenerator.Create();
