@@ -34,6 +34,7 @@ namespace TrendsValley.DataAccess.Data
 
         public DbSet<OrderDetails> OrderDetails { get; set; }
 
+        public DbSet<UserDevice> UserDevices { get; set; }
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
