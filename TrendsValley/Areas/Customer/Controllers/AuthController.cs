@@ -4,10 +4,12 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Numerics;
 using System.Security.Claims;
+using System.Text.Json;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.Models.Models;
 using TrendsValley.Models.ViewModels;
@@ -26,7 +28,7 @@ namespace TrendsValley.Areas.Customer.Controllers
 
         public AuthController(SignInManager<AppUser> signInManager,
             RoleManager<IdentityRole> roleManager,
-            UserManager<AppUser> userManager, AppDbContext db ,IEmailSender emailSender)
+            UserManager<AppUser> userManager, AppDbContext db, IEmailSender emailSender)
         {
             _roleManager = roleManager;
             _signInManager = signInManager;
@@ -78,10 +80,158 @@ namespace TrendsValley.Areas.Customer.Controllers
                 }
                 return RedirectToAction("Enter2FACode");
             }
+            var deviceInfo = new
+            {
+                DeviceName = GetFriendlyDeviceName(Request.Headers["User-Agent"]),
+                DeviceType = GetDeviceType(Request.Headers["User-Agent"]),
+                IP = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                OS = GetOSFromUserAgent(Request.Headers["User-Agent"]),
+                Browser = GetBrowserFromUserAgent(Request.Headers["User-Agent"]),
+                Location = await GetLocationFromIP(HttpContext.Connection.RemoteIpAddress?.ToString())
+            };
 
+            var existingDevice = await _db.UserDevices
+                .FirstOrDefaultAsync(d => d.UserId == user.Id &&
+                                        d.DeviceToken == Request.Cookies["DeviceToken"]);
+
+            if (existingDevice != null)
+            {
+                // لو الجهاز معروف قبل كده، نحدث تاريخ الدخول بس
+                existingDevice.LastLoginDate = DateTime.Now;
+            }
+            else
+            {
+                // لو جهاز جديد، نضيفه في الداتابيز
+                var newDevice = new UserDevice
+                {
+                    UserId = user.Id,
+                    DeviceName = deviceInfo.DeviceName,
+                    DeviceType = deviceInfo.DeviceType,
+                    IpAddress = deviceInfo.IP,
+                    OS = deviceInfo.OS,
+                    Browser = deviceInfo.Browser,
+                    Location = deviceInfo.Location,
+                    DeviceToken = Guid.NewGuid().ToString(),
+                    FirstLoginDate = DateTime.Now,
+                    LastLoginDate = DateTime.Now
+                };
+
+                _db.UserDevices.Add(newDevice);
+
+                // نحفظ التوكن في الكوكيز عشان نعرفه بعد كده
+                Response.Cookies.Append("DeviceToken", newDevice.DeviceToken, new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(30),
+                    HttpOnly = true,
+                    Secure = true
+                });
+            }
+            await _db.SaveChangesAsync();
             await _signInManager.SignInAsync(user, obj.RememberMe);
             return RedirectToAction("Index", "Home");
         }
+        private string GetOSFromUserAgent(string userAgent)
+        {
+            if (userAgent.Contains("Windows")) return "Windows";
+            if (userAgent.Contains("Mac")) return "MacOS";
+            if (userAgent.Contains("Linux")) return "Linux";
+            if (userAgent.Contains("Android")) return "Android";
+            if (userAgent.Contains("iPhone")) return "iOS";
+            return "Unknown";
+        }
+
+        private string GetBrowserFromUserAgent(string userAgent)
+        {
+            // Edge بيبقي عنده كل من "Edg" و"Chrome" في الـ User Agent
+            if (userAgent.Contains("Edg"))
+                return "Microsoft Edge";
+
+            // الفحص علي Chrome لازم يكون بعد Edge
+            if (userAgent.Contains("Chrome"))
+                return "Google Chrome";
+
+            if (userAgent.Contains("Firefox"))
+                return "Mozilla Firefox";
+
+            if (userAgent.Contains("Safari") && !userAgent.Contains("Chrome"))
+                return "Apple Safari";
+
+            if (userAgent.Contains("Opera") || userAgent.Contains("OPR"))
+                return "Opera";
+
+            return "Unknown Browser";
+        }
+        private string GetFriendlyDeviceName(string userAgent)
+        {
+            string deviceType = userAgent.Contains("Mobile") ? "Mobile" : "Desktop";
+
+            if (userAgent.Contains("Windows NT"))
+                deviceType = "Windows " + deviceType;
+            else if (userAgent.Contains("Macintosh"))
+                deviceType = "Mac " + deviceType;
+            else if (userAgent.Contains("Linux"))
+                deviceType = "Linux " + deviceType;
+
+            string browser = GetBrowserFromUserAgent(userAgent);
+
+            return $"{deviceType} ({browser})";
+        }
+        private string GetDeviceType(string userAgent)
+        {
+            // Mobile devices
+            if (userAgent.Contains("Mobi") || userAgent.Contains("Android"))
+                return "Mobile";
+
+            // Tablets
+            if (userAgent.Contains("Tablet") || userAgent.Contains("iPad"))
+                return "Tablet";
+
+            // Common desktop patterns
+            if (userAgent.Contains("Windows NT") || userAgent.Contains("Macintosh") || userAgent.Contains("Linux"))
+                return "Desktop";
+
+            // Gaming consoles
+            if (userAgent.Contains("Xbox") || userAgent.Contains("PlayStation"))
+                return "Gaming Console";
+
+            return "Unknown Device";
+        }
+
+        private async Task<string> GetLocationFromIP(string ipAddress)
+        {
+            // إذا كان IP محلي
+            if (ipAddress == "::1" || ipAddress == "127.0.0.0")
+            {
+                // إرجاع موقع افتراضي
+                return "Cairo, Egypt (Local Development)";
+            }
+
+            try
+            {
+                using var httpClient = new HttpClient();
+                var response = await httpClient.GetFromJsonAsync<IpApiResponse>($"http://ip-api.com/json/{ipAddress}");
+
+                return response switch
+                {
+                    { Status: "success" } => $"{response.City}, {response.Country}",
+                    _ => "Unknown Location"
+                };
+            }
+            catch
+            {
+                return "Location Unknown";
+            }
+        }
+
+        private record IpApiResponse(
+            string Status,
+            string Country,
+            string City
+        );
+
+
+
+
         private string GenerateEmailConfirmationEmail(AppUser user, string confirmationCode)
         {
             return $@"
