@@ -127,7 +127,12 @@ namespace TrendsValley.Areas.Customer.Controllers
             {
                 Email = user.Email,
                 IsEmailConfirmed = user.EmailConfirmed,
-                IsTwoFactorEnabled = await _userManager.GetTwoFactorEnabledAsync(user)
+                IsTwoFactorEnabled = await _userManager.GetTwoFactorEnabledAsync(user),
+                ConnectedDevices = await _db.UserDevices
+                    .Where(d => d.UserId == user.Id)
+                    .OrderByDescending(d => d.LastLoginDate)
+                    .Take(2)
+                    .ToListAsync()
             };
             return View(model);
         }

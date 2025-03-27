@@ -94,13 +94,48 @@
             <!-- Connected Devices -->
             <div class="flex flex-col">
                 <label class="text-gray-700 font-medium">Connected Devices</label>
-                <div class="mt-1">
-                    <p class="text-gray-900">iPhone 14 Pro (Last active: 2 hours ago)</p>
-                    <p class="text-gray-900">MacBook Pro (Last active: 5 days ago)</p>
+
+                <div class="mt-1 space-y-2">
+                    @if (Model.ConnectedDevices != null && Model.ConnectedDevices.Count > 0)
+                    {
+                        @foreach (var device in Model.ConnectedDevices)
+                        {
+                            <p class="text-gray-900">
+                                @device.DeviceName (Last active:
+                                @if (device.LastLoginDate.HasValue)
+                                {
+                                    var lastLogin = device.LastLoginDate.Value;
+                                    var timeSinceLastLogin = DateTime.Now - lastLogin;
+
+                                    if (timeSinceLastLogin.TotalHours < 1)
+                                    {
+                                        <span>@Math.Round(timeSinceLastLogin.TotalMinutes) minutes ago</span>
+                                    }
+                                    else if (timeSinceLastLogin.TotalHours < 24)
+                                    {
+                                        <span>@Math.Round(timeSinceLastLogin.TotalHours) hours ago</span>
+                                    }
+                                    else
+                                    {
+                                        <span>@Math.Round(timeSinceLastLogin.TotalDays) days ago</span>
+                                    }
+                                }
+                                else
+                                {
+                                    <span>unknown</span>
+                                })
+                            </p>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-gray-500">No connected devices</p>
+                    }
                 </div>
-                <button class="mt-2 bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
+                
+                <a asp-action="ManageDevices" class="mt-2 bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
                     Manage Devices
-                </button>
+                </a>
             </div>
 
             <!-- Separator Line -->

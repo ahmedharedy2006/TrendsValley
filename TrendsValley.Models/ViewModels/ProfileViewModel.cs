@@ -40,6 +40,7 @@ namespace TrendsValley.Models.ViewModels
 
         public int CityId { get; set; }
 
+        public List<UserDevice> ConnectedDevices { get; set; } = new List<UserDevice>();
         public int stateId { get; set; }
 
         [Display(Name = "Postal Code")]
