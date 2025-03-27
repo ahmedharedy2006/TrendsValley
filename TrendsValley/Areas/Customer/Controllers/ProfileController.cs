@@ -390,6 +390,15 @@ namespace TrendsValley.Areas.Customer.Controllers
             var changeTime = DateTime.Now;
 
             // Change password
+            var activity = new SecurityActivity
+            {
+                UserId = user.Id,
+                ActivityType = "PasswordChange",
+                Description = "Password changed",
+                IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString()
+            };
+            _db.SecurityActivities.Add(activity);
+            await _db.SaveChangesAsync();
             var result = await _userManager.ChangePasswordAsync(user, model.CurrentPassword, model.NewPassword);
             if (!result.Succeeded)
             {
