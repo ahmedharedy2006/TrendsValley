@@ -5,6 +5,7 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using System.Diagnostics;
 using System.Diagnostics.Metrics;
 using System.Numerics;
@@ -123,6 +124,14 @@ namespace TrendsValley.Areas.Customer.Controllers
                     Secure = true
                 });
             }
+            var newDeviceActivity = new SecurityActivity
+            {
+                UserId = user.Id,
+                ActivityType = "NewDeviceLogin",
+                Description = "Logged in from new device",
+                IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString()
+            };
+            _db.SecurityActivities.Add(newDeviceActivity);
             await _db.SaveChangesAsync();
             await _signInManager.SignInAsync(user, obj.RememberMe);
             return RedirectToAction("Index", "Home");
@@ -418,6 +427,14 @@ namespace TrendsValley.Areas.Customer.Controllers
                         Secure = true
                     });
                 }
+                var newDeviceActivity = new SecurityActivity
+                {
+                    UserId = user.Id,
+                    ActivityType = "NewDeviceLogin",
+                    Description = "Logged in from new device",
+                    IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString()
+                };
+                _db.SecurityActivities.Add(newDeviceActivity);
                 await _db.SaveChangesAsync();
 
                 await _signInManager.SignInAsync(user, isPersistent: true);
@@ -779,7 +796,8 @@ namespace TrendsValley.Areas.Customer.Controllers
                 ViewData["ReturnUrl"] = returnurl;
                 ViewData["ProviderDisplayName"] = info.ProviderDisplayName;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel {
+                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel
+                {
                     Email = email,
                     CityList = _db.cities.Select(i => new SelectListItem
                     {
@@ -803,38 +821,38 @@ namespace TrendsValley.Areas.Customer.Controllers
         {
             returnurl = returnurl ?? Url.Content("~/");
 
-           
-                //get the info about the user from external login provider
-                var info = await _signInManager.GetExternalLoginInfoAsync();
-                if (info == null)
-                {
-                    return View("Error");
-                }
-                var user = new AppUser
-                {
-                    UserName = model.Email,
-                    Email = model.Email,
-                    CityId = model.CityId,
-                    StateId = model.StateId,
-                    PhoneNumber = model.Phone,
-                    StreetAddress = model.StreetAddress,
-                    Fname = model.FName,
-                    Lname = model.LName,
-                    PostalCode = model.PostalCode
-                };
-                var result = await _userManager.CreateAsync(user);
+
+            //get the info about the user from external login provider
+            var info = await _signInManager.GetExternalLoginInfoAsync();
+            if (info == null)
+            {
+                return View("Error");
+            }
+            var user = new AppUser
+            {
+                UserName = model.Email,
+                Email = model.Email,
+                CityId = model.CityId,
+                StateId = model.StateId,
+                PhoneNumber = model.Phone,
+                StreetAddress = model.StreetAddress,
+                Fname = model.FName,
+                Lname = model.LName,
+                PostalCode = model.PostalCode
+            };
+            var result = await _userManager.CreateAsync(user);
+            if (result.Succeeded)
+            {
+                await _userManager.AddToRoleAsync(user, "User");
+                result = await _userManager.AddLoginAsync(user, info);
                 if (result.Succeeded)
                 {
-                    await _userManager.AddToRoleAsync(user, "User");
-                    result = await _userManager.AddLoginAsync(user, info);
-                    if (result.Succeeded)
-                    {
-                        await _signInManager.SignInAsync(user, isPersistent: false);
-                        await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
-                        return LocalRedirect(returnurl);
-                    }
+                    await _signInManager.SignInAsync(user, isPersistent: false);
+                    await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
+                    return LocalRedirect(returnurl);
                 }
-            
+            }
+
             ViewData["ReturnUrl"] = returnurl;
             return View(model);
         }
