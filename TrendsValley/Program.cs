@@ -18,6 +18,17 @@ builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnectionString"));
 });
 
+builder.Services.AddAuthentication().AddMicrosoftAccount(microsoftOptions =>
+{
+    microsoftOptions.ClientId = builder.Configuration.GetSection("Microsoft:ClientId").Value;
+    microsoftOptions.ClientSecret = builder.Configuration.GetSection("Microsoft:ClientSecret").Value;
+});
+builder.Services.AddAuthentication().AddFacebook(facebookOptions =>
+{
+    facebookOptions.ClientId = builder.Configuration.GetSection("Facebook:ClientId").Value;
+    facebookOptions.ClientSecret = builder.Configuration.GetSection("Facebook:ClientSecret").Value;
+});
+
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 

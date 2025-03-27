@@ -49,39 +49,40 @@
                             Login
                         </button>
                     </div>
+        </form>
 
 
                     <div class="row mt-xxl-5 mb-0 optionsContainer">
                         <center>
                                 <span class="" style="width:fit-content;height:fit-content;">Don't Have An Account ? <a asp-action="Register" style="text-decoration:underline">Create One Now</a></span>
                             </center>
+                            @{
+                                var schemes = await signinManager.GetExternalAuthenticationSchemesAsync();
+                                var loginProviders = schemes.ToList();
+                            }
+                            @if (loginProviders.Count() > 0)
+                            {
+                                <form asp-controller="Auth" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" role="form">
+                                    <p class="text-center mt-4 fs-4 fw-bold">Or Sign In With</p>
+                                    <div class="text-center mt-4">
+                                        @foreach (var provider in loginProviders)
+                                        {
+                                            <span class="me-2">
+                                                <button class="registerSignInBrands" type="submit" name="provider" value="@provider.Name">
+                                                    <img src="~/pics/@(provider.Name.ToLower()).png" alt="@provider.Name Logo" class="signInLogos" />
+                                                </button>
+                                            </span>
+                                        }
+                                    </div>
+                                </form>
+                            }
                     </div>
                 </div>
             </div>
 
         </div>
-    </form>
     
-    @{
-        var schemes = await signinManager.GetExternalAuthenticationSchemesAsync();
-        var loginProviders = schemes.ToList();
-    }
-    @if (loginProviders.Count() > 0)
-    {
-        <form asp-controller="Auth" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" role="form">
-            <p class="text-center mt-4 fs-4 fw-bold">Or Sign In With</p>
-            <div class="text-center mt-4">
-                @foreach (var provider in loginProviders)
-                {
-                    <span class="me-2">
-                        <button class="registerSignInBrands" type="submit" name="provider" value="@provider.Name">
-                            <img src="~/pics/@(provider.Name.ToLower()).png" alt="@provider.Name Logo" class="signInLogos" />
-                        </button>
-                    </span>
-                }
-            </div>
-        </form>
-    }
+    
 </div>
 
 </div>

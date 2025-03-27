@@ -586,8 +586,19 @@ namespace TrendsValley.Areas.Customer.Controllers
                 ViewData["ReturnUrl"] = returnurl;
                 ViewData["ProviderDisplayName"] = info.ProviderDisplayName;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
-                var name = info.Principal.FindFirstValue(ClaimTypes.Name);
-                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = email, Name = name });
+                return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel {
+                    Email = email,
+                    CityList = _db.cities.Select(i => new SelectListItem
+                    {
+                        Text = i.name,
+                        Value = i.Id.ToString()
+                    }),
+                    Statelist = _db.states.Select(i => new SelectListItem
+                    {
+                        Text = i.Name,
+                        Value = i.Id.ToString()
+                    })
+                });
 
             }
         }
@@ -599,8 +610,7 @@ namespace TrendsValley.Areas.Customer.Controllers
         {
             returnurl = returnurl ?? Url.Content("~/");
 
-            if (ModelState.IsValid)
-            {
+           
                 //get the info about the user from external login provider
                 var info = await _signInManager.GetExternalLoginInfoAsync();
                 if (info == null)
@@ -610,7 +620,14 @@ namespace TrendsValley.Areas.Customer.Controllers
                 var user = new AppUser
                 {
                     UserName = model.Email,
-                    Email = model.Email
+                    Email = model.Email,
+                    CityId = model.CityId,
+                    StateId = model.StateId,
+                    PhoneNumber = model.Phone,
+                    StreetAddress = model.StreetAddress,
+                    Fname = model.FName,
+                    Lname = model.LName,
+                    PostalCode = model.PostalCode
                 };
                 var result = await _userManager.CreateAsync(user);
                 if (result.Succeeded)
@@ -624,7 +641,7 @@ namespace TrendsValley.Areas.Customer.Controllers
                         return LocalRedirect(returnurl);
                     }
                 }
-            }
+            
             ViewData["ReturnUrl"] = returnurl;
             return View(model);
         }
