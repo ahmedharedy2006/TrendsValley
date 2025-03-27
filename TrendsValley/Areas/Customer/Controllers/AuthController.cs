@@ -96,12 +96,10 @@ namespace TrendsValley.Areas.Customer.Controllers
 
             if (existingDevice != null)
             {
-                // لو الجهاز معروف قبل كده، نحدث تاريخ الدخول بس
                 existingDevice.LastLoginDate = DateTime.Now;
             }
             else
             {
-                // لو جهاز جديد، نضيفه في الداتابيز
                 var newDevice = new UserDevice
                 {
                     UserId = user.Id,
@@ -118,7 +116,6 @@ namespace TrendsValley.Areas.Customer.Controllers
 
                 _db.UserDevices.Add(newDevice);
 
-                // نحفظ التوكن في الكوكيز عشان نعرفه بعد كده
                 Response.Cookies.Append("DeviceToken", newDevice.DeviceToken, new CookieOptions
                 {
                     Expires = DateTime.Now.AddDays(30),
@@ -377,6 +374,52 @@ namespace TrendsValley.Areas.Customer.Controllers
             if (userId != null && code == correctCode)
             {
                 var user = await _userManager.FindByIdAsync(userId);
+
+                var deviceInfo = new
+                {
+                    DeviceName = GetFriendlyDeviceName(Request.Headers["User-Agent"]),
+                    DeviceType = GetDeviceType(Request.Headers["User-Agent"]),
+                    IP = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                    OS = GetOSFromUserAgent(Request.Headers["User-Agent"]),
+                    Browser = GetBrowserFromUserAgent(Request.Headers["User-Agent"]),
+                    Location = await GetLocationFromIP(HttpContext.Connection.RemoteIpAddress?.ToString())
+                };
+
+                var existingDevice = await _db.UserDevices
+                    .FirstOrDefaultAsync(d => d.UserId == user.Id &&
+                                            d.DeviceToken == Request.Cookies["DeviceToken"]);
+
+                if (existingDevice != null)
+                {
+                    existingDevice.LastLoginDate = DateTime.Now;
+                }
+                else
+                {
+                    var newDevice = new UserDevice
+                    {
+                        UserId = user.Id,
+                        DeviceName = deviceInfo.DeviceName,
+                        DeviceType = deviceInfo.DeviceType,
+                        IpAddress = deviceInfo.IP,
+                        OS = deviceInfo.OS,
+                        Browser = deviceInfo.Browser,
+                        Location = deviceInfo.Location,
+                        DeviceToken = Guid.NewGuid().ToString(),
+                        FirstLoginDate = DateTime.Now,
+                        LastLoginDate = DateTime.Now
+                    };
+
+                    _db.UserDevices.Add(newDevice);
+
+                    Response.Cookies.Append("DeviceToken", newDevice.DeviceToken, new CookieOptions
+                    {
+                        Expires = DateTime.Now.AddDays(30),
+                        HttpOnly = true,
+                        Secure = true
+                    });
+                }
+                await _db.SaveChangesAsync();
+
                 await _signInManager.SignInAsync(user, isPersistent: true);
                 return RedirectToAction("Index", "Home");
             }
