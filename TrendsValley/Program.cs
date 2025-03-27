@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Options;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.DataAccess.Repository;
 using TrendsValley.DataAccess.Repository.Interfaces;
@@ -32,12 +33,17 @@ builder.Services.AddAuthentication().AddFacebook(facebookOptions =>
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
-builder.Services.Configure<IdentityOptions>(opt =>
+builder.Services.Configure<IdentityOptions>(options =>
 {
-    opt.User.RequireUniqueEmail = true; //  => For unique emails 
-    opt.Password.RequireDigit = false; // => Controll RequireCapitale 
-    opt.Password.RequireLowercase = false; 
-    opt.Password.RequireNonAlphanumeric = false; 
+    options.User.RequireUniqueEmail = true; //  => For unique emails 
+    options.Password.RequireDigit = false; // => Controll RequireCapitale 
+    options.Password.RequireLowercase = false;
+    options.Password.RequireNonAlphanumeric = false;
+    options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultProvider;
+    options.Tokens.EmailConfirmationTokenProvider = TokenOptions.DefaultProvider;
+    options.Tokens.ChangeEmailTokenProvider = TokenOptions.DefaultProvider;
+    options.Tokens.ChangePhoneNumberTokenProvider = TokenOptions.DefaultProvider;
+    options.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultProvider;
 });
 
 builder.Services.ConfigureApplicationCookie(options =>
@@ -105,7 +111,7 @@ using (var scope = app.Services.CreateScope())
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
     if (adminUser == null)
     {
-        adminUser = new AppUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true , CityId = 2 , StateId = 1 };
+        adminUser = new AppUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true, CityId = 2, StateId = 1 };
         var result = await userManager.CreateAsync(adminUser, adminPassword);
 
         if (result.Succeeded)
