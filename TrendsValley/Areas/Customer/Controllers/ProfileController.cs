@@ -529,7 +529,7 @@ namespace TrendsValley.Areas.Customer.Controllers
         </div>
         
         <div class='content'>
-            <p>Hello {user.Fname + " " +user.Lname},</p>
+            <p>Hello {user.Fname + " " + user.Lname},</p>
             
             <p>Your TrendsValley account password was successfully changed on {changeTime:MMMM dd, yyyy} at {changeTime:h:mm tt}.</p>
             
@@ -787,7 +787,7 @@ namespace TrendsValley.Areas.Customer.Controllers
         [HttpPost]
         public async Task<IActionResult> Resend2FACode()
         {
-            await Task.Delay(1000); 
+            await Task.Delay(1000);
             return RedirectToAction("Enable2FA");
         }
 
@@ -800,5 +800,19 @@ namespace TrendsValley.Areas.Customer.Controllers
             return number.ToString("D6");
         }
 
+        [HttpGet]
+        public async Task<IActionResult> ManageDevices()
+        {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
+            // هنا هنجيب بيانات الأجهزة المتصلة من الداتابيز
+            var devices = await _db.UserDevices
+                .Where(d => d.UserId == user.Id)
+                .OrderByDescending(d => d.LastLoginDate)
+                .ToListAsync();
+
+            return View(devices);
+        }
     }
 }
