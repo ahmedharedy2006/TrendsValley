@@ -70,8 +70,9 @@
                     <p class="text-gray-900">@(Model.IsTwoFactorEnabled ? "Enabled" : "Disabled")</p>
                     @if (Model.IsTwoFactorEnabled)
                     {
-                        <form asp-action="Disable2FA" method="post">
-                            <button type="submit"
+                        <form asp-action="Disable2FA" method="post" id="disable2faForm">
+                            @Html.AntiForgeryToken()
+                            <button type="button" onclick="confirmDisable2FA()"
                                     class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors duration-200">
                                 Disable
                             </button>
@@ -116,3 +117,23 @@
         </div>
     </div>
 </section>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+@section Scripts {
+    <script>
+        function confirmDisable2FA() {
+            Swal.fire({
+                title: 'Disable Two-Factor Authentication?',
+                text: "This will reduce your account security. Are you sure?",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#d33',
+                cancelButtonColor: '#3085d6',
+                confirmButtonText: 'Yes, disable it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('disable2faForm').submit();
+                }
+            });
+        }
+    </script>
+}
