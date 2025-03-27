@@ -81,6 +81,16 @@ namespace TrendsValley.Areas.Admin.Controllers
             string wwwRootPath = _webHostEnvironment.WebRootPath;
             if (file != null)
             {
+                if (!string.IsNullOrEmpty(obj.product.imgUrl))
+                {
+                    string oldImagePath = Path.Combine(wwwRootPath, obj.product.imgUrl.TrimStart('\\', '/'));
+
+                    if (System.IO.File.Exists(oldImagePath))
+                    {
+                        System.IO.File.Delete(oldImagePath);
+                    }
+                }
+
                 string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
                 string productPath = Path.Combine(wwwRootPath, @"pics");
 
@@ -103,6 +113,8 @@ namespace TrendsValley.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // ... other code ...
+
         //Delete
         public async Task<IActionResult> Delete(int id)
         {
@@ -112,6 +124,18 @@ namespace TrendsValley.Areas.Admin.Controllers
             {
                 return NotFound();
             }
+
+            string webRootPath = _webHostEnvironment.WebRootPath;
+
+            // Ensure image path is correct by removing the leading slash (if present)
+            string imagePath = Path.Combine(webRootPath, obj.imgUrl.TrimStart('\\', '/'));
+
+            // Check if file exists and delete it
+            if (System.IO.File.Exists(imagePath)) // Use System.IO.File instead of File
+            {
+                System.IO.File.Delete(imagePath); // Use System.IO.File instead of File
+            }
+
             await _unitOfWork.ProductRepo.RemoveAsync(obj);
             return RedirectToAction(nameof(Index));
         }
