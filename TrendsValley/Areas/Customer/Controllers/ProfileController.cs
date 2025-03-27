@@ -132,8 +132,13 @@ namespace TrendsValley.Areas.Customer.Controllers
                     .Where(d => d.UserId == user.Id)
                     .OrderByDescending(d => d.LastLoginDate)
                     .Take(2)
-                    .ToListAsync()
-            };
+                    .ToListAsync(),
+                RecentSecurityActivities = await _db.SecurityActivities
+                .Where(a => a.UserId == user.Id)
+                .OrderByDescending(a => a.ActivityDate)
+                .Take(5)
+                .ToListAsync()
+                };
             return View(model);
         }
 

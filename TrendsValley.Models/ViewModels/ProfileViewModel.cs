@@ -39,7 +39,7 @@ namespace TrendsValley.Models.ViewModels
         public string CurrentState { get; set; }
 
         public int CityId { get; set; }
-
+        public List<SecurityActivity> RecentSecurityActivities { get; set; } = new List<SecurityActivity>();
         public List<UserDevice> ConnectedDevices { get; set; } = new List<UserDevice>();
         public int stateId { get; set; }
 

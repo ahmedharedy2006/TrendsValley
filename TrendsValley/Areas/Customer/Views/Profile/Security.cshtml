@@ -34,7 +34,7 @@
                             <input type="hidden" name="userId" value="@Model.UserId" />
                             <div class="flex items-center gap-2">
                                 <p class="text-red-600">Not Confirmed</p>
-                                <button class="bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
+                                <button class="bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:transform hover:-translate-y-0.5 active:translate-y-0">
                                     Confirm Email
                                 </button>
                             </div>
@@ -53,7 +53,7 @@
                     <p class="text-gray-900">********</p>
                     <a asp-controller="Profile"
                        asp-action="ChangePassword"
-                       class="bg-[#6366f1] text-white px-6 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
+                       class="bg-[#6366f1] text-white px-6 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:transform hover:-translate-y-0.5 active:translate-y-0">
                         Change Password
                     </a>
                 </div>
@@ -73,7 +73,7 @@
                         <form asp-action="Disable2FA" method="post" id="disable2faForm">
                             @Html.AntiForgeryToken()
                             <button type="button" onclick="confirmDisable2FA()"
-                                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors duration-200">
+                                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors duration-200 ">
                                 Disable
                             </button>
                         </form>
@@ -81,7 +81,7 @@
                     else
                     {
                         <a asp-action="Enable2FA"
-                           class="bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
+                           class="bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:transform hover:-translate-y-0.5 active:translate-y-0">
                             Enable
                         </a>
                     }
@@ -133,7 +133,8 @@
                     }
                 </div>
                 
-                <a asp-action="ManageDevices" class="mt-2 bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200">
+                <a asp-action="ManageDevices" class="mt-2 bg-[#6366f1] text-white px-6 py-2.5 rounded-lg hover:bg-[#4f46e5] transition-all 
+                                            duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:-translate-y-0.5 active  inline-flex items-center justify-center gap-2 font-medium text-sm sm:text-base no-underline cursor-pointer">
                     Manage Devices
                 </a>
             </div>
@@ -144,9 +145,18 @@
             <!-- Recent Security Activity -->
             <div class="flex flex-col">
                 <label class="text-gray-700 font-medium">Recent Security Activity</label>
-                <div class="mt-1">
-                    <p class="text-gray-900">Password changed on October 10, 2023</p>
-                    <p class="text-gray-900">Logged in from a new device on October 8, 2023</p>
+                <div class="mt-1 space-y-1">
+                    @if (Model.RecentSecurityActivities.Any())
+                    {
+                        @foreach (var activity in Model.RecentSecurityActivities)
+                        {
+                            <p class="text-gray-900">@activity.Description on @activity.ActivityDate.ToString("MMMM dd, yyyy")</p>
+                        }
+                    }
+                    else
+                    {
+                        <p class="text-gray-500">No recent security activities</p>
+                    }
                 </div>
             </div>
         </div>
