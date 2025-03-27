@@ -1,9 +1,12 @@
 ﻿@functions {
-    public string IsActive(string controller, string action)
+    public string IsActive(string controller, params string[] actions)
     {
         var currentController = ViewContext.RouteData.Values["controller"].ToString();
         var currentAction = ViewContext.RouteData.Values["action"].ToString();
-        return currentController == controller && currentAction == action ? "bg-gray-700" : "";
+
+        return currentController == controller && actions.Contains(currentAction)
+            ? "bg-gray-700 text-white"
+            : "text-gray-900 dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700";
     }
 }
 <!DOCTYPE html>
@@ -23,7 +26,7 @@
 </head>
 
 <body>
-        
+
     <!-- Navigation Bar -->
     <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 dark:bg-gray-800 dark:border-gray-700">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
@@ -78,7 +81,7 @@
             <ul class="space-y-2 font-large">
                 <!-- Active Profile Link -->
                 <li><a asp-controller="Profile" asp-action="Index" class="@IsActive("Profile","Index") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-user"></i> <span class="ms-3">Profile</span></a></li>
-                <li><a asp-controller="Profile" asp-action="Security" class="@IsActive("Profile","Security") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-lock"></i> <span class="ms-3">Login & Security</span></a></li>
+                <li><a asp-controller="Profile" asp-action="Security" class="@IsActive("Profile","Security","ManageDevices","ChangePassword","Enable2FA","VerifyEmailCode") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-lock"></i> <span class="ms-3">Login & Security</span></a></li>
                 <li><a asp-controller="Profile" asp-action="Payments" class="@IsActive("Profile","Payments") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-credit-card"></i> <span class="ms-3">Your Payments</span></a></li>
                 <li><a asp-controller="Profile" asp-action="Orders" class="@IsActive("Profile","Orders") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-box"></i> <span class="ms-3">Your Orders</span></a></li>
                 <li><a asp-controller="Profile" asp-action="ContactUs" class="@IsActive("Profile","ContactUs") flex items-center p-2 text-gray-900  rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group"><i class="fa-solid fa-envelope"></i> <span class="ms-3">Contact Us</span></a></li>
