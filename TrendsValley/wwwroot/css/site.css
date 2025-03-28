@@ -564,7 +564,7 @@ a {
     transform: translate(-50%, 0%);
     width: 90%;
     height: 100%;
-    margin-bottom:20px;
+    margin-bottom:120px;
 }
 
 .singInEmail,
@@ -696,7 +696,7 @@ input[type="number"]::-webkit-inner-spin-button {
     top: 0;
     left: 0;
     width: 100%;
-    height: 100vh;
+/*    height: 100vh;*/
     background-image: url("https://static.vecteezy.com/system/resources/thumbnails/020/414/416/original/clean-gradient-corporate-background-video.jpg"); /* Optional */
     background-repeat: no-repeat;
     background-size: cover;
@@ -706,7 +706,7 @@ input[type="number"]::-webkit-inner-spin-button {
     top: 0;
     left: 0;
     width: 100%;
-    height: 80vh;
+/*    height: 80vh;*/
     background-image: url("https://static.vecteezy.com/system/resources/thumbnails/020/414/416/original/clean-gradient-corporate-background-video.jpg"); /* Optional */
     background-repeat: no-repeat;
     background-size: cover;
@@ -715,7 +715,7 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .register{
     background-color:white;
-    margin-bottom:20px;
+    margin-bottom:120px;
 }
 
 .t-shirtImg {
@@ -755,4 +755,24 @@ input[type="number"]::-webkit-inner-spin-button {
     text-align: center;
     margin-bottom: 60px;
     margin-top:  100px;
+}
+
+.facebook-btn {
+    background-color: transparent;
+    color: #0080FF;
+}
+
+.facebook-btn:hover {
+    background-color: #0080FF;
+    color: white;
+}
+
+.microsoft-btn {
+    background-color: transparent;
+    color: black;
+}
+
+.microsoft-btn:hover {
+    background-color: black;
+    color: white;
 }

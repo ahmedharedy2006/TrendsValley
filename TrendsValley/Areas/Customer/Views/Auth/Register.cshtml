@@ -2,134 +2,146 @@
 @using Microsoft.AspNetCore.Identity
 @inject SignInManager<AppUser> signinManager
 <div class="fullscreen-div">
-<br />
-<div class="row  col-md-10 offset-md-1">
+    <br />
+    <div class="row  col-md-10 offset-md-1">
         <form class="mb-lg-5 " method="post" asp-controller="auth" asp-action="Register" asp-route-returnurl="@ViewData["ReturnUrl"]">
-        <div class="row border p-2 rounded register " style="width:fit-content;">
-            @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
+            <div class="row border p-2 rounded register" style="width:fit-content;">
+                @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
 
-            <div class="col-lg-6">
-                <img src="https://img.freepik.com/free-photo/sympathetic-man-with-hat-brown-background_23-2148316525.jpg?t=st=1742560373~exp=1742563973~hmac=d6fb499d6bd9a1b9d4245ea7948aa0c786d61fcaea6e4b19227b12be789840bf&w=740" alt="Alternate Text" class="img-fluid" style="height: 90vh; width: 100%;" />
-            </div>
-            <div class="col-lg-6">
-                <div class="row mb-3">
-                    <p class="text-center fs-5 fw-bold" >Create a new account</p>
+                <div class="col-lg-6">
+                    <img src="https://img.freepik.com/free-photo/sympathetic-man-with-hat-brown-background_23-2148316525.jpg?t=st=1742560373~exp=1742563973~hmac=d6fb499d6bd9a1b9d4245ea7948aa0c786d61fcaea6e4b19227b12be789840bf&w=740" alt="Alternate Text" class="img-fluid" style="height: 792.9px; width: 100%;" />
+                </div>
+                <div class="col-lg-6" style="height">
+                    <div class="row mb-3">
+                        <p class="text-center fs-5 fw-bold">Create a new account</p>
 
-                    <div class="form-floating col-md-6 textInput">
-                        <input asp-for="appUser.Fname" type="text" class="form-control me-5" id="floatingInput">
-                        <label class="ps-4" for="floatingInput">First Name</label>
+                        <div class="form-floating col-md-6 textInput">
+                            <input asp-for="appUser.Fname" type="text" class="form-control me-5" id="floatingInput">
+                            <label class="ps-4" for="floatingInput">First Name</label>
                             <span asp-validation-for="appUser.Fname" class="text-danger fw-bold"></span>
-                    </div>
-                    <div class="form-floating col-md-6 textInput">
-                        <input asp-for="appUser.Lname" type="text" class="form-control" id="floatingInput" >
-                        <label class="ps-4" for="floatingInput">Last Name</label>
+                        </div>
+                        <div class="form-floating col-md-6 textInput">
+                            <input asp-for="appUser.Lname" type="text" class="form-control" id="floatingInput">
+                            <label class="ps-4" for="floatingInput">Last Name</label>
                             <span asp-validation-for="appUser.Lname" class="text-danger fw-bold"></span>
-                    </div>
-                </div>
-
-
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <div class="form-floating col-md-12 emailInput">
-                            <input asp-for="appUser.Email" type="email" class="form-control firstName" id="floatingInput" placeholder="name@example.com">
-                            <label class="" for="floatingInput">Email</label>
-                            <span asp-validation-for="appUser.Email" class="text-danger fw-bold"></span>
                         </div>
                     </div>
-                </div>
-                <div class="row mb-0">
-                    <div class="form-floating col-md-6 passwordInput">
-                        <input asp-for="Password" type="password" class="form-control me-5" id="floatingInput">
-                        <label class="ps-4" for="floatingInput">Password</label>
-                        <span asp-validation-for="Password" class="text-danger fw-bold"></span>
-                    </div>
-                    <div class="form-floating col-md-6 passowrdInput">
-                        <input asp-for="ConfirmPassword" type="password" class="form-control" id="floatingInput" >
-                        <label class="ps-4" for="floatingInput">Confirm Password</label>
-                        <span asp-validation-for="ConfirmPassword" class="text-danger fw-bold"></span>
-                    </div>
-                </div>
 
-                <div class="form-group mb-3">
-                     <select asp-for="appUser.StateId" class="form-select" asp-items="@Model.Statelist">
-                         <option disabled selected>--Select State--</option>
-                     </select>
-                     <span asp-validation-for="appUser.StateId" class="text-danger fw-bold"></span>
-                 </div>
-                <div class="form-group">
-                    <select asp-for="appUser.CityId" class="form-select" asp-items="@Model.CityList">
-                        <option disabled selected>--Select City--</option>
-                    <span asp-validation-for="appUser.CityId" class="text-danger fw-bold"></span>
-                    </select>
-                </div>
-                <div class="form-group mt-3">
-                    <div class="col-md-12">
-                        <div class="form-floating col-md-12 passwordInput">
-                            <input asp-for="appUser.PostalCode" type="number" class="form-control me-5" id="floatingInput" >
-                            <label class="ps-3" for="floatingInput">Postal Code</label>
-                        <span asp-validation-for="appUser.PostalCode" class="text-danger fw-bold"></span>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="form-floating col-md-12 emailInput">
+                                <input asp-for="appUser.Email" type="email" class="form-control firstName" id="floatingInput" placeholder="name@example.com">
+                                <label class="" for="floatingInput">Email</label>
+                                <span asp-validation-for="appUser.Email" class="text-danger fw-bold"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
-
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <div class="form-floating col-md-12 passwordInput">
-                            <input asp-for="appUser.PhoneNumber" type="number" class="form-control me-5" id="floatingInput" >
-                            <label class="ps-3" for="floatingInput">Phone Number</label>
-                            <span asp-validation-for="appUser.PhoneNumber" class="text-danger fw-bold"></span>
+                    <div class="row mb-0">
+                        <div class="form-floating col-md-6 passwordInput">
+                            <input asp-for="Password" type="password" class="form-control me-5" id="floatingInput">
+                            <label class="ps-4" for="floatingInput">Password</label>
+                            <span asp-validation-for="Password" class="text-danger fw-bold"></span>
+                        </div>
+                        <div class="form-floating col-md-6 passowrdInput">
+                            <input asp-for="ConfirmPassword" type="password" class="form-control" id="floatingInput">
+                            <label class="ps-4" for="floatingInput">Confirm Password</label>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger fw-bold"></span>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group">
-                    <div class="col-md-12">
-                        <div class="form-floating col-md-12 passwordInput">
-                            <input asp-for="appUser.StreetAddress" type="text" class="form-control me-5" id="floatingInput" >
-                            <label class="ps-3" for="floatingInput">Street Address</label>
-                            <span asp-validation-for="appUser.StreetAddress" class="text-danger fw-bold"></span>
+                    <div class="form-group mb-3">
+                        <select asp-for="appUser.StateId" class="form-select" asp-items="@Model.Statelist">
+                            <option disabled selected>--Select State--</option>
+                        </select>
+                        <span asp-validation-for="appUser.StateId" class="text-danger fw-bold"></span>
+                    </div>
+                    <div class="form-group">
+                        <select asp-for="appUser.CityId" class="form-select" asp-items="@Model.CityList">
+                            <option disabled selected>--Select City--</option>
+                            <span asp-validation-for="appUser.CityId" class="text-danger fw-bold"></span>
+                        </select>
+                    </div>
+                    <div class="form-group mt-3">
+                        <div class="col-md-12">
+                            <div class="form-floating col-md-12 passwordInput">
+                                <input asp-for="appUser.PostalCode" type="number" class="form-control me-5" id="floatingInput">
+                                <label class="ps-3" for="floatingInput">Postal Code</label>
+                                <span asp-validation-for="appUser.PostalCode" class="text-danger fw-bold"></span>
+                            </div>
                         </div>
                     </div>
-                </div>
 
-                <div class="form-group pt-3">
-
-                    <div class="col-md-6" style="width: 100%;">
-                        <button class="btn btn-success form-control registerButton" type="submit" style="width: 100%;">
-                            Create Account
-                        </button>
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="form-floating col-md-12 passwordInput">
+                                <input asp-for="appUser.PhoneNumber" type="number" class="form-control me-5" id="floatingInput">
+                                <label class="ps-3" for="floatingInput">Phone Number</label>
+                                <span asp-validation-for="appUser.PhoneNumber" class="text-danger fw-bold"></span>
+                            </div>
+                        </div>
                     </div>
+
+                    <div class="form-group">
+                        <div class="col-md-12">
+                            <div class="form-floating col-md-12 passwordInput">
+                                <input asp-for="appUser.StreetAddress" type="text" class="form-control me-5" id="floatingInput">
+                                <label class="ps-3" for="floatingInput">Street Address</label>
+                                <span asp-validation-for="appUser.StreetAddress" class="text-danger fw-bold"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group pt-3">
+
+                        <div class="col-md-6" style="width: 100%;">
+                            <button class="btn btn-success form-control registerButton" type="submit" style="width: 100%;">
+                                Create Account
+                            </button>
+                        </div>
         </form>
 
-                            <center>
-                                <span class="" style="width:fit-content;height:fit-content;">Already Have An Account ? <a asp-action="SignIn" style="text-decoration:underline">Sign-In Now !</a></span>
-                            </center>
-                    <p class="text-center mt-4 fs-4 fw-bold">Or Sign In With</p>
-                    <div class="text-center mt-4">
-                            @{
-                                var schemes = await signinManager.GetExternalAuthenticationSchemesAsync();
-                                var loginProviders = schemes.ToList();
-                            }
-                            @if (loginProviders.Count() > 0)
+        <center>
+            <span class="" style="width:fit-content;height:fit-content;">Already Have An Account ? <a asp-action="SignIn" style="text-decoration:underline">Sign-In Now !</a></span>
+        </center>
+        <p class="text-center mt-3 fs-7 ">Or Login With</p>
+        <div class="text-center mt-2">
+            @{
+                var schemes = await signinManager.GetExternalAuthenticationSchemesAsync();
+                var loginProviders = schemes.ToList();
+            }
+            @if (loginProviders.Count() > 0)
+            {
+                <form asp-controller="Auth" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" role="form">
+                    <div class="text-center mt-2">
+                        @foreach (var provider in loginProviders)
+                        {
+                            @if (provider.Name == "Microsoft")
                             {
-                                <form asp-controller="Auth" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" role="form">
-                                    <p class="text-center mt-4 fs-4 fw-bold">Or Sign In With</p>
-                                    <div class="text-center mt-4">
-                                        @foreach (var provider in loginProviders)
-                                        {
-                                            <span class="me-2">
-                                                <button class="registerSignInBrands" type="submit" name="provider" value="@provider.Name">
-                                                    <img src="~/pics/@(provider.Name.ToLower()).png" alt="@provider.Name Logo" class="signInLogos" />
-                                                </button>
-                                            </span>
-                                        }
-                                    </div>
-                                </form>
-                            }
-                    </div>
-                </div>
 
-            </div>
+                                <button type="submit" class="btn btn-dark mb-2 form-control microsoft-btn" value="@provider.Name" name="provider">
+                                    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png" width="25" />
+                                    Login With Microsoft
+                                </button>
+                                <br />
+                            }
+
+                            else
+                            {
+
+                                <button type="submit" class="btn btn-primary form-control facebook-btn" value="@provider.Name" name="provider">
+                                    <img src="https://static.vecteezy.com/system/resources/previews/023/986/613/original/facebook-logo-facebook-logo-transparent-facebook-icon-transparent-free-free-png.png" width="30" />
+                                    Login With Facebook
+                                </button>
+                            }
+                        }
+                    </div>
+                </form>
+            }
+        </div>
+    </div>
+
+</div>
         </div>
     </div>
 </div>
