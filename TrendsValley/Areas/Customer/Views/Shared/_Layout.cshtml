@@ -27,62 +27,26 @@
         <!-- End of Search -->
         <div>
             <ul id="navbar">
+                <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="Index">Home</a></li>
+
                 <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products">Shop</a></li>
-                <li class="navShop"><a asp-area="customer" asp-controller="Profile" asp-action="Index">Profile</a></li>
+
                 <li class="navShop">
-                    <a href="#">
+                    <a asp-area="customer" asp-controller="Cart" asp-action="Index">
 
                         <span>Cart <span class="badge bg-success">@ViewBag.CartCount</span></span>
 
                     </a>
                 </li>
+
                 <partial name="_LoginPartialView" />
+                @* <partial name=" _ProfileAndCartPartialView" /> *@
+
+               
             </ul>
         </div>
     </section>
 
-    @* <header> *@
-    @*     <nav class="navbar bg-light navbar-expand-lg bg-body-tertiary fixed-top"> *@
-    @*         <div class="container-fluid"> *@
-    @*             <img src="~/pics/The_Coffee_Bean__Tea_Leaf_Logo.png" alt="Logo" width="30" height="24" class="d-inline-block align-text-top logo"> *@
-    @*             <a asp-area="customer" asp-controller="Home" asp-action="index" class="navbar-brand" style="margin-right:26%; width: 19%">Navbar <span class="nav-arrow"> </span></a> *@
-    @*             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation"> *@
-    @*                 <span class="navbar-toggler-icon">.</span> *@
-    @*             </button> *@
-    @*             <div class="collapse navbar-collapse" id="navbarSupportedContent"> *@
-    @*                 <ul class="navbar-nav me-auto mb-2 mb-lg-0"> *@
-    @*                     <li class="nav-item"> *@
-    @*                         <a asp-area="customer" asp-controller="Home" asp-action="index" class="nav-link active nav-button nav-arrow" aria-current="page"><span>Home </span></a> *@
-    @*                     </li> *@
-    @*                     <li class="nav-item nav-button nav-arrow"> *@
-    @*                         <a asp-area="customer" asp-controller="Home" asp-action="products" class="nav-link nav-button"><span>Shop</span></a> *@
-    @*                     </li> *@
-    @*                     <li class="nav-item dropdown"> *@
-    @*                         <a class="nav-link dropdown-toggle " href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false" > *@
-    @*                             Dropdown *@
-    @*                         </a> *@
-    @*                         <ul class="dropdown-menu"> *@
-    @*                             <li><a class="dropdown-item" href="#">Action</a></li> *@
-    @*                             <li><a class="dropdown-item" href="#">Another action</a></li> *@
-    @*                             <li><hr class="dropdown-divider"></li> *@
-    @*                             <li><a class="dropdown-item" href="#">Something else here</a></li> *@
-    @*                         </ul> *@
-    @*                     </li> *@
-    @*                     <li class="nav-item"> *@
-    @*                         <a class="nav-link nav-button nav-arrow" aria-disabled="false"><span>Disabled </span></a> *@
-    @*                     </li> *@
-    @*                     <li class="nav-item"> *@
-    @*                         <a class="nav-link text-dark" asp-area="Admin" asp-controller="Product" asp-action="Index">Admin</a> *@
-    @*                     </li> *@
-    @*                 </ul> *@
-    @*                 <form class="d-flex" role="search"> *@
-    @*                     <input class="form-control me-2 search-bar" type="search" placeholder="Search" aria-label="Search"> *@
-    @*                     <button class="btn btn-outline-success" type="submit">Search</button> *@
-    @*                 </form> *@
-    @*             </div> *@
-    @*         </div> *@
-    @*     </nav> *@
-    @* </header> *@
 
     <div>
         <main role="main" class="pb-3">
