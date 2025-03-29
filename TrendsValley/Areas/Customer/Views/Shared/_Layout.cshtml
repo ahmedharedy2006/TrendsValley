@@ -1,4 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@functions {
+    public string IsActive(string controller, params string[] actions)
+    {
+        var currentController = ViewContext.RouteData.Values["controller"].ToString();
+        var currentAction = ViewContext.RouteData.Values["action"].ToString();
+
+        return currentController == controller && actions.Contains(currentAction)
+            ? "active"
+            : "hover:active";
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -27,12 +38,12 @@
         <!-- End of Search -->
         <div>
             <ul id="navbar">
-                <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="Index" class="@IsActive("Home","Index")">Home</a></li>
 
-                <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products">Shop</a></li>
+                <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products" class="@IsActive("Home","products")">Shop</a></li>
 
                 <li class="navShop">
-                    <a asp-area="customer" asp-controller="Cart" asp-action="Index">
+                    <a asp-area="customer" asp-controller="Cart" asp-action="Index" class="@IsActive("Cart","Index")">
 
                         <span>Cart <span class="badge bg-success">@ViewBag.CartCount</span></span>
 
