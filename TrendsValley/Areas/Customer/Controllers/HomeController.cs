@@ -45,7 +45,7 @@ namespace TrendsValley.Controllers
             return View();
         }
 
-        public async Task<IActionResult> products()
+        public async Task<IActionResult> products(int pg = 1)
         {
             if (User.Identity.IsAuthenticated)
             {
@@ -61,6 +61,20 @@ namespace TrendsValley.Controllers
             var products = await _db.Products
                                     .Include(p => p.Product_Brand)
                                     .ToListAsync();
+
+            const int pageSize = 8;
+            if(pg < 1)
+               pg = 1;
+            
+            int recsCount = products.Count();
+
+            var pager = new Pager(recsCount, pg, pageSize);
+
+            int recSkip = (pg - 1) * pageSize;
+
+            products = products.Skip(recSkip).Take(pager.PageSize).ToList();
+
+            ViewBag.Pager = pager;
 
             return View(products);
         }

@@ -1,13 +1,17 @@
 ﻿@model IEnumerable<TrendsValley.Models.Models.Product>
-<!DOCTYPE HTML>
-<html lang="en">
-<head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Document</title>
-</head>
-<body>
-    <!-- Filter -->
+@{
+    Pager pager = new Pager();
+
+    int pageNo = 0;
+
+    if(ViewBag.Pager != null)
+    {
+        pager = ViewBag.Pager;
+
+        pageNo = pager.CurrentPage;
+    }
+}
+<!-- Filter -->
     <div class="container-fluid">
         <h1> Filter </h1>
         <div class="row">
@@ -137,6 +141,7 @@
 
                     }
                     <!--End cards -->
+                   <partial name="_Pager" model="@pager" />
                 </div>
                 <!-- Second Row-->
             </div>
@@ -144,5 +149,4 @@
             
         </div>
     </div>
-</body>
-</html>
+
