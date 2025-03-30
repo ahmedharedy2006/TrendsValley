@@ -116,7 +116,14 @@ using (var scope = app.Services.CreateScope())
     var adminUser = await userManager.FindByEmailAsync(adminEmail);
     if (adminUser == null)
     {
-        adminUser = new AppUser { UserName = adminEmail, Email = adminEmail, EmailConfirmed = true, CityId = 2, StateId = 1 };
+        adminUser = new AppUser {
+            UserName = adminEmail,
+            Email = adminEmail, 
+            EmailConfirmed = true,
+            Fname = "Admin",
+            Lname = "Admin",
+            CityId = 2, 
+            StateId = 1 };
         var result = await userManager.CreateAsync(adminUser, adminPassword);
 
         if (result.Succeeded)
