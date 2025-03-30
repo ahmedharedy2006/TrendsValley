@@ -16,6 +16,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TrendsValley</title>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
+
     <link rel="stylesheet" href="~/TrendsValley.styles.css" asp-append-version="true" />
     <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
 </head>
@@ -42,18 +44,9 @@
 
                 <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products" class="@IsActive("Home","products")">Shop</a></li>
 
-                <li class="navShop">
-                    <a asp-area="customer" asp-controller="Cart" asp-action="Index" class="@IsActive("Cart","Index")">
-
-                        <span>Cart <span class="badge bg-success">@ViewBag.CartCount</span></span>
-
-                    </a>
-                </li>
-
                 <partial name="_LoginPartialView" />
                 @* <partial name=" _ProfileAndCartPartialView" /> *@
 
-               
             </ul>
         </div>
     </section>

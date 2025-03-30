@@ -1,91 +1,148 @@
 ﻿@using Microsoft.AspNetCore.Identity
-@using TrendsValley.Utilities
+@inject SignInManager<AppUser> SignInManager
+@inject UserManager<AppUser> UserManager
 
-@inject SignInManager<TrendsValley.Models.Models.AppUser> SignInManager
-@inject UserManager<TrendsValley.Models.Models.AppUser> UserManager
 @{
-    Layout = null;
     var user = await UserManager.GetUserAsync(User);
-
 }
-<link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
-<script src="https://kit.fontawesome.com/87ba71bd3b.js" crossorigin="anonymous"></script>
-<link href="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.css" rel="stylesheet" />
-<script src="https://cdn.jsdelivr.net/npm/apexcharts@3.46.0/dist/apexcharts.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/simple-datatables@9.0.3"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/toastr.js/latest/css/toastr.min.css">
-<script src="https://cdn.tailwindcss.com"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+
 
 @if (SignInManager.IsSignedIn(User))
 {
-    <div class="flex items-center">
-        <div class="flex items-center ms-3">
-            <div>
-                <button type="button" class="flex text-sm bg-white rounded-full focus:ring-4 focus:ring-gray-200 hover:rotate-6 transition-transform" aria-expanded="false" data-dropdown-toggle="dropdown-user">
-                    <span class="sr-only">Open user menu</span>
-                    <img class="w-8 h-8 rounded-full"
-                         src="https://api.dicebear.com/7.x/initials/svg?seed=@(user.Fname[0])@(user.Lname[0])&backgroundColor=088178&textColor=ffffff&fontSize=36"
-                         alt="Initials Avatar">
-                </button>
-            </div>
-            <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow-lg border border-gray-100 backdrop-blur-sm bg-opacity-95" id="dropdown-user">
-                <!-- User Info Section -->
-                <div class="px-4 py-3 space-y-1 bg-gradient-to-r from-green-50 to-white">
-                    <p class="text-sm font-medium text-[#088178] animate-pulse">@user.Fname @user.Lname</p>
-                    <p class="text-sm text-gray-500 truncate">@user.Email</p>
-                </div>
+    <li class="nav-item">
+        <a asp-area="customer" asp-controller="Cart" asp-action="Index" class="nav-link">
 
-                <!-- Menu Items -->
-                <ul class="py-1">
-                    @if (User.IsInRole("Admin"))
-                    {
-                        <li class="group">
-                            <a asp-area="Admin" asp-controller="Dashboard" asp-action="Index"
-                               class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:text-[#088178] hover:bg-gray-50 rounded mx-2 transition-all duration-300 group-hover:translate-x-1">
-                                <i class="las la-user-shield mr-2 text-[#088178] group-hover:scale-125 transition-transform"></i>
-                                Admin Dashboard
-                            </a>
-                        </li>
-                    }
+            <span>Cart <span class="badge bg-success">@ViewBag.CartCount</span></span>
 
-                    <li class="group">
-                        <a asp-area="customer" asp-controller="Profile" asp-action="Index"
-                           class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:text-[#088178] hover:bg-gray-50 rounded mx-2 transition-all duration-300 group-hover:translate-x-1">
-                            <i class="las la-user-circle mr-2 text-[#088178] group-hover:scale-125 transition-transform"></i>
-                            My Profile
-                        </a>
-                    </li>
+        </a>
+    </li>
+    <div class="dropdown ms-3">
+        <button class="btn p-0 border-0 position-relative custom-focus" type="button"
+                id="userDropdown" data-bs-toggle="dropdown"
+                aria-expanded="false">
+            @if (user != null)
+            {
+                <img src="https://api.dicebear.com/7.x/initials/svg?seed=@(user.Fname?[0])@(user.Lname?[0])&backgroundColor=088178&textColor=ffffff"
+                     class="rounded-circle rotate-on-focus"
+                     width="36" height="36" alt="User">
+            }
+        </button>
 
-                    <li class="group">
-                        <a href="#"
-                           class="flex items-center px-4 py-2.5 text-sm text-gray-700 hover:text-[#088178] hover:bg-gray-50 rounded mx-2 transition-all duration-300 group-hover:translate-x-1">
-                            <i class="las la-user-circle mr-2 text-[#088178] group-hover:scale-125 transition-transform"></i>
-                            Settings
-                        </a>
-                    </li>
+        <ul class="dropdown-menu dropdown-menu-end shadow-lg" style="min-width: 240px;" aria-labelledby="userDropdown">
+            <li class="dropdown-header px-3 py-2 bg-light bg-opacity-10" style="background: linear-gradient(to right, #f0fdf4, white);">
+                <h6 class="mb-0 text-success">
+                    @user?.Fname @user?.Lname
+                    <span class="badge bg-success ms-1 animate-pulse" style="animation: pulse 2s infinite;">Online</span>
+                </h6>
+                <small class="text-muted d-block text-truncate" style="max-width: 200px;">@user?.Email</small>
+            </li>
 
-                    <li class="group">
-                        <form id="logoutForm" method="post" asp-area="Customer" asp-controller="Auth" asp-action="Logout">
-                            <button type="submit"
-                                    class="flex items-center w-full px-4 py-2.5 text-sm text-gray-700 hover:text-[#088178] hover:bg-gray-50 rounded mx-2 transition-all duration-300 group-hover:translate-x-1 text-left">
-                                <i class="las la-sign-out-alt mr-2 text-[#088178] group-hover:scale-125 transition-transform"></i>
-                                Sign Out
-                            </button>
-                        </form>
-                    </li>
-                </ul>
-            </div>
-        </div>
+            <li><hr class="dropdown-divider my-1"></li>
+
+            @if (User.IsInRole("Admin"))
+            {
+                <li>
+                    <a class="dropdown-item py-2 px-3 hover-effect" asp-area="Admin" asp-controller="Dashboard" asp-action="Index">
+                        <i class="fas fa-user-shield me-2 text-success"></i>
+                        Admin Dashboard
+                        <i class="fas fa-chevron-right ms-auto text-muted small"></i>
+                    </a>
+                </li>
+            }
+
+            <li>
+                <a class="dropdown-item py-2 px-3 hover-effect" asp-area="Customer" asp-controller="Profile" asp-action="Index">
+                    <i class="fas fa-user-circle me-2 text-success"></i>
+                    My Profile
+                    <i class="fas fa-chevron-right ms-auto text-muted small"></i>
+                </a>
+            </li>
+
+            <li>
+                <a class="dropdown-item py-2 px-3 hover-effect" href="#">
+                    <i class="fas fa-cog me-2 text-success"></i>
+                    Settings
+                    <i class="fas fa-chevron-right ms-auto text-muted small"></i>
+                </a>
+            </li>
+
+            <li><hr class="dropdown-divider my-1"></li>
+
+            <!-- Logout Button -->
+            <li>
+                <form asp-area="Customer" asp-controller="Auth" asp-action="Logout" method="post">
+                    <button type="submit" class="dropdown-item py-2 px-3 hover-effect">
+                        <i class="fas fa-sign-out-alt me-2 text-success"></i>
+                        Sign Out
+                    </button>
+                </form>
+            </li>
+        </ul>
     </div>
+
 }
 else
 {
-    <li class="nav-item">
-        <a class="nav-link" asp-controller="Auth" asp-action="Register">Register</a>
-    </li>
-    <li class="nav-item">
-        <a class="nav-link" asp-controller="Auth" asp-action="SignIn">Login</a>
-    </li>
+    <!-- Guest Links -->
+    <li class="nav-item"><a asp-controller="Auth" asp-action="Register" class="nav-link">Register</a></li>
+    <li class="nav-item"><a asp-controller="Auth" asp-action="SignIn" class="nav-link">Login</a></li>
 }
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+
+<style>
+    /* إزالة التأثير الأزرق */
+    .custom-focus {
+        outline: none !important;
+        box-shadow: none !important;
+        transition: none !important;
+    }
+
+    /* تأثير الدوران */
+    .rotate-on-focus {
+        transition: transform 0.3s ease;
+    }
+
+    .custom-focus:focus .rotate-on-focus,
+    .custom-focus[aria-expanded="true"] .rotate-on-focus {
+        transform: rotate(15deg);
+    }
+
+   
+
+    /* تأثيرات الـ hover */
+    .hover-effect {
+        transition: all 0.3s ease;
+        border-radius: 4px;
+        margin: 2px 6px;
+    }
+
+        .hover-effect:hover {
+            background-color: #f8f9fa !important;
+            color: #088178 !important;
+            transform: translateX(4px);
+        }
+
+            .hover-effect:hover i:first-child {
+                transform: scale(1.2);
+            }
+
+    /* تأثير النبض */
+    .animate-pulse {
+        animation: pulse 2s infinite;
+    }
+
+    @@keyframes pulse {
+        0% {
+            opacity: 1;
+        }
+
+        50% {
+            opacity: 0.5;
+        }
+
+        100% {
+            opacity: 1;
+        }
+    }
+</style>
