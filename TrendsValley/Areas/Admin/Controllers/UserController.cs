@@ -67,10 +67,12 @@ namespace TrendsValley.Areas.Admin.Controllers
         {
             AppUser obj = new();
             obj = _db.appUsers.FirstOrDefault(u => u.Id == userId);
+            var userDevices = _db.UserDevices.Where(ud => ud.UserId == userId);
             if (obj == null)
             {
                 return NotFound();
             }
+            _db.UserDevices.RemoveRange(userDevices);
             _db.appUsers.Remove(obj);
             _db.SaveChanges();
             return RedirectToAction(nameof(Index));
