@@ -83,159 +83,12 @@ namespace TrendsValley.Areas.Customer.Controllers
                 }
                 return RedirectToAction("Enter2FACode");
             }
-            var deviceInfo = new
-            {
-                DeviceName = GetFriendlyDeviceName(Request.Headers["User-Agent"]),
-                DeviceType = GetDeviceType(Request.Headers["User-Agent"]),
-                IP = HttpContext.Connection.RemoteIpAddress?.ToString(),
-                OS = GetOSFromUserAgent(Request.Headers["User-Agent"]),
-                Browser = GetBrowserFromUserAgent(Request.Headers["User-Agent"]),
-                Location = await GetLocationFromIP(HttpContext.Connection.RemoteIpAddress?.ToString())
-            };
+            await TrackUserDevice(user);
 
-            var existingDevice = await _db.UserDevices
-                .FirstOrDefaultAsync(d => d.UserId == user.Id &&
-                                        d.DeviceToken == Request.Cookies["DeviceToken"]);
-
-            if (existingDevice != null)
-            {
-                existingDevice.LastLoginDate = DateTime.Now;
-            }
-            else
-            {
-                var newDevice = new UserDevice
-                {
-                    UserId = user.Id,
-                    DeviceName = deviceInfo.DeviceName,
-                    DeviceType = deviceInfo.DeviceType,
-                    IpAddress = deviceInfo.IP,
-                    OS = deviceInfo.OS,
-                    Browser = deviceInfo.Browser,
-                    Location = deviceInfo.Location,
-                    DeviceToken = Guid.NewGuid().ToString(),
-                    FirstLoginDate = DateTime.Now,
-                    LastLoginDate = DateTime.Now
-                };
-
-                _db.UserDevices.Add(newDevice);
-
-                Response.Cookies.Append("DeviceToken", newDevice.DeviceToken, new CookieOptions
-                {
-                    Expires = DateTime.Now.AddDays(30),
-                    HttpOnly = true,
-                    Secure = true
-                });
-            }
-            var newDeviceActivity = new SecurityActivity
-            {
-                UserId = user.Id,
-                ActivityType = "NewDeviceLogin",
-                Description = "Logged in from new device",
-                IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString()
-            };
-            _db.SecurityActivities.Add(newDeviceActivity);
-            await _db.SaveChangesAsync();
             await _signInManager.SignInAsync(user, obj.RememberMe);
             return RedirectToAction("Index", "Home");
         }
-        private string GetOSFromUserAgent(string userAgent)
-        {
-            if (userAgent.Contains("Windows")) return "Windows";
-            if (userAgent.Contains("Mac")) return "MacOS";
-            if (userAgent.Contains("Linux")) return "Linux";
-            if (userAgent.Contains("Android")) return "Android";
-            if (userAgent.Contains("iPhone")) return "iOS";
-            return "Unknown";
-        }
 
-        private string GetBrowserFromUserAgent(string userAgent)
-        {
-            // Edge بيبقي عنده كل من "Edg" و"Chrome" في الـ User Agent
-            if (userAgent.Contains("Edg"))
-                return "Microsoft Edge";
-
-            // الفحص علي Chrome لازم يكون بعد Edge
-            if (userAgent.Contains("Chrome"))
-                return "Google Chrome";
-
-            if (userAgent.Contains("Firefox"))
-                return "Mozilla Firefox";
-
-            if (userAgent.Contains("Safari") && !userAgent.Contains("Chrome"))
-                return "Apple Safari";
-
-            if (userAgent.Contains("Opera") || userAgent.Contains("OPR"))
-                return "Opera";
-
-            return "Unknown Browser";
-        }
-        private string GetFriendlyDeviceName(string userAgent)
-        {
-            string deviceType = userAgent.Contains("Mobile") ? "Mobile" : "Desktop";
-
-            if (userAgent.Contains("Windows NT"))
-                deviceType = "Windows " + deviceType;
-            else if (userAgent.Contains("Macintosh"))
-                deviceType = "Mac " + deviceType;
-            else if (userAgent.Contains("Linux"))
-                deviceType = "Linux " + deviceType;
-
-            string browser = GetBrowserFromUserAgent(userAgent);
-
-            return $"{deviceType} ({browser})";
-        }
-        private string GetDeviceType(string userAgent)
-        {
-            // Mobile devices
-            if (userAgent.Contains("Mobi") || userAgent.Contains("Android"))
-                return "Mobile";
-
-            // Tablets
-            if (userAgent.Contains("Tablet") || userAgent.Contains("iPad"))
-                return "Tablet";
-
-            // Common desktop patterns
-            if (userAgent.Contains("Windows NT") || userAgent.Contains("Macintosh") || userAgent.Contains("Linux"))
-                return "Desktop";
-
-            // Gaming consoles
-            if (userAgent.Contains("Xbox") || userAgent.Contains("PlayStation"))
-                return "Gaming Console";
-
-            return "Unknown Device";
-        }
-
-        private async Task<string> GetLocationFromIP(string ipAddress)
-        {
-            // إذا كان IP محلي
-            if (ipAddress == "::1" || ipAddress == "127.0.0.0")
-            {
-                // إرجاع موقع افتراضي
-                return "Cairo, Egypt (Local Development)";
-            }
-
-            try
-            {
-                using var httpClient = new HttpClient();
-                var response = await httpClient.GetFromJsonAsync<IpApiResponse>($"http://ip-api.com/json/{ipAddress}");
-
-                return response switch
-                {
-                    { Status: "success" } => $"{response.City}, {response.Country}",
-                    _ => "Unknown Location"
-                };
-            }
-            catch
-            {
-                return "Location Unknown";
-            }
-        }
-
-        private record IpApiResponse(
-            string Status,
-            string Country,
-            string City
-        );
 
         private string GenerateEmail2FA(AppUser user, string confirmationCode)
         {
@@ -383,58 +236,7 @@ namespace TrendsValley.Areas.Customer.Controllers
             {
                 var user = await _userManager.FindByIdAsync(userId);
 
-                var deviceInfo = new
-                {
-                    DeviceName = GetFriendlyDeviceName(Request.Headers["User-Agent"]),
-                    DeviceType = GetDeviceType(Request.Headers["User-Agent"]),
-                    IP = HttpContext.Connection.RemoteIpAddress?.ToString(),
-                    OS = GetOSFromUserAgent(Request.Headers["User-Agent"]),
-                    Browser = GetBrowserFromUserAgent(Request.Headers["User-Agent"]),
-                    Location = await GetLocationFromIP(HttpContext.Connection.RemoteIpAddress?.ToString())
-                };
-
-                var existingDevice = await _db.UserDevices
-                    .FirstOrDefaultAsync(d => d.UserId == user.Id &&
-                                            d.DeviceToken == Request.Cookies["DeviceToken"]);
-
-                if (existingDevice != null)
-                {
-                    existingDevice.LastLoginDate = DateTime.Now;
-                }
-                else
-                {
-                    var newDevice = new UserDevice
-                    {
-                        UserId = user.Id,
-                        DeviceName = deviceInfo.DeviceName,
-                        DeviceType = deviceInfo.DeviceType,
-                        IpAddress = deviceInfo.IP,
-                        OS = deviceInfo.OS,
-                        Browser = deviceInfo.Browser,
-                        Location = deviceInfo.Location,
-                        DeviceToken = Guid.NewGuid().ToString(),
-                        FirstLoginDate = DateTime.Now,
-                        LastLoginDate = DateTime.Now
-                    };
-
-                    _db.UserDevices.Add(newDevice);
-
-                    Response.Cookies.Append("DeviceToken", newDevice.DeviceToken, new CookieOptions
-                    {
-                        Expires = DateTime.Now.AddDays(30),
-                        HttpOnly = true,
-                        Secure = true
-                    });
-                }
-                var newDeviceActivity = new SecurityActivity
-                {
-                    UserId = user.Id,
-                    ActivityType = "NewDeviceLogin",
-                    Description = "Logged in from new device",
-                    IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString()
-                };
-                _db.SecurityActivities.Add(newDeviceActivity);
-                await _db.SaveChangesAsync();
+                await TrackUserDevice(user);
 
                 await _signInManager.SignInAsync(user, isPersistent: true);
                 return RedirectToAction("Index", "Home");
@@ -1114,12 +916,14 @@ namespace TrendsValley.Areas.Customer.Controllers
                 return RedirectToAction(nameof(SignIn));
             }
 
-            //Sign in the user with this external login provider, if the user already has a login.
             var result = await _signInManager.ExternalLoginSignInAsync(info.LoginProvider, info.ProviderKey, isPersistent: false);
             if (result.Succeeded)
             {
-                //update any authentication tokens
                 await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
+
+                var user = await _userManager.FindByLoginAsync(info.LoginProvider, info.ProviderKey);
+                await TrackUserDevice(user);
+
                 return LocalRedirect(returnurl);
             }
             if (result.RequiresTwoFactor)
@@ -1128,7 +932,6 @@ namespace TrendsValley.Areas.Customer.Controllers
             }
             else
             {
-                //If the user does not have account, then we will ask the user to create an account.
                 ViewData["ReturnUrl"] = returnurl;
                 ViewData["ProviderDisplayName"] = info.ProviderDisplayName;
                 var email = info.Principal.FindFirstValue(ClaimTypes.Email);
@@ -1158,7 +961,6 @@ namespace TrendsValley.Areas.Customer.Controllers
             returnurl = returnurl ?? Url.Content("~/");
 
 
-            //get the info about the user from external login provider
             var info = await _signInManager.GetExternalLoginInfoAsync();
             if (info == null)
             {
@@ -1185,6 +987,7 @@ namespace TrendsValley.Areas.Customer.Controllers
                 {
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
+                    await TrackUserDevice(user);
                     return LocalRedirect(returnurl);
                 }
             }
@@ -1193,6 +996,153 @@ namespace TrendsValley.Areas.Customer.Controllers
             return View(model);
         }
 
+        private async Task TrackUserDevice(AppUser user)
+        {
+            var deviceInfo = new
+            {
+                DeviceName = GetFriendlyDeviceName(Request.Headers["User-Agent"]),
+                DeviceType = GetDeviceType(Request.Headers["User-Agent"]),
+                IP = HttpContext.Connection.RemoteIpAddress?.ToString(),
+                OS = GetOSFromUserAgent(Request.Headers["User-Agent"]),
+                Browser = GetBrowserFromUserAgent(Request.Headers["User-Agent"]),
+                Location = await GetLocationFromIP(HttpContext.Connection.RemoteIpAddress?.ToString())
+            };
+
+            var existingDevice = await _db.UserDevices
+                .FirstOrDefaultAsync(d => d.UserId == user.Id &&
+                                        d.DeviceToken == Request.Cookies["DeviceToken"]);
+
+            if (existingDevice != null)
+            {
+                existingDevice.LastLoginDate = DateTime.Now;
+            }
+            else
+            {
+                var newDevice = new UserDevice
+                {
+                    UserId = user.Id,
+                    DeviceName = deviceInfo.DeviceName,
+                    DeviceType = deviceInfo.DeviceType,
+                    IpAddress = deviceInfo.IP,
+                    OS = deviceInfo.OS,
+                    Browser = deviceInfo.Browser,
+                    Location = deviceInfo.Location,
+                    DeviceToken = Guid.NewGuid().ToString(),
+                    FirstLoginDate = DateTime.Now,
+                    LastLoginDate = DateTime.Now
+                };
+
+                _db.UserDevices.Add(newDevice);
+
+                Response.Cookies.Append("DeviceToken", newDevice.DeviceToken, new CookieOptions
+                {
+                    Expires = DateTime.Now.AddDays(30),
+                    HttpOnly = true,
+                    Secure = true
+                });
+            }
+
+            var newDeviceActivity = new SecurityActivity
+            {
+                UserId = user.Id,
+                ActivityType = "NewDeviceLogin",
+                Description = "Logged in from new device",
+                IpAddress = HttpContext.Connection.RemoteIpAddress?.ToString()
+            };
+
+            _db.SecurityActivities.Add(newDeviceActivity);
+            await _db.SaveChangesAsync(); 
+        }
+        private string GetOSFromUserAgent(string userAgent)
+        {
+            if (userAgent.Contains("Windows")) return "Windows";
+            if (userAgent.Contains("Mac")) return "MacOS";
+            if (userAgent.Contains("Linux")) return "Linux";
+            if (userAgent.Contains("Android")) return "Android";
+            if (userAgent.Contains("iPhone")) return "iOS";
+            return "Unknown";
+        }
+
+        private string GetBrowserFromUserAgent(string userAgent)
+        {
+            if (userAgent.Contains("Edg"))
+                return "Microsoft Edge";
+
+            if (userAgent.Contains("Chrome"))
+                return "Google Chrome";
+
+            if (userAgent.Contains("Firefox"))
+                return "Mozilla Firefox";
+
+            if (userAgent.Contains("Safari") && !userAgent.Contains("Chrome"))
+                return "Apple Safari";
+
+            if (userAgent.Contains("Opera") || userAgent.Contains("OPR"))
+                return "Opera";
+
+            return "Unknown Browser";
+        }
+        private string GetFriendlyDeviceName(string userAgent)
+        {
+            string deviceType = userAgent.Contains("Mobile") ? "Mobile" : "Desktop";
+
+            if (userAgent.Contains("Windows NT"))
+                deviceType = "Windows " + deviceType;
+            else if (userAgent.Contains("Macintosh"))
+                deviceType = "Mac " + deviceType;
+            else if (userAgent.Contains("Linux"))
+                deviceType = "Linux " + deviceType;
+
+            string browser = GetBrowserFromUserAgent(userAgent);
+
+            return $"{deviceType} ({browser})";
+        }
+        private string GetDeviceType(string userAgent)
+        {
+            if (userAgent.Contains("Mobi") || userAgent.Contains("Android"))
+                return "Mobile";
+
+            if (userAgent.Contains("Tablet") || userAgent.Contains("iPad"))
+                return "Tablet";
+
+            if (userAgent.Contains("Windows NT") || userAgent.Contains("Macintosh") || userAgent.Contains("Linux"))
+                return "Desktop";
+
+            if (userAgent.Contains("Xbox") || userAgent.Contains("PlayStation"))
+                return "Gaming Console";
+
+            return "Unknown Device";
+        }
+
+        private async Task<string> GetLocationFromIP(string ipAddress)
+        {
+            if (ipAddress == "::1" || ipAddress == "127.0.0.0")
+            {
+                return "Cairo, Egypt (Local Development)";
+            }
+
+            try
+            {
+                using var httpClient = new HttpClient();
+                var response = await httpClient.GetFromJsonAsync<IpApiResponse>($"http://ip-api.com/json/{ipAddress}");
+
+                return response switch
+                {
+                    { Status: "success" } => $"{response.City}, {response.Country}",
+                    _ => "Unknown Location"
+                };
+            }
+            catch
+            {
+                return "Location Unknown";
+            }
+        }
+
+        private record IpApiResponse(
+            string Status,
+            string Country,
+            string City
+        );
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> logOut()
