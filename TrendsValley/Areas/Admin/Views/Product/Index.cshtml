@@ -54,6 +54,14 @@
                     </th>
                     <th>
                         <span class="flex items-center">
+                           No. In Stock
+                            <svg class="w-4 h-4 ms-1" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="none" viewBox="0 0 24 24">
+                                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m8 15 4 4 4-4m0-6-4-4-4 4" />
+                            </svg>
+                        </span>
+                    </th>
+                    <th>
+                        <span class="flex items-center">
                             Actions
 
                         </span>
@@ -71,6 +79,7 @@
                         <td class="font-medium text-gray-900 whitespace-nowrap dark:text-black">@i</td>
                         <td><img src="@product.imgUrl" alt="Alternate Text" width="50px" /></td>
                         <td class="font-medium text-gray-900 whitespace-nowrap dark:text-black">@product.Product_Name</td>
+                        <td class="font-medium text-gray-900 whitespace-nowrap dark:text-black">@product.NoInStock</td>
                         <td class="font-medium text-gray-900 whitespace-nowrap dark:text-black">
                             <a asp-action="Upsert" asp-route-id="@product.Product_Id" class="focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 dark:focus:ring-yellow-900">
                                 <i class="fa-solid fa-pen-to-square"></i>
