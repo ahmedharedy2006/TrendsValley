@@ -776,3 +776,15 @@ input[type="number"]::-webkit-inner-spin-button {
     background-color: black;
     color: white;
 }
+
+.google-btn {
+    background-color: #f2f2f2;
+    color: black;
+    border: 1px solid #056937;
+    padding: 10px;
+    transition: all 0.5s ease;
+}
+
+.google-btn:hover {
+    background-color: #bcbaba;
+}
