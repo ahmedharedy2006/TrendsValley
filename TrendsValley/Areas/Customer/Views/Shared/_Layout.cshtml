@@ -27,13 +27,15 @@
             <img src="~/pics/logo.png" class="img-fluid" alt="logo" style="width:190px;margin-left:-50px;margin-bottom:-50px; margin-top:-90px">
         </a>
         <!-- Search -->
-        <form action="#"
-              method="get">
+        <form asp-controller="Home" asp-action="Search" method="get">
             <div class="col-rt-3 equal-height">
                 <div class="search__container">
-                    <input class="search__input" type="search" placeholder="Need Something ?" aria-describedby="basic-addon2"
+                    <input class="search__input" type="search"
+                           placeholder="Need Something ?"
+                           aria-describedby="basic-addon2"
                            aria-label="Need Something ?"
-                           name="key">
+                           name="searchTerm"> <!-- غيرت من 'key' لـ 'searchTerm' عشان يبقي متسق مع الكود اللي فوق -->
+                    <button type="submit" class="search__button" hidden>Search</button>
                 </div>
             </div>
         </form>

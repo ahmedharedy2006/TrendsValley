@@ -1,6 +1,7 @@
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using SendGrid.Helpers.Mail;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Security.Claims;
@@ -118,15 +119,34 @@ namespace TrendsValley.Controllers
 
         }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+        }
+
+        public ActionResult Search(string searchTerm)
+        {
+            var viewModel = new SearchViewModel
+            {
+                SearchTerm = searchTerm
+            };
+
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                viewModel.Results = _db.Products
+                    .Where(p => p.Product_Name.Contains(searchTerm) ||
+                                p.Product_Details.Contains(searchTerm))
+                    .ToList();
+            }
+            else
+            {
+                viewModel.Results = new List<Product>();
+            }
+
+            return View(viewModel);
         }
     }
 }
