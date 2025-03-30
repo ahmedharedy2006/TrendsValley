@@ -27,5 +27,7 @@ namespace TrendsValley.Models.Models
         public int Category_id { get; set; }
         public Category Product_Category { get; set; }
 
+        public int NoInStock { get; set; }
+
     }
 }
