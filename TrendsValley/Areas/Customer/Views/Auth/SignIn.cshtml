@@ -7,7 +7,7 @@
         <form method="post" asp-controller="auth" asp-action="SignIn" asp-route-returnurl="@ViewData["ReturnUrl"]" class="signInForm ">
             <div class="row border p-2 rounded-5 mb-5 formContainer register" style="height: 100%;margin-bottom: 50%">
                 <div class="col-lg-8">
-                    <img src="https://img.freepik.com/free-photo/pretty-girl-black-hat-red-coat-raised-hands-holding-cap-studio-white-wall_273443-4631.jpg?t=st=1742563758~exp=1742567358~hmac=e26a72650ee24d5fb1d99692569466ddfbba103774dc3dcef64b77757b3e581c&w=1380" alt="Alternate Text" style="height: 73vh; width: 100%;" />
+                    <img src="https://img.freepik.com/free-photo/pretty-girl-black-hat-red-coat-raised-hands-holding-cap-studio-white-wall_273443-4631.jpg?t=st=1742563758~exp=1742567358~hmac=e26a72650ee24d5fb1d99692569466ddfbba103774dc3dcef64b77757b3e581c&w=1380" alt="Alternate Text" class="h-100 w-100"/>
                 </div>
                 <div class="col-lg-4 mt-5">
                     <h1 class="text-center pt-2 h1-test">Log in</h1>
@@ -52,9 +52,9 @@
         </form>
 
 
-        <div class="row mt-2 mb-0 optionsContainer">
+        <div class="row mt-4 mb-0 optionsContainer">
             <center>
-                <span class="" style="width:fit-content;height:fit-content;">Don't Have An Account ? <a asp-action="Register" style="text-decoration:underline">Create One Now</a></span>
+                <span class="mt-3" style="width:fit-content;height:fit-content;">Don't Have An Account ? <a asp-action="Register" style="text-decoration:underline">Create One Now</a></span>
             </center>
             @{
                 var schemes = await signinManager.GetExternalAuthenticationSchemesAsync();
@@ -63,25 +63,33 @@
             @if (loginProviders.Count() > 0)
             {
                 <form asp-controller="Auth" asp-action="ExternalLogin" asp-route-returnUrl="@ViewData["ReturnUrl"]" method="post" role="form">
-                    <p class="text-center mt-3 fs-7 ">Or Login With</p>
+                    <p class="text-center mt-3 fs-7 fw-bold">Or Login With</p>
                     <div class="text-center mt-4">
                         @foreach (var provider in loginProviders)
                         {
                             @if (provider.Name == "Microsoft")
                             {
 
-                                <button type="submit" class="btn btn-dark mb-2 microsoft-btn" value="@provider.Name" name="provider">
+                                <button type="submit" class="btn btn-dark mb-2 microsoft-btn w-100 rounded-pill" value="@provider.Name" name="provider">
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png" width="25" />
                                     Login With Microsoft
                                 </button>
                                 <br />
                             }
+                            else if (provider.Name == "Google")
+                            {
 
+                                <button type="submit" class="mb-2 google-btn w-100 rounded-pill" value="@provider.Name" name="provider">
+                                    <img src="~/pics/google.png" width="25" class="me-2"/>
+                                    Login With Google
+                                </button>
+                                <br />
+                            }
                             else
                             {
 
-                                <button type="submit" class="btn btn-primary facebook-btn" value="@provider.Name" name="provider">
-                                    <img src="https://static.vecteezy.com/system/resources/previews/023/986/613/original/facebook-logo-facebook-logo-transparent-facebook-icon-transparent-free-free-png.png" width="30" />
+                                <button type="submit" class="btn btn-primary facebook-btn mb-2 w-100 rounded-pill" value="@provider.Name" name="provider">
+                                    <img src="https://static.vecteezy.com/system/resources/previews/023/986/613/original/facebook-logo-facebook-logo-transparent-facebook-icon-transparent-free-free-png.png" width="28" />
                                     Login With Facebook
                                 </button>
                             }

@@ -9,7 +9,7 @@
                 @* <div asp-validation-summary="ModelOnly" class="text-danger"></div> *@
 
                 <div class="col-lg-6">
-                    <img src="https://img.freepik.com/free-photo/sympathetic-man-with-hat-brown-background_23-2148316525.jpg?t=st=1742560373~exp=1742563973~hmac=d6fb499d6bd9a1b9d4245ea7948aa0c786d61fcaea6e4b19227b12be789840bf&w=740" alt="Alternate Text" class="img-fluid" style="height: 792.9px; width: 100%;" />
+                    <img src="https://img.freepik.com/free-photo/sympathetic-man-with-hat-brown-background_23-2148316525.jpg?t=st=1742560373~exp=1742563973~hmac=d6fb499d6bd9a1b9d4245ea7948aa0c786d61fcaea6e4b19227b12be789840bf&w=740" alt="Alternate Text" class="img-fluid w-100 h-100"/>
                 </div>
                 <div class="col-lg-6" style="height">
                     <div class="row mb-3">
@@ -101,10 +101,10 @@
                         </div>
         </form>
 
-        <center>
+        <center class="mt-3">
             <span class="" style="width:fit-content;height:fit-content;">Already Have An Account ? <a asp-action="SignIn" style="text-decoration:underline">Sign-In Now !</a></span>
         </center>
-        <p class="text-center mt-3 fs-7 ">Or Login With</p>
+        <p class="text-center mt-3 fs-7 fw-bold">Or Login With</p>
         <div class="text-center mt-2">
             @{
                 var schemes = await signinManager.GetExternalAuthenticationSchemesAsync();
@@ -119,20 +119,29 @@
                             @if (provider.Name == "Microsoft")
                             {
 
-                                <button type="submit" class="btn btn-dark mb-2 form-control microsoft-btn" value="@provider.Name" name="provider">
+                                <button type="submit" class="btn btn-dark mb-2 microsoft-btn w-100 rounded-pill" value="@provider.Name" name="provider">
                                     <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Microsoft_logo.svg/2048px-Microsoft_logo.svg.png" width="25" />
                                     Login With Microsoft
                                 </button>
                                 <br />
                             }
+                            else if (provider.Name == "Google")
+                            {
 
+                                <button type="submit" class="mb-2 google-btn w-100 rounded-pill" value="@provider.Name" name="provider">
+                                    <img src="~/pics/google.png" width="25" class="me-2"/>
+                                    Login With Google
+                                </button>
+                                <br />
+                            }
                             else
                             {
 
-                                <button type="submit" class="btn btn-primary form-control facebook-btn" value="@provider.Name" name="provider">
-                                    <img src="https://static.vecteezy.com/system/resources/previews/023/986/613/original/facebook-logo-facebook-logo-transparent-facebook-icon-transparent-free-free-png.png" width="30" />
+                                <button type="submit" class="btn btn-primary facebook-btn mb-2 w-100 rounded-pill" value="@provider.Name" name="provider">
+                                    <img src="https://static.vecteezy.com/system/resources/previews/023/986/613/original/facebook-logo-facebook-logo-transparent-facebook-icon-transparent-free-free-png.png" width="28" />
                                     Login With Facebook
                                 </button>
+                                <br />
                             }
                         }
                     </div>
