@@ -29,6 +29,11 @@ builder.Services.AddAuthentication().AddFacebook(facebookOptions =>
     facebookOptions.ClientId = builder.Configuration.GetSection("Facebook:ClientId").Value;
     facebookOptions.ClientSecret = builder.Configuration.GetSection("Facebook:ClientSecret").Value;
 });
+builder.Services.AddAuthentication().AddGoogle(googleOptions =>
+{
+    googleOptions.ClientId = builder.Configuration.GetSection("Google:ClientId").Value;
+    googleOptions.ClientSecret = builder.Configuration.GetSection("Google:ClientSecret").Value;
+});
 
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
