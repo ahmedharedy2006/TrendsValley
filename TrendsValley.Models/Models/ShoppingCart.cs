@@ -21,6 +21,10 @@ namespace TrendsValley.Models.Models
         [NotMapped]
         public ProductDetailsViewModel ProductDetailsViewModel { get; set; }
 
+        [Required]
+        [Range(1,1000 , ErrorMessage = "Please Enter A Value Between 1 And 1000")]
+        public int Count { get; set; }
+
         [ForeignKey("appUser")]
 
         public string UserId { get; set; }
