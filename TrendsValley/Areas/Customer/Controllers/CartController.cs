@@ -35,7 +35,7 @@ namespace TrendsValley.Areas.Customer.Controllers
 
             foreach (var item in cart.ListCart)
             {
-                cart.OrderHeader.orderTotal += (double)item.Product.Product_Price;
+                cart.OrderHeader.orderTotal += (double)(item.Count * item.Product.Product_Price);
             }
 
 

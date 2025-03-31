@@ -108,26 +108,50 @@ namespace TrendsValley.Controllers
                 Brandname = product.Product_Brand.Brand_Name
             };
 
-            return View(productDetailsViewModel);
+            ShoppingCart cart = new ShoppingCart()
+            {
+
+                ProductDetailsViewModel = productDetailsViewModel,
+                Count = 0,
+                ProductId = product.Product_Id,
+
+            };
+
+            return View(cart);
 
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         [Authorize]
-        public async Task<IActionResult> product_Details(ProductDetailsViewModel productDetailsViewModel)
+        public async Task<IActionResult> product_Details(ShoppingCart cart)
         {
 
 
             var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            ShoppingCart shoppingCart = new()
+            var AppuserId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+           
+            ShoppingCart cartFromDB = await _shoppingCartRepo
+                                            .GetAsync(u => u.ProductId == cart.ProductId && u.UserId == AppuserId);
+
+            if (cartFromDB != null)
             {
-                ProductDetailsViewModel = productDetailsViewModel,
-                ProductId = productDetailsViewModel.product.Product_Id,
-                UserId = userId
-            };
-            await _shoppingCartRepo.CreateAsync(shoppingCart);
+                var newCount = cartFromDB.Count + cart.Count;
+                cart.Count = newCount;
+                await _shoppingCartRepo.UpdateAsync(cartFromDB);
+            }
+
+            else
+            {
+                ShoppingCart newCart = new()
+                {
+                    UserId = AppuserId,
+                    ProductId = cart.ProductId,
+                    Count = cart.Count
+                };
+
+                await _shoppingCartRepo.CreateAsync(newCart);
+            }
 
             return RedirectToAction(nameof(products));
 
