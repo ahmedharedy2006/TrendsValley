@@ -21,7 +21,7 @@ using TrendsValley.Utilities;
 namespace TrendsValley.Areas.Customer.Controllers
 {
     [Area("Customer")]
-    public class AuthController : Controller
+    public class AuthController : BaseController
     {
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly SignInManager<AppUser> _signInManager;
@@ -86,6 +86,11 @@ namespace TrendsValley.Areas.Customer.Controllers
             await TrackUserDevice(user);
 
             await _signInManager.SignInAsync(user, obj.RememberMe);
+            if (HttpContext.Session != null)
+            {
+                HttpContext.Session.SetString("lang", user.PreferredLanguage ?? "en");
+            }
+
             return RedirectToAction("Index", "Home");
         }
 
@@ -1051,7 +1056,7 @@ namespace TrendsValley.Areas.Customer.Controllers
             };
 
             _db.SecurityActivities.Add(newDeviceActivity);
-            await _db.SaveChangesAsync(); 
+            await _db.SaveChangesAsync();
         }
         private string GetOSFromUserAgent(string userAgent)
         {
