@@ -73,9 +73,7 @@
             Payment Methods
         </h3>
         <div class="space-y-2 lg:space-y-3">
-            <!-- Single form for payment methods -->
             <form asp-action="ChangePayment" method="post" id="paymentForm">
-                <!-- Cash on Delivery -->
                 <label class="flex items-center justify-between p-3 lg:p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
                     <div class="flex items-center">
                         <i class="fas fa-money-bill-wave text-[#088178] mr-2 lg:mr-3"></i>
@@ -100,7 +98,6 @@
                     </div>
                 </label>
 
-                <!-- Credit/Debit Cards -->
                 <label class="flex items-center justify-between p-3 lg:p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
                     <div class="flex items-center">
                         <i class="fab fa-cc-visa text-blue-500 mr-2 lg:mr-3"></i>
@@ -128,10 +125,9 @@
         </div>
     </div>
 
-    <!-- Rest of your HTML remains unchanged -->
     <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
         <h3 class="text-lg font-semibold mb-3 lg:mb-4 flex items-center">
-            <i class="fas fa-truck text-primary mr-2"></i>
+            <i class="fas fa-truck text-[#088178] mr-2"></i>
             Shipping
         </h3>
         <div class="space-y-3 lg:space-y-4">
@@ -148,15 +144,78 @@
             </div>
             <div>
                 <label class="block mb-1 lg:mb-2 text-gray-600 text-sm lg:text-base">Preferred Carriers</label>
-                <div class="flex flex-wrap gap-2">
-                    <label class="flex items-center px-3 py-1 lg:px-4 lg:py-2 bg-gray-100 rounded-full text-sm">
-                        <input type="checkbox" class="mr-2" checked>
-                        <span>Amazon Shipping</span>
-                    </label>
-                    <label class="flex items-center px-3 py-1 lg:px-4 lg:py-2 bg-gray-100 rounded-full text-sm">
-                        <input type="checkbox" class="mr-2">
-                        <span>DHL</span>
-                    </label>
+                <div class="flex flex-wrap items-center gap-4">
+                    <!-- Bosta -->
+                    <form asp-action="ChangePreferredCarriers" method="post" class="flex items-center">
+                        <input type="hidden" name="PreferredCarriers" value="Bosta">
+                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 transition-colors duration-200 px-2 py-1 rounded">
+                            <div class="relative h-5 w-5">
+                                <input type="radio"
+                                       class="sr-only peer"
+                                @(Model.PreferredCarriers == "Bosta" ? "checked" : "")
+                                       onclick="this.form.submit()">
+                                <div class="h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors
+                                @(Model.PreferredCarriers == "Bosta" ? "border-[#088178] bg-[#088178]" : "border-gray-300")">
+                                    @if (Model.PreferredCarriers == "Bosta")
+                                    {
+                                        <svg class="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    }
+                                </div>
+                            </div>
+                            <i class="fas fa-box-open text-[#b0926e] mr-1"></i>
+                            <span class="text-sm lg:text-base">Bosta</span>
+                        </label>
+                    </form>
+
+                    <!-- DHL -->
+                    <form asp-action="ChangePreferredCarriers" method="post" class="flex items-center">
+                        <input type="hidden" name="PreferredCarriers" value="DHL">
+                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 transition-colors duration-200 px-2 py-1 rounded">
+                            <div class="relative h-5 w-5">
+                                <input type="radio"
+                                       class="sr-only peer"
+                                @(Model.PreferredCarriers == "DHL" ? "checked" : "")
+                                       onclick="this.form.submit()">
+                                <div class="h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors
+                                @(Model.PreferredCarriers == "DHL" ? "border-[#088178] bg-[#088178]" : "border-gray-300")">
+                                    @if (Model.PreferredCarriers == "DHL")
+                                    {
+                                        <svg class="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    }
+                                </div>
+                            </div>
+                            <i class="fab fa-delicious text-yellow-500 mr-1"></i>
+                            <span class="text-sm lg:text-base">DHL</span>
+                        </label>
+                    </form>
+
+                    <!-- Aramex -->
+                    <form asp-action="ChangePreferredCarriers" method="post" class="flex items-center">
+                        <input type="hidden" name="PreferredCarriers" value="Aramex">
+                        <label class="flex items-center gap-2 cursor-pointer hover:bg-gray-50 transition-colors duration-200 px-2 py-1 rounded">
+                            <div class="relative h-5 w-5">
+                                <input type="radio"
+                                       class="sr-only peer"
+                                @(Model.PreferredCarriers == "Aramex" ? "checked" : "")
+                                       onclick="this.form.submit()">
+                                <div class="h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors
+                                @(Model.PreferredCarriers == "Aramex" ? "border-[#088178] bg-[#088178]" : "border-gray-300")">
+                                    @if (Model.PreferredCarriers == "Aramex")
+                                    {
+                                        <svg class="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    }
+                                </div>
+                            </div>
+                            <i class="fas fa-shipping-fast text-red-500 mr-1"></i>
+                            <span class="text-sm lg:text-base">Aramex</span>
+                        </label>
+                    </form>
                 </div>
             </div>
         </div>
@@ -187,7 +246,6 @@
 </div>
 
 <script>
-    // Language and Currency change handlers
     document.getElementById("languageSelector")?.addEventListener("change", function () {
         this.form.submit();
     });
@@ -196,7 +254,6 @@
         this.form.submit();
     });
 
-    // Message handling
     function closeMessage(id) {
         let element = document.getElementById(id);
         if (element) {
@@ -205,13 +262,18 @@
         }
     }
 
-    // Auto-close messages after 5 seconds
     document.addEventListener("DOMContentLoaded", function() {
         setTimeout(() => {
             closeMessage('successMessage');
             closeMessage('errorMessage');
         }, 5000);
     });
+        document.querySelectorAll('form[asp-action="ChangePreferredCarriers"] label').forEach(label => {
+        label.addEventListener('click', function() {
+            this.closest('form').submit();
+        });
+    });
+
 </script>
 
 <style>
