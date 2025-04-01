@@ -3,6 +3,36 @@
     Layout = "~/Areas/Customer/Views/Shared/_SettingLayout.cshtml";
 }
 
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successMessage" class="fixed top-4 right-4 z-50 animate-fade-in">
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg flex items-center justify-between">
+            <span class="flex items-center">
+                <i class="fas fa-check-circle mr-2"></i>
+                @TempData["SuccessMessage"]
+            </span>
+            <button type="button" class="text-green-700 hover:text-green-900" onclick="closeMessage('successMessage')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+}
+
+@if (TempData["ErrorMessage"] != null)
+{
+    <div id="errorMessage" class="fixed top-4 right-4 z-50 animate-fade-in">
+        <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-lg shadow-lg flex items-center justify-between">
+            <span class="flex items-center">
+                <i class="fas fa-exclamation-circle mr-2"></i>
+                @TempData["ErrorMessage"]
+            </span>
+            <button type="button" class="text-red-700 hover:text-red-900" onclick="closeMessage('errorMessage')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+}
+
 <div class="mb-6 lg:mb-8">
     <h2 class="text-xl lg:text-2xl font-bold text-gray-800">General Settings</h2>
     <p class="text-gray-500 text-sm lg:text-base">Customize your store preferences</p>
@@ -24,13 +54,17 @@
                     </select>
                 </div>
             </form>
-            <div>
-                <label class="block mb-1 lg:mb-2 text-gray-600 text-sm lg:text-base">Currency</label>
-                <select class="w-full p-2 lg:p-3 border rounded-lg focus:ring-2 focus:ring-primary text-sm lg:text-base">
-                    <option>US Dollar (USD)</option>
-                    <option>Egyptian Pound (EGP)</option>
-                </select>
-            </div>
+            <form asp-action="ChangeCurrency" method="post">
+                <div>
+                    <label class="block mb-1 lg:mb-2 text-gray-600 text-sm lg:text-base">Currency</label>
+                    <select name="currency" class="w-full p-2 lg:p-3 border rounded-lg focus:ring-2 focus:ring-primary text-sm lg:text-base"
+                            onchange="this.form.submit()">
+                        <option value="USD" selected="@(Model.Currency == "USD" ? "selected" : null)">US Dollar (USD)</option>
+                        <option value="EGP" selected="@(Model.Currency == "EGP" ? "selected" : null)">Egyptian Pound (EGP)</option>
+                    </select>
+                </div>
+            </form>
+
         </div>
     </div>
 
@@ -113,15 +147,73 @@
         </div>
     </div>
 </div>
-
-<div class="mt-6 lg:mt-8 flex justify-end">
-    <button class="px-4 py-2 lg:px-6 lg:py-3 bg-primary text-white rounded-lg hover:bg-[#076b63] font-medium text-sm lg:text-base">
-        Save Changes
-    </button>
-</div>
 <script>
     document.getElementById("languageSelector").addEventListener("change", function () {
         var selectedLang = this.value;
         window.location.href = "/Setting/ChangeLanguage?lang=" + selectedLang;
     });
+
+    document.getElementById("currencySelector").addEventListener("change", function () {
+        var selectedCurrency = this.value;
+        window.location.href = "/Setting/ChangeCurrency?currency=" + selectedCurrency;
+    });
+
+
+    function closeMessage(id) {
+           let element = document.getElementById(id);
+           if (element) {
+               element.classList.add('animate-fade-out'); // إضافة كلاس الأنيميشن
+               setTimeout(() => element.remove(), 1000); // حذف العنصر بعد 1 ثانية
+           }
+       }
+
+       // تنفيذ الإغلاق التلقائي بعد 5 ثواني
+       document.addEventListener("DOMContentLoaded", function () {
+           setTimeout(() => {
+               closeMessage('successMessage');
+               closeMessage('errorMessage');
+           }, 5000);
+       });
 </script>
+<style>
+    .animate-fade-in {
+        opacity: 0;
+        transform: translateY(-10px);
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    @@keyframes fadeIn {
+        from
+
+    {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    }
+
+    /* تأثير الاختفاء الناعم */
+    .animate-fade-out {
+        animation: fadeOut 1s ease-out forwards;
+    }
+
+    @@keyframes fadeOut {
+        from
+
+    {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    to {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    }
+</style>

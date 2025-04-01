@@ -9,6 +9,7 @@ namespace TrendsValley.Areas.Customer.Controllers
 
     public class SettingController : BaseController
     {
+        private readonly UserManager<AppUser> _userManager;
 
         public SettingController(UserManager<AppUser> userManager)
         {
@@ -19,7 +20,7 @@ namespace TrendsValley.Areas.Customer.Controllers
             var userId = _userManager.GetUserId(User);
             var user = await _userManager.FindByIdAsync(userId);
 
-            return View(user); 
+            return View(user);
         }
 
         [HttpPost]
@@ -40,6 +41,33 @@ namespace TrendsValley.Areas.Customer.Controllers
             }
 
             return RedirectToAction("Index");
+        }
+        [HttpPost]
+        public async Task<IActionResult> ChangeCurrency(string Currency)
+        {
+            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user != null)
+            {
+                user.Currency = Currency;
+                await _userManager.UpdateAsync(user);
+            }
+            try
+            {
+                if (user != null)
+                {
+                    user.Currency = Currency;
+                    await _userManager.UpdateAsync(user);
+                }
+                TempData["SuccessMessage"] = "Currency changed successfully!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Failed to change currency";
+                return RedirectToAction("Index");
+            }
         }
 
     }
