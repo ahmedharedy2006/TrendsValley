@@ -23,6 +23,10 @@ namespace TrendsValley.Models.Models
         public string StreetAddress { get; set; }
 
         public string PreferredLanguage { get; set; } = "en";
+        public string Currency { get; set; } = "USD";
+        public string PaymentMehtod { get; set; } = "Cash";
+        public string PreferredCarriers { get; set; } = "Bosta";
+
 
         [Required]
         [ForeignKey("city")]
