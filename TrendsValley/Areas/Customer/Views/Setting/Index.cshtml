@@ -64,7 +64,6 @@
                     </select>
                 </div>
             </form>
-
         </div>
     </div>
 
@@ -74,23 +73,62 @@
             Payment Methods
         </h3>
         <div class="space-y-2 lg:space-y-3">
-            <label class="flex items-center justify-between p-3 lg:p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                <div class="flex items-center">
-                    <i class="fas fa-money-bill-wave text-green-500 mr-2 lg:mr-3"></i>
-                    <span class="text-sm lg:text-base">Cash on Delivery</span>
-                </div>
-                <input type="checkbox" class="h-4 w-4 lg:h-5 lg:w-5 text-primary rounded" checked>
-            </label>
-            <label class="flex items-center justify-between p-3 lg:p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
-                <div class="flex items-center">
-                    <i class="fab fa-cc-visa text-blue-500 mr-2 lg:mr-3"></i>
-                    <span class="text-sm lg:text-base">Credit/Debit Cards</span>
-                </div>
-                <input type="checkbox" class="h-4 w-4 lg:h-5 lg:w-5 text-primary rounded">
-            </label>
+            <!-- Single form for payment methods -->
+            <form asp-action="ChangePayment" method="post" id="paymentForm">
+                <!-- Cash on Delivery -->
+                <label class="flex items-center justify-between p-3 lg:p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <div class="flex items-center">
+                        <i class="fas fa-money-bill-wave text-[#088178] mr-2 lg:mr-3"></i>
+                        <span class="text-sm lg:text-base">Cash on Delivery</span>
+                    </div>
+                    <div class="relative">
+                        <input type="radio"
+                               name="PaymentMethod"
+                               value="cash"
+                               class="sr-only"
+                        @(Model.PaymentMehtod == "cash" ? "checked" : "")
+                               onchange="document.getElementById('paymentForm').submit()">
+                        <div class="h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors
+                        @(Model.PaymentMehtod == "cash" ? "border-[#088178] bg-[#088178]" : "border-gray-300")">
+                            @if (Model.PaymentMehtod == "cash")
+                            {
+                                <svg class="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            }
+                        </div>
+                    </div>
+                </label>
+
+                <!-- Credit/Debit Cards -->
+                <label class="flex items-center justify-between p-3 lg:p-4 border rounded-lg hover:bg-gray-50 cursor-pointer">
+                    <div class="flex items-center">
+                        <i class="fab fa-cc-visa text-blue-500 mr-2 lg:mr-3"></i>
+                        <span class="text-sm lg:text-base">Credit/Debit Cards</span>
+                    </div>
+                    <div class="relative">
+                        <input type="radio"
+                               name="PaymentMethod"
+                               value="credit"
+                               class="sr-only"
+                        @(Model.PaymentMehtod == "credit" ? "checked" : "")
+                               onchange="document.getElementById('paymentForm').submit()">
+                        <div class="h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors
+                        @(Model.PaymentMehtod == "credit" ? "border-[#088178] bg-[#088178]" : "border-gray-300")">
+                            @if (Model.PaymentMehtod == "credit")
+                            {
+                                <svg class="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                    <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                </svg>
+                            }
+                        </div>
+                    </div>
+                </label>
+            </form>
         </div>
     </div>
 
+    <!-- Rest of your HTML remains unchanged -->
     <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
         <h3 class="text-lg font-semibold mb-3 lg:mb-4 flex items-center">
             <i class="fas fa-truck text-primary mr-2"></i>
@@ -147,34 +185,35 @@
         </div>
     </div>
 </div>
+
 <script>
-    document.getElementById("languageSelector").addEventListener("change", function () {
-        var selectedLang = this.value;
-        window.location.href = "/Setting/ChangeLanguage?lang=" + selectedLang;
+    // Language and Currency change handlers
+    document.getElementById("languageSelector")?.addEventListener("change", function () {
+        this.form.submit();
     });
 
-    document.getElementById("currencySelector").addEventListener("change", function () {
-        var selectedCurrency = this.value;
-        window.location.href = "/Setting/ChangeCurrency?currency=" + selectedCurrency;
+    document.getElementById("currencySelector")?.addEventListener("change", function () {
+        this.form.submit();
     });
 
-
+    // Message handling
     function closeMessage(id) {
-           let element = document.getElementById(id);
-           if (element) {
-               element.classList.add('animate-fade-out'); // إضافة كلاس الأنيميشن
-               setTimeout(() => element.remove(), 1000); // حذف العنصر بعد 1 ثانية
-           }
-       }
+        let element = document.getElementById(id);
+        if (element) {
+            element.classList.add('animate-fade-out');
+            setTimeout(() => element.remove(), 1000);
+        }
+    }
 
-       // تنفيذ الإغلاق التلقائي بعد 5 ثواني
-       document.addEventListener("DOMContentLoaded", function () {
-           setTimeout(() => {
-               closeMessage('successMessage');
-               closeMessage('errorMessage');
-           }, 5000);
-       });
+    // Auto-close messages after 5 seconds
+    document.addEventListener("DOMContentLoaded", function() {
+        setTimeout(() => {
+            closeMessage('successMessage');
+            closeMessage('errorMessage');
+        }, 5000);
+    });
 </script>
+
 <style>
     .animate-fade-in {
         opacity: 0;
@@ -183,37 +222,30 @@
     }
 
     @@keyframes fadeIn {
-        from
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
 
-    {
-        opacity: 0;
-        transform: translateY(-10px);
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
     }
 
-    to {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    }
-
-    /* تأثير الاختفاء الناعم */
     .animate-fade-out {
         animation: fadeOut 1s ease-out forwards;
     }
 
     @@keyframes fadeOut {
-        from
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
 
-    {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    to {
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
+        to {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
     }
 </style>

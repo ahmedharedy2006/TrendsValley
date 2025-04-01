@@ -29,18 +29,28 @@ namespace TrendsValley.Areas.Customer.Controllers
             var userId = _userManager.GetUserId(User);
             var user = await _userManager.FindByIdAsync(userId);
 
-            if (user != null)
+
+            try
             {
-                user.PreferredLanguage = PreferredLanguage;
-                await _userManager.UpdateAsync(user);
-
-                if (HttpContext.Session != null)
+                if (user != null)
                 {
-                    HttpContext.Session.SetString("lang", PreferredLanguage);
-                }
-            }
+                    user.PreferredLanguage = PreferredLanguage;
+                    await _userManager.UpdateAsync(user);
 
-            return RedirectToAction("Index");
+                    if (HttpContext.Session != null)
+                    {
+                        HttpContext.Session.SetString("lang", PreferredLanguage);
+                    }
+                }
+
+                TempData["SuccessMessage"] = "Language changed successfully!";
+                return RedirectToAction("Index");
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Failed to change language";
+                return RedirectToAction("Index");
+            }
         }
         [HttpPost]
         public async Task<IActionResult> ChangeCurrency(string Currency)
@@ -48,11 +58,6 @@ namespace TrendsValley.Areas.Customer.Controllers
             var userId = _userManager.GetUserId(User);
             var user = await _userManager.FindByIdAsync(userId);
 
-            if (user != null)
-            {
-                user.Currency = Currency;
-                await _userManager.UpdateAsync(user);
-            }
             try
             {
                 if (user != null)
@@ -70,5 +75,30 @@ namespace TrendsValley.Areas.Customer.Controllers
             }
         }
 
+        [HttpPost]
+        public async Task<IActionResult> ChangePayment(string PaymentMethod)
+        {
+            var userId = _userManager.GetUserId(User);
+            var user = await _userManager.FindByIdAsync(userId);
+            try
+            {
+                if (user != null)
+                {
+                    user.PaymentMehtod = PaymentMethod;
+                    await _userManager.UpdateAsync(user);
+                    TempData["SuccessMessage"] = "Payment method updated successfully!";
+                }
+                else
+                {
+                    TempData["ErrorMessage"] = "User not found";
+                }
+            }
+            catch (Exception ex)
+            {
+                TempData["ErrorMessage"] = "Failed to update payment method";
+            }
+
+            return RedirectToAction("Index");
+        }
     }
 }
