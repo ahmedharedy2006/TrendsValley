@@ -10,7 +10,7 @@ namespace TrendsValley.Areas.Customer.Controllers
 {
     [Area("Customer")]
     [Authorize]
-    public class CartController : Controller
+    public class CartController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
         public CartController(IUnitOfWork unitOfWork)

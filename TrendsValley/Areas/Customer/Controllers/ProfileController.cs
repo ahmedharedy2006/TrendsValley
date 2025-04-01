@@ -19,7 +19,7 @@ using System.Security.Cryptography;
 namespace TrendsValley.Areas.Customer.Controllers
 {
     [Area("Customer")]
-    public class ProfileController : Controller
+    public class ProfileController : BaseController
     {
         private readonly UserManager<AppUser> _userManager;
         private readonly AppDbContext _db;

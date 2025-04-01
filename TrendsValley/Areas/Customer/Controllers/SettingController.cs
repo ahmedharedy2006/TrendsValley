@@ -9,7 +9,6 @@ namespace TrendsValley.Areas.Customer.Controllers
 
     public class SettingController : BaseController
     {
-        private readonly UserManager<AppUser> _userManager;
 
         public SettingController(UserManager<AppUser> userManager)
         {

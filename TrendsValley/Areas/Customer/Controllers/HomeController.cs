@@ -5,6 +5,7 @@ using SendGrid.Helpers.Mail;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Security.Claims;
+using TrendsValley.Areas.Customer.Controllers;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models;
@@ -15,7 +16,7 @@ using static System.Reflection.Metadata.BlobBuilder;
 namespace TrendsValley.Controllers
 {
     [Area("Customer")]
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
         private readonly AppDbContext _db;
