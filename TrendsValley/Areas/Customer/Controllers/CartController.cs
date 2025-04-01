@@ -42,6 +42,72 @@ namespace TrendsValley.Areas.Customer.Controllers
             return View(cart);
         }
 
+        public async Task<IActionResult> increaseQuantity(int id)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var cart = await _unitOfWork.ShoppingCartRepo
+                            .GetAsync(c => c.Id == id && c.UserId == userId, true,
+                                new Expression<Func<ShoppingCart, object>>[] { c => c.Product }
+                                );
+
+            if (cart.Count < cart.Product.NoInStock)
+            {
+                cart.Count += 1;
+                await _unitOfWork.SaveAsync();
+
+            }
+            return RedirectToAction(nameof(Index));
+
+        }
+
+        public async Task<IActionResult> decreaseQuantity(int id)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var cart = await _unitOfWork.ShoppingCartRepo
+                .GetAsync(c => c.Id == id && c.UserId == userId, true,
+                    new Expression<Func<ShoppingCart, object>>[] { c => c.Product }
+                );
+
+            if (cart.Count != 0 )
+            {
+                cart.Count -= 1;
+                await _unitOfWork.SaveAsync();
+
+            }
+
+            if (cart.Count == 0)
+            {
+                await _unitOfWork.ShoppingCartRepo.RemoveAsync(cart);
+            }
+
+            return RedirectToAction(nameof(Index));
+
+        }
+
+        public async Task<IActionResult> remove(int id)
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var cart = await _unitOfWork.ShoppingCartRepo
+                .GetAsync(c => c.Id == id && c.UserId == userId, true,
+                    new Expression<Func<ShoppingCart, object>>[] { c => c.Product }
+                );
+
+                await _unitOfWork.ShoppingCartRepo.RemoveAsync(cart);
+            
+
+            return RedirectToAction(nameof(Index));
+
+        }
+
         public async Task<IActionResult> ClearCart()
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
