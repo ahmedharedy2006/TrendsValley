@@ -58,7 +58,6 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Customer/Auth/SignIn";
     options.AccessDeniedPath = "/Customer/Home/Index";  // Redirect users without permission
-
 });
 builder.Services.AddSession(options =>
 {
@@ -77,6 +76,8 @@ builder.Services.AddScoped<ICityRepo, CityRepo>();
 builder.Services.AddScoped<IBrandRepo, BrandRepo>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IShoppingCartRepo, ShoppingCartRepo>();
+builder.Services.AddScoped<IOrderHeaderRepo, OrderHeaderRepo>();
+builder.Services.AddScoped<IOrderDetailsRepo, OrderDetailsRepo>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
