@@ -1,4 +1,5 @@
-﻿@{
+﻿@model AppUser
+@{
     Layout = "~/Areas/Customer/Views/Shared/_SettingLayout.cshtml";
 }
 
@@ -14,13 +15,15 @@
             Language & Currency
         </h3>
         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 lg:gap-4">
-            <div>
-                <label class="block mb-1 lg:mb-2 text-gray-600 text-sm lg:text-base">Language</label>
-                <select class="w-full p-2 lg:p-3 border rounded-lg focus:ring-2 focus:ring-primary text-sm lg:text-base">
-                    <option>English</option>
-                    <option>Arabic</option>
-                </select>
-            </div>
+            <form asp-action="ChangeLanguage" method="post">
+                <div>
+                    <label class="block mb-1 lg:mb-2 text-gray-600 text-sm lg:text-base">Language</label>
+                    <select name="PreferredLanguage" class="w-full p-2 lg:p-3 border rounded-lg focus:ring-2 focus:ring-primary text-sm lg:text-base" onchange="this.form.submit()">
+                        <option value="en" selected="@(Model.PreferredLanguage == "en" ? "selected" : null)">English</option>
+                        <option value="ar" selected="@(Model.PreferredLanguage == "ar" ? "selected" : null)">العربية</option>
+                    </select>
+                </div>
+            </form>
             <div>
                 <label class="block mb-1 lg:mb-2 text-gray-600 text-sm lg:text-base">Currency</label>
                 <select class="w-full p-2 lg:p-3 border rounded-lg focus:ring-2 focus:ring-primary text-sm lg:text-base">
@@ -116,3 +119,9 @@
         Save Changes
     </button>
 </div>
+<script>
+    document.getElementById("languageSelector").addEventListener("change", function () {
+        var selectedLang = this.value;
+        window.location.href = "/Setting/ChangeLanguage?lang=" + selectedLang;
+    });
+</script>
