@@ -78,6 +78,7 @@ builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IShoppingCartRepo, ShoppingCartRepo>();
 builder.Services.AddScoped<IOrderHeaderRepo, OrderHeaderRepo>();
 builder.Services.AddScoped<IOrderDetailsRepo, OrderDetailsRepo>();
+builder.Services.AddScoped<IAppUserRepo, AppUserRepo>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
