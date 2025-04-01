@@ -41,5 +41,18 @@ namespace TrendsValley.Areas.Customer.Controllers
 
             return View(cart);
         }
+
+        public async Task<IActionResult> ClearCart()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var cart = await _unitOfWork.ShoppingCartRepo.GetAllAsync(u => u.UserId == userId);
+
+            await _unitOfWork.ShoppingCartRepo.RemoveRangeAsync(cart);
+
+            return RedirectToAction(nameof(Index));
+        }
     }
 }
