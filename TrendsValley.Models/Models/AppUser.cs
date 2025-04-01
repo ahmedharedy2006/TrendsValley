@@ -22,7 +22,7 @@ namespace TrendsValley.Models.Models
         [Required]
         public string StreetAddress { get; set; }
 
-        public Profile Profile { get; set; }
+        public string PreferredLanguage { get; set; } = "en";
 
         [Required]
         [ForeignKey("city")]

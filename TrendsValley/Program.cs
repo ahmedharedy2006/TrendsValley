@@ -1,4 +1,4 @@
-using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -63,6 +63,9 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+builder.Services.AddDistributedMemoryCache();
+builder.Services.AddSession();
+builder.Services.AddHttpContextAccessor(); // لو محتاج تستخدم HttpContext في أي مكان
 
 builder.Services.AddScoped<IStateRepo, StateRepo>();
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
