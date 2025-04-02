@@ -19,7 +19,7 @@ namespace TrendsValley.Models.Models
         public OrderHeader orderHeader { get; set; }
 
         [Required]
-        [ForeignKey("Book")]
+        [ForeignKey("product")]
         public int productId { get; set; }
 
         public Product product { get; set; }
