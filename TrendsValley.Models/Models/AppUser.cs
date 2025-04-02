@@ -21,11 +21,18 @@ namespace TrendsValley.Models.Models
 
         [Required]
         public string StreetAddress { get; set; }
+        public string? StreetAddress2 { get; set; }
+        public string? SelectedAddress { get; set; }
 
-        public string PreferredLanguage { get; set; } = "en";
-        public string Currency { get; set; } = "USD";
-        public string PaymentMehtod { get; set; } = "Cash";
-        public string PreferredCarriers { get; set; } = "Bosta";
+        [NotMapped]
+        public string? NewStreetAddress { get; set; }
+
+        [NotMapped]
+        public string? NewStreetAddress2 { get; set; }
+        public string? PreferredLanguage { get; set; } = "en";
+        public string? Currency { get; set; } = "USD";
+        public string? PaymentMehtod { get; set; } = "Cash";
+        public string? PreferredCarriers { get; set; } = "Bosta";
 
 
         [Required]
