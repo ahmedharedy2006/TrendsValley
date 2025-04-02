@@ -6,7 +6,7 @@
         return currentController == controller && currentAction == action ? "bg-gray-700" : "";
     }
 }
-<!DOCTYPE html>
+<!DOCTYPE HTML>
 <html lang="en">
 
 <head>
@@ -125,7 +125,7 @@
                     </a>
                 </li>
                 <li>
-                    <a  class=" flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
+                    <a class=" flex items-center p-2 text-gray-900 rounded-lg dark:text-white hover:bg-gray-100 dark:hover:bg-gray-700 group">
                         <span class="fa-solid fa-right-from-bracket fa-flip-horizontal"></span>
                         <span class="ms-3">
                             <form id="logoutForm" method="post" class="form-inline" asp-area="Customer" asp-controller="Auth" asp-action="Logout">
@@ -143,7 +143,7 @@
         <div class="p-4  mt-14">
             <partial name="_Notification" />
 
-        @RenderBody()
+            @RenderBody()
         </div>
     </div>
 
@@ -153,6 +153,7 @@
     @* <script>"js/admin.js"</script> *@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
     <script src="https://cdn.jsdelivr.net/npm/flowbite@3.1.2/dist/flowbite.min.js"></script>
+    <script src="https://cdn.tiny.cloud/1/fkl1nocq9o3pa0wvlvnjn01kza4g2xpa0svstt6vkpayzzcy/tinymce/7/tinymce.min.js" referrerpolicy="origin"></script>
 
     <script src="~/js/site.js"></script>
 
