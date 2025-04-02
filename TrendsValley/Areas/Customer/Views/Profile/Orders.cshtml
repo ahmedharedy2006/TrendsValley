@@ -1,0 +1,413 @@
+﻿@{
+    Layout = "~/Areas/Customer/Views/Shared/_ProfileLayout.cshtml";
+}
+
+<div class="text-center mb-8">
+    <h1 class="text-2xl md:text-4xl font-bold text-[#1f2937] mb-2">Your Orders</h1>
+    <p class="text-sm md:text-base text-gray-600">View and manage your order history</p>
+</div>
+
+<div class="bg-white p-4 md:p-6 rounded-lg shadow-xl border border-gray-200">
+    <!-- Order Filter Controls -->
+    <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-6">
+        <div class="relative w-full sm:w-64">
+            <select class="w-full p-2 pl-3 pr-8 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1] appearance-none bg-white">
+                <option>All Orders</option>
+                <option>Past 30 Days</option>
+                <option>Past 6 Months</option>
+                <option>2023</option>
+            </select>
+            <i class="fas fa-chevron-down absolute right-3 top-3 text-gray-400 pointer-events-none"></i>
+        </div>
+        <div class="relative w-full sm:w-64">
+            <input type="text" placeholder="Search orders..." class="w-full p-2 pl-3 pr-8 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]">
+            <i class="fas fa-search absolute right-3 top-3 text-gray-400"></i>
+        </div>
+    </div>
+
+    <!-- Orders List -->
+    <div class="space-y-6">
+        <!-- Order 1 - Delivered -->
+        <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <!-- Order Header -->
+            <div class="bg-gray-50 p-3 md:p-4 flex flex-col md:flex-row md:items-center justify-between border-b border-gray-200">
+                <div class="mb-2 md:mb-0">
+                    <p class="text-sm text-gray-500">Order Placed</p>
+                    <p class="text-sm md:text-base font-medium">June 15, 2023</p>
+                </div>
+                <div class="mb-2 md:mb-0">
+                    <p class="text-sm text-gray-500">Total</p>
+                    <p class="text-sm md:text-base font-medium">$149.99</p>
+                </div>
+                <div class="mb-2 md:mb-0">
+                    <p class="text-sm text-gray-500">Order #</p>
+                    <p class="text-sm md:text-base font-medium">112-5567892-4101234</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Status</p>
+                    <div class="flex items-center gap-2">
+                        <span class="inline-block w-2 h-2 rounded-full bg-green-500"></span>
+                        <span class="text-sm md:text-base font-medium text-green-700">Delivered</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="p-3 md:p-4">
+                <div class="flex flex-col sm:flex-row gap-4 mb-4">
+                    <div class="w-full sm:w-24 flex-shrink-0">
+                        <img src="https://via.placeholder.com/150" alt="Product" class="w-full h-auto rounded-lg">
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-base md:text-lg font-medium text-[#1f2937]">Wireless Bluetooth Headphones</h3>
+                        <p class="text-sm text-gray-500 mb-2">Color: Black | Size: One Size</p>
+                        <p class="text-sm md:text-base font-medium">$79.99</p>
+                        <p class="text-sm text-gray-500">Quantity: 1</p>
+                    </div>
+                    <div class="flex sm:flex-col justify-between sm:justify-start gap-2 sm:w-32">
+                        <button class="text-sm md:text-base text-[#6366f1] hover:text-[#4f46e5] font-medium text-left">
+                            Buy it again
+                        </button>
+                        <button class="text-sm md:text-base text-[#6366f1] hover:text-[#4f46e5] font-medium text-left">
+                            View item
+                        </button>
+                    </div>
+                </div>
+
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="w-full sm:w-24 flex-shrink-0">
+                        <img src="https://via.placeholder.com/150" alt="Product" class="w-full h-auto rounded-lg">
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-base md:text-lg font-medium text-[#1f2937]">Phone Charging Stand</h3>
+                        <p class="text-sm text-gray-500 mb-2">Color: White</p>
+                        <p class="text-sm md:text-base font-medium">$29.99</p>
+                        <p class="text-sm text-gray-500">Quantity: 2</p>
+                    </div>
+                    <div class="flex sm:flex-col justify-between sm:justify-start gap-2 sm:w-32">
+                        <button class="text-sm md:text-base text-[#6366f1] hover:text-[#4f46e5] font-medium text-left">
+                            Buy it again
+                        </button>
+                        <button class="text-sm md:text-base text-[#6366f1] hover:text-[#4f46e5] font-medium text-left">
+                            View item
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Footer -->
+            <div class="bg-gray-50 p-3 md:p-4 flex flex-col sm:flex-row justify-end gap-3 border-t border-gray-200">
+                <button onclick="showTracking('order1')" class="px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                    Track package
+                </button>
+                <button class="px-4 py-2 text-sm md:text-base bg-[#6366f1] text-white rounded-lg hover:bg-[#4f46e5] transition-colors">
+                    Leave seller feedback
+                </button>
+            </div>
+
+            <!-- Tracking Information (Hidden by default) -->
+            <div id="tracking-order1" class="hidden p-4 border-t border-gray-200 bg-gray-50">
+                <h3 class="text-lg font-medium mb-3">Package Tracking</h3>
+                <div class="space-y-4">
+                    <!-- Tracking Timeline -->
+                    <div class="relative pl-8 pb-6 border-l-2 border-[#6366f1]">
+                        <!-- Current Status -->
+                        <div class="mb-6">
+                            <div class="absolute w-4 h-4 rounded-full bg-[#6366f1] border-2 border-white -left-2"></div>
+                            <p class="text-sm font-medium">Delivered</p>
+                            <p class="text-xs text-gray-500">June 18, 2023 at 2:30 PM</p>
+                            <p class="text-sm mt-1">Left at front door</p>
+                        </div>
+
+                        <!-- Past Statuses -->
+                        <div class="mb-6">
+                            <div class="absolute w-3 h-3 rounded-full bg-gray-300 border-2 border-white -left-1.5"></div>
+                            <p class="text-sm">Out for delivery</p>
+                            <p class="text-xs text-gray-500">June 18, 2023 at 8:15 AM</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <div class="absolute w-3 h-3 rounded-full bg-gray-300 border-2 border-white -left-1.5"></div>
+                            <p class="text-sm">At local facility</p>
+                            <p class="text-xs text-gray-500">June 17, 2023 at 11:45 PM</p>
+                        </div>
+
+                        <div class="mb-6">
+                            <div class="absolute w-3 h-3 rounded-full bg-gray-300 border-2 border-white -left-1.5"></div>
+                            <p class="text-sm">In transit</p>
+                            <p class="text-xs text-gray-500">June 16, 2023 at 3:20 PM</p>
+                        </div>
+
+                        <div>
+                            <div class="absolute w-3 h-3 rounded-full bg-gray-300 border-2 border-white -left-1.5"></div>
+                            <p class="text-sm">Order processed</p>
+                            <p class="text-xs text-gray-500">June 15, 2023 at 5:10 PM</p>
+                        </div>
+                    </div>
+
+                    <!-- Carrier Info -->
+                    <div class="p-3 bg-white rounded-lg border border-gray-200">
+                        <p class="text-sm font-medium mb-1">Carrier: USPS</p>
+                        <p class="text-sm">Tracking number: <span class="font-mono">9405511202536197845123</span></p>
+                        <button class="mt-2 text-sm text-[#6366f1] hover:text-[#4f46e5]">
+                            View carrier website
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Order 2 - Shipped -->
+        <div class="border border-gray-200 rounded-lg overflow-hidden">
+            <!-- Order Header -->
+            <div class="bg-gray-50 p-3 md:p-4 flex flex-col md:flex-row md:items-center justify-between border-b border-gray-200">
+                <div class="mb-2 md:mb-0">
+                    <p class="text-sm text-gray-500">Order Placed</p>
+                    <p class="text-sm md:text-base font-medium">May 2, 2023</p>
+                </div>
+                <div class="mb-2 md:mb-0">
+                    <p class="text-sm text-gray-500">Total</p>
+                    <p class="text-sm md:text-base font-medium">$89.98</p>
+                </div>
+                <div class="mb-2 md:mb-0">
+                    <p class="text-sm text-gray-500">Order #</p>
+                    <p class="text-sm md:text-base font-medium">112-1234567-8910111</p>
+                </div>
+                <div>
+                    <p class="text-sm text-gray-500">Status</p>
+                    <div class="flex items-center gap-2">
+                        <span class="inline-block w-2 h-2 rounded-full bg-blue-500"></span>
+                        <span class="text-sm md:text-base font-medium text-blue-700">Shipped</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Items -->
+            <div class="p-3 md:p-4">
+                <div class="flex flex-col sm:flex-row gap-4">
+                    <div class="w-full sm:w-24 flex-shrink-0">
+                        <img src="https://via.placeholder.com/150" alt="Product" class="w-full h-auto rounded-lg">
+                    </div>
+                    <div class="flex-grow">
+                        <h3 class="text-base md:text-lg font-medium text-[#1f2937]">Smart Watch</h3>
+                        <p class="text-sm text-gray-500 mb-2">Color: Midnight Black</p>
+                        <p class="text-sm md:text-base font-medium">$89.98</p>
+                        <p class="text-sm text-gray-500">Quantity: 1</p>
+                    </div>
+                    <div class="flex sm:flex-col justify-between sm:justify-start gap-2 sm:w-32">
+                        <button class="text-sm md:text-base text-[#6366f1] hover:text-[#4f46e5] font-medium text-left">
+                            Buy it again
+                        </button>
+                        <button class="text-sm md:text-base text-[#6366f1] hover:text-[#4f46e5] font-medium text-left">
+                            View item
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Order Footer -->
+            <div class="bg-gray-50 p-3 md:p-4 flex flex-col sm:flex-row justify-end gap-3 border-t border-gray-200">
+                <button onclick="showTracking('order2')" class="px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                    Track package
+                </button>
+                <button onclick="showReturnForm('order2')" class="px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                    Return items
+                </button>
+            </div>
+
+            <!-- Tracking Information (Hidden by default) -->
+            <div id="tracking-order2" class="hidden p-4 border-t border-gray-200 bg-gray-50">
+                <h3 class="text-lg font-medium mb-3">Package Tracking</h3>
+                <div class="space-y-4">
+                    <!-- Tracking Timeline -->
+                    <div class="relative pl-8 pb-6 border-l-2 border-[#6366f1]">
+                        <!-- Current Status -->
+                        <div class="mb-6">
+                            <div class="absolute w-4 h-4 rounded-full bg-[#6366f1] border-2 border-white -left-2"></div>
+                            <p class="text-sm font-medium">In transit</p>
+                            <p class="text-xs text-gray-500">May 4, 2023 at 3:20 PM</p>
+                            <p class="text-sm mt-1">Departed from Chicago, IL</p>
+                        </div>
+
+                        <!-- Past Statuses -->
+                        <div class="mb-6">
+                            <div class="absolute w-3 h-3 rounded-full bg-gray-300 border-2 border-white -left-1.5"></div>
+                            <p class="text-sm">Arrived at facility</p>
+                            <p class="text-xs text-gray-500">May 3, 2023 at 11:45 PM</p>
+                        </div>
+
+                        <div>
+                            <div class="absolute w-3 h-3 rounded-full bg-gray-300 border-2 border-white -left-1.5"></div>
+                            <p class="text-sm">Order processed</p>
+                            <p class="text-xs text-gray-500">May 2, 2023 at 5:10 PM</p>
+                        </div>
+                    </div>
+
+                    <!-- Carrier Info -->
+                    <div class="p-3 bg-white rounded-lg border border-gray-200">
+                        <p class="text-sm font-medium mb-1">Carrier: FedEx</p>
+                        <p class="text-sm">Tracking number: <span class="font-mono">78451236985214789632</span></p>
+                        <button class="mt-2 text-sm text-[#6366f1] hover:text-[#4f46e5]">
+                            View carrier website
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Return Form (Hidden by default) -->
+            <div id="return-order2" class="hidden p-4 border-t border-gray-200 bg-gray-50">
+                <h3 class="text-lg font-medium mb-3">Request Return</h3>
+                <form class="space-y-4">
+                    <!-- Return Reason -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Reason for return</label>
+                        <select class="w-full p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]">
+                            <option>Select a reason</option>
+                            <option>Arrived too late</option>
+                            <option>Wrong item was sent</option>
+                            <option>Item defective or doesn't work</option>
+                            <option>No longer needed</option>
+                            <option>Better price available</option>
+                        </select>
+                    </div>
+
+                    <!-- Return Method -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Return method</label>
+                        <div class="space-y-2">
+                            <label class="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-100 cursor-pointer">
+                                <div class="flex items-center">
+                                    <i class="fas fa-box text-[#6366f1] mr-2"></i>
+                                    <span>Drop-off at carrier location</span>
+                                </div>
+                                <div class="relative">
+                                    <input type="radio" name="returnMethod" value="dropoff" class="sr-only" checked>
+                                    <div class="h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors border-[#6366f1] bg-[#6366f1]">
+                                        <svg class="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+                                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                                        </svg>
+                                    </div>
+                                </div>
+                            </label>
+
+                            <label class="flex items-center justify-between p-3 border rounded-lg hover:bg-gray-100 cursor-pointer">
+                                <div class="flex items-center">
+                                    <i class="fas fa-truck text-[#6366f1] mr-2"></i>
+                                    <span>Schedule a pickup</span>
+                                </div>
+                                <div class="relative">
+                                    <input type="radio" name="returnMethod" value="pickup" class="sr-only">
+                                    <div class="h-5 w-5 rounded-full border-2 flex items-center justify-center transition-colors border-gray-300">
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Refund Method -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Refund method</label>
+                        <select class="w-full p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]">
+                            <option>Original payment method</option>
+                            <option>Store credit</option>
+                            <option>Gift card</option>
+                        </select>
+                    </div>
+
+                    <!-- Additional Comments -->
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Comments (optional)</label>
+                        <textarea class="w-full p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]" rows="3"></textarea>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="flex justify-end gap-3 pt-2">
+                        <button type="button" onclick="hideReturnForm('order2')" class="px-4 py-2 text-sm md:text-base border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="submit" class="px-4 py-2 text-sm md:text-base bg-[#6366f1] text-white rounded-lg hover:bg-[#4f46e5] transition-colors">
+                            Submit Return Request
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Pagination -->
+    <div class="mt-6 flex justify-center">
+        <nav class="flex items-center gap-1">
+            <button class="px-3 py-1 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-chevron-left"></i>
+            </button>
+            <button class="px-3 py-1 rounded-lg bg-[#6366f1] text-white">1</button>
+            <button class="px-3 py-1 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">2</button>
+            <button class="px-3 py-1 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">3</button>
+            <span class="px-2">...</span>
+            <button class="px-3 py-1 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">
+                <i class="fas fa-chevron-right"></i>
+            </button>
+        </nav>
+    </div>
+</div>
+
+<script>
+    function showTracking(orderId) {
+        // Hide all tracking sections first
+        document.querySelectorAll('[id^="tracking-"]').forEach(el => {
+            el.classList.add('hidden');
+        });
+        // Hide all return forms
+        document.querySelectorAll('[id^="return-"]').forEach(el => {
+            el.classList.add('hidden');
+        });
+        // Show the requested tracking
+        document.getElementById(`tracking-${orderId}`).classList.remove('hidden');
+    }
+
+    function showReturnForm(orderId) {
+        // Hide all tracking sections first
+        document.querySelectorAll('[id^="tracking-"]').forEach(el => {
+            el.classList.add('hidden');
+        });
+        // Hide all return forms
+        document.querySelectorAll('[id^="return-"]').forEach(el => {
+            el.classList.add('hidden');
+        });
+        // Show the requested return form
+        document.getElementById(`return-${orderId}`).classList.remove('hidden');
+    }
+
+    function hideReturnForm(orderId) {
+        document.getElementById(`return-${orderId}`).classList.add('hidden');
+    }
+
+    // Handle return method radio buttons
+    document.addEventListener('DOMContentLoaded', function() {
+        document.querySelectorAll('input[name="returnMethod"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Reset all indicators
+                document.querySelectorAll('input[name="returnMethod"]').forEach(r => {
+                    const indicator = r.nextElementSibling;
+                    indicator.classList.remove('border-[#6366f1]', 'bg-[#6366f1]');
+                    indicator.classList.add('border-gray-300');
+                    indicator.innerHTML = '';
+                });
+
+                // Style the selected one
+                if (this.checked) {
+                    const indicator = this.nextElementSibling;
+                    indicator.classList.add('border-[#6366f1]', 'bg-[#6366f1]');
+                    indicator.classList.remove('border-gray-300');
+
+                    // Add checkmark
+                    indicator.innerHTML = `
+                        <svg class="h-3 w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    `;
+                }
+            });
+        });
+    });
+</script>
