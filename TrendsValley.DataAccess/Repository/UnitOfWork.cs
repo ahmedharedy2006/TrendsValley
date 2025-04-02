@@ -19,6 +19,12 @@ namespace TrendsValley.DataAccess.Repository
         public ICityRepo CityRepo { get; private set; }
 
         public IShoppingCartRepo ShoppingCartRepo { get; private set; }
+
+        public IOrderHeaderRepo orderHeaderRepo { get; private set; }
+
+        public IOrderDetailsRepo orderDetailsRepo { get; private set; }
+
+        public IAppUserRepo AppUserRepo { get; private set; }
         public UnitOfWork(AppDbContext db)
         {
             _db = db;
@@ -28,6 +34,9 @@ namespace TrendsValley.DataAccess.Repository
             StateRepo = new StateRepo(db);
             CityRepo = new CityRepo(db);
             ShoppingCartRepo = new ShoppingCartRepo(db);
+            orderHeaderRepo = new OrderHeaderRepo(db);
+            orderDetailsRepo = new OrderDetailsRepo(db);
+            AppUserRepo = new AppUserRepo(db);
         }
 
         public async Task SaveAsync()

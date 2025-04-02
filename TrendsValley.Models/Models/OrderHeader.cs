@@ -35,11 +35,5 @@ namespace TrendsValley.Models.Models
 
         public string? paymentIntentId { get; set; }
 
-        [Required]
-        public string phoneNumber { get; set; }
-
-        [Required]
-        public string Name { get; set; }
-
     }
 }

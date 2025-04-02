@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
+using Stripe;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.DataAccess.Repository;
 using TrendsValley.DataAccess.Repository.Interfaces;
@@ -35,6 +36,8 @@ builder.Services.AddAuthentication().AddGoogle(googleOptions =>
     googleOptions.ClientSecret = builder.Configuration.GetSection("Google:ClientSecret").Value;
 });
 
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
+
 builder.Services.AddIdentity<AppUser, IdentityRole>()
     .AddEntityFrameworkStores<AppDbContext>().AddDefaultTokenProviders();
 
@@ -55,7 +58,6 @@ builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Customer/Auth/SignIn";
     options.AccessDeniedPath = "/Customer/Home/Index";  // Redirect users without permission
-
 });
 builder.Services.AddSession(options =>
 {
@@ -74,6 +76,9 @@ builder.Services.AddScoped<ICityRepo, CityRepo>();
 builder.Services.AddScoped<IBrandRepo, BrandRepo>();
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 builder.Services.AddScoped<IShoppingCartRepo, ShoppingCartRepo>();
+builder.Services.AddScoped<IOrderHeaderRepo, OrderHeaderRepo>();
+builder.Services.AddScoped<IOrderDetailsRepo, OrderDetailsRepo>();
+builder.Services.AddScoped<IAppUserRepo, AppUserRepo>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 
@@ -93,7 +98,7 @@ app.UseStaticFiles();
 app.UseRouting();
 app.UseSession();
 app.UseAuthorization();
-
+StripeConfiguration.ApiKey = builder.Configuration.GetSection("stripe:SecretKey").Get<string>();
 app.MapControllerRoute(
     name: "default",
     pattern: "{area=Customer}/{controller=Home}/{action=Index}/{id?}");
