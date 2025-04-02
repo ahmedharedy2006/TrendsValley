@@ -1,0 +1,213 @@
+﻿@{
+    Layout = "~/Areas/Customer/Views/Shared/_ProfileLayout.cshtml";
+}
+
+<div class="text-center mb-8">
+    <h1 class="text-2xl md:text-4xl font-bold text-[#1f2937] mb-2">Contact Us</h1>
+    <p class="text-sm md:text-base text-gray-600">We're here to help with any questions or concerns</p>
+</div>
+
+<div class="bg-white p-4 md:p-6 rounded-lg shadow-xl border border-gray-200">
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Contact Information -->
+        <div>
+            <h2 class="text-xl font-semibold text-[#6366f1] mb-4">Our Information</h2>
+
+            <div class="space-y-4">
+                <!-- Email -->
+                <div class="flex items-start gap-4">
+                    <div class="p-2 bg-[#6366f1]/10 rounded-full">
+                        <i class="fas fa-envelope text-[#6366f1] text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">Email</h3>
+                        <a href="mailto:support@trendsvalley.com" class="text-base text-[#6366f1] hover:text-[#4f46e5]">support@trendsvalley.com</a>
+                    </div>
+                </div>
+
+                <!-- Phone -->
+                <div class="flex items-start gap-4">
+                    <div class="p-2 bg-[#6366f1]/10 rounded-full">
+                        <i class="fas fa-phone text-[#6366f1] text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">Phone</h3>
+                        <a href="tel:+201020749292" class="text-base text-[#6366f1] hover:text-[#4f46e5]">+1 (800) 555-1234</a>
+                        <p class="text-xs text-gray-500 mt-1">Sun-Thu, 9am-5pm EET</p>
+                    </div>
+                </div>
+
+                <!-- WhatsApp -->
+                <div class="flex items-start gap-4">
+                    <div class="p-2 bg-[#6366f1]/10 rounded-full">
+                        <i class="fab fa-whatsapp text-[#6366f1] text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">WhatsApp</h3>
+                        <a href="https://wa.me/201020749292" target="_blank" class="text-base text-[#6366f1] hover:text-[#4f46e5]">+20 102 074 9292</a>
+                        <p class="text-xs text-gray-500 mt-1">24/7 support</p>
+                    </div>
+                </div>
+
+                <!-- Address -->
+                <div class="flex items-start gap-4">
+                    <div class="p-2 bg-[#6366f1]/10 rounded-full">
+                        <i class="fas fa-map-marker-alt text-[#6366f1] text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500">Corporate Office</h3>
+                        <p class="text-base">123 Commerce Street</p>
+                        <p class="text-base">Suite 400</p>
+                        <p class="text-base">New York, NY 10001</p>
+                    </div>
+                </div>
+
+                <!-- Social Media -->
+                <div class="flex items-start gap-4 pt-2">
+                    <div class="p-2 bg-[#6366f1]/10 rounded-full">
+                        <i class="fas fa-share-alt text-[#6366f1] text-lg"></i>
+                    </div>
+                    <div>
+                        <h3 class="text-sm font-medium text-gray-500 mb-2">Connect With Us</h3>
+                        <div class="flex gap-4">
+                            <a href="#" class="text-gray-600 hover:text-[#6366f1]">
+                                <i class="fab fa-facebook-f text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-600 hover:text-[#6366f1]">
+                                <i class="fab fa-twitter text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-600 hover:text-[#6366f1]">
+                                <i class="fab fa-instagram text-xl"></i>
+                            </a>
+                            <a href="#" class="text-gray-600 hover:text-[#6366f1]">
+                                <i class="fab fa-linkedin-in text-xl"></i>
+                            </a>
+                            <a href="https://wa.me/201020749292" target="_blank" class="text-gray-600 hover:text-[#25D366]">
+                                <i class="fab fa-whatsapp text-xl"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div>
+            <h2 class="text-xl font-semibold text-[#6366f1] mb-4">Send Us a Message</h2>
+
+            <form class="space-y-4">
+                <!-- Name -->
+                <div>
+                    <label for="name" class="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
+                    <input type="text" id="name" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]">
+                </div>
+
+                <!-- Email -->
+                <div>
+                    <label for="email" class="block text-sm font-medium text-gray-700 mb-1">Email Address</label>
+                    <input type="email" id="email" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]">
+                </div>
+
+                <!-- Subject -->
+                <div>
+                    <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                    <select id="subject" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]">
+                        <option value="">Select a subject</option>
+                        <option>Order Inquiry</option>
+                        <option>Returns & Refunds</option>
+                        <option>Product Questions</option>
+                        <option>Shipping Information</option>
+                        <option>Account Support</option>
+                        <option>Other</option>
+                    </select>
+                </div>
+
+                <!-- Message -->
+                <div>
+                    <label for="message" class="block text-sm font-medium text-gray-700 mb-1">Message</label>
+                    <textarea id="message" rows="4" class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]"></textarea>
+                </div>
+
+                <!-- File Upload -->
+                <div>
+                    <label class="block text-sm font-medium text-gray-700 mb-1">Attachments (optional)</label>
+                    <div class="mt-1 flex justify-center px-6 pt-5 pb-6 border-2 border-gray-300 border-dashed rounded-lg">
+                        <div class="space-y-1 text-center">
+                            <div class="flex text-sm text-gray-600">
+                                <label class="relative cursor-pointer bg-white rounded-md font-medium text-[#6366f1] hover:text-[#4f46e5] focus-within:outline-none">
+                                    <span>Upload a file</span>
+                                    <input type="file" class="sr-only">
+                                </label>
+                                <p class="pl-1">or drag and drop</p>
+                            </div>
+                            <p class="text-xs text-gray-500">
+                                PNG, JPG, PDF up to 10MB
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Submit Button -->
+                <div class="pt-2">
+                    <button type="submit" class="w-full px-4 py-3 bg-[#6366f1] text-white rounded-lg hover:bg-[#4f46e5] transition-colors font-medium">
+                        Send Message
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<!-- FAQ Section -->
+<div class="mt-8 bg-white p-4 md:p-6 rounded-lg shadow-xl border border-gray-200">
+    <h2 class="text-xl font-semibold text-[#6366f1] mb-4">Frequently Asked Questions</h2>
+
+    <div class="space-y-4">
+        <!-- FAQ Item 1 -->
+        <div x-data="{ open: false }" class="border-b border-gray-200 pb-4">
+            <button @@click ="open = !open" class="flex justify-between items-center w-full text-left">
+                <span class="text-base font-medium text-gray-900">How long does shipping take?</span>
+                <i :class="open ? 'fas fa-minus' : 'fas fa-plus'" class="text-[#6366f1]"></i>
+            </button>
+            <div x-show="open" x-transition class="mt-2 text-sm text-gray-600">
+                <p>Standard shipping typically takes 3-5 business days within Egypt. International shipping times vary by destination but usually take 7-14 business days.</p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 2 -->
+        <div x-data="{ open: false }" class="border-b border-gray-200 pb-4">
+            <button @@click ="open = !open" class="flex justify-between items-center w-full text-left">
+                <span class="text-base font-medium text-gray-900">What is your return policy?</span>
+                <i :class="open ? 'fas fa-minus' : 'fas fa-plus'" class="text-[#6366f1]"></i>
+            </button>
+            <div x-show="open" x-transition class="mt-2 text-sm text-gray-600">
+                <p>We accept returns within 14 days of purchase for most items. Items must be unused, in their original packaging with all tags attached. Some exclusions apply for final sale items.</p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 3 -->
+        <div x-data="{ open: false }" class="border-b border-gray-200 pb-4">
+            <button @@click ="open = !open" class="flex justify-between items-center w-full text-left">
+                <span class="text-base font-medium text-gray-900">Do you offer cash on delivery?</span>
+                <i :class="open ? 'fas fa-minus' : 'fas fa-plus'" class="text-[#6366f1]"></i>
+            </button>
+            <div x-show="open" x-transition class="mt-2 text-sm text-gray-600">
+                <p>Yes, we offer cash on delivery for all orders within Egypt. For international orders, payment must be made online via credit card or PayPal.</p>
+            </div>
+        </div>
+
+        <!-- FAQ Item 4 -->
+        <div x-data="{ open: false }" class="border-b border-gray-200 pb-4">
+            <button @@click ="open = !open" class="flex justify-between items-center w-full text-left">
+                <span class="text-base font-medium text-gray-900">How can I track my order?</span>
+                <i :class="open ? 'fas fa-minus' : 'fas fa-plus'" class="text-[#6366f1]"></i>
+            </button>
+            <div x-show="open" x-transition class="mt-2 text-sm text-gray-600">
+                <p>Once your order ships, you'll receive a confirmation SMS with tracking information. You can also track your order by logging into your account and viewing your order history.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Alpine JS for FAQ toggle functionality -->
+<script src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js" defer></script>

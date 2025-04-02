@@ -896,6 +896,10 @@ namespace TrendsValley.Areas.Customer.Controllers
             return View();
         }
 
+        public IActionResult ContactUs()
+        {
+            return View();
+        }
 
     }
 }
