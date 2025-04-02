@@ -1,4 +1,15 @@
-﻿<!DOCTYPE html>
+﻿@functions {
+    public string IsActive(string controller, params string[] actions)
+    {
+        var currentController = ViewContext.RouteData.Values["controller"].ToString();
+        var currentAction = ViewContext.RouteData.Values["action"].ToString();
+
+        return currentController == controller && actions.Contains(currentAction)
+            ? "block py-2 px-4 text-primary bg-gray-100 font-medium"
+            : "block py-2 px-4 text-gray-600 hover:bg-gray-100";
+    }
+}
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
@@ -78,16 +89,16 @@
                 <h1 class="text-xl font-bold text-primary">⚙️ Store Settings</h1>
             </div>
             <nav class="mt-4">
-                <a href="#" class="block py-2 px-4 text-primary bg-gray-100 font-medium">
+                <a asp-controller="Setting" asp-action="Index" class="@IsActive("Setting","Index")">
                     <i class="fas fa-cog mr-2"></i> General
                 </a>
-                <a href="#" class="block py-2 px-4 text-gray-600 hover:bg-gray-100">
+                <a asp-controller="Setting" asp-action="Shipping" class="@IsActive("Setting","Shipping")">
                     <i class="fas fa-shipping-fast mr-2"></i> Shipping
                 </a>
-                <a href="#" class="block py-2 px-4 text-gray-600 hover:bg-gray-100">
+                <a asp-controller="Setting" asp-action="Notifications" class="@IsActive("Setting","Notifications")">
                     <i class="fas fa-bell mr-2"></i> Notifications
                 </a>
-                <a href="#" class="block py-2 px-4 text-gray-600 hover:bg-gray-100">
+                <a asp-controller="Setting" asp-action="Privacy" class="@IsActive("Setting","Privacy")">
                     <i class="fas fa-user-shield mr-2"></i> Privacy
                 </a>
             </nav>

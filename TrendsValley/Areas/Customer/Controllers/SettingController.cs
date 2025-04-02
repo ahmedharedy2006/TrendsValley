@@ -126,5 +126,11 @@ namespace TrendsValley.Areas.Customer.Controllers
 
             return RedirectToAction("Index");
         }
+
+
+        public IActionResult Shipping()
+        {
+            return View();
+        }
     }
 }
