@@ -120,5 +120,30 @@ namespace TrendsValley.Areas.Customer.Controllers
 
             return RedirectToAction(nameof(Index));
         }
+
+        public async Task<IActionResult> Summary()
+        {
+            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var appuser = await _unitOfWork.AppUserRepo.GetAsync(u => u.Id == userId);
+
+            ShoppingCartViewModel cart = new()
+            {
+                ListCart = _unitOfWork.ShoppingCartRepo.GetAllAsync(
+                    s => s.UserId == userId,
+                    new Expression<Func<ShoppingCart, object>>[] { s => s.Product }
+                    ).Result.ToList(),
+                OrderHeader = new OrderHeader()
+                {
+                    appUser = appuser,
+                }
+            };
+            foreach (var item in cart.ListCart)
+            {
+                cart.OrderHeader.orderTotal += (double)(item.Count * item.Product.Product_Price);
+            }
+            return View(cart);
+        }
+
     }
 }
