@@ -1,0 +1,250 @@
+﻿@{
+    Layout = "~/Areas/Customer/Views/Shared/_ProfileLayout.cshtml";
+}
+<div class="text-center mb-8">
+    <h1 class="text-2xl md:text-4xl font-bold text-[#1f2937] mb-2">Your Payment Methods</h1>
+    <p class="text-sm md:text-base text-gray-600">Manage your saved payment options and preferences</p>
+</div>
+
+<div class="bg-white p-4 md:p-6 rounded-lg shadow-xl border border-gray-200">
+    <h2 class="text-xl md:text-2xl font-semibold text-[#6366f1] mb-4">Payment Settings</h2>
+    <div class="space-y-4 md:space-y-6">
+
+        <!-- Default Payment Method -->
+        <div class="flex flex-col">
+            <label class="text-sm md:text-base text-gray-700 font-medium">Default Payment Method</label>
+            <div class="flex flex-col md:flex-row md:items-center justify-between mt-1 gap-2">
+                <div class="flex items-center gap-2 md:gap-3">
+                    <i class="fab fa-cc-visa text-2xl md:text-3xl text-blue-500"></i>
+                    <div>
+                        <p class="text-sm md:text-base text-gray-900">Visa ending in •••• 4242</p>
+                        <p class="text-xs md:text-sm text-gray-500">Expires 04/2025</p>
+                    </div>
+                </div>
+                <button class="text-sm md:text-base text-[#6366f1] hover:text-[#4f46e5] font-medium md:self-center">
+                    Change
+                </button>
+            </div>
+        </div>
+
+        <hr class="border-gray-200">
+
+        <!-- Add New Payment Method Section -->
+        <div class="flex flex-col">
+            <button id="addPaymentBtn" class="w-full flex items-center justify-center gap-2 px-3 py-2 md:px-4 md:py-3 border-2 border-dashed border-gray-300 rounded-lg text-sm md:text-base text-[#6366f1] hover:border-[#6366f1] hover:bg-gray-50 transition-colors">
+                <i class="fas fa-plus text-sm md:text-base"></i>
+                Add New Payment Method
+            </button>
+
+            <!-- Hidden Payment Form -->
+            <div id="paymentForm" class="hidden mt-4 p-3 md:p-4 border border-gray-200 rounded-lg bg-gray-50">
+                <h3 class="text-base md:text-lg font-medium text-gray-800 mb-2 md:mb-3">Add Payment Method</h3>
+
+                <div class="space-y-3 md:space-y-4">
+                    <!-- Card Type Selection -->
+                    <div>
+                        <label class="block text-sm md:text-base font-medium text-gray-700 mb-1 md:mb-2">Card Type</label>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 md:gap-3">
+                            <!-- Visa Option -->
+                            <label class="flex items-center justify-between p-2 md:p-3 border rounded-lg hover:bg-gray-100 cursor-pointer">
+                                <div class="flex items-center">
+                                    <i class="fab fa-cc-visa text-xl md:text-2xl text-blue-500 mr-2"></i>
+                                    <span class="text-sm md:text-base">Visa</span>
+                                </div>
+                                <div class="relative">
+                                    <input type="radio" name="cardType" value="visa" class="sr-only">
+                                    <div class="h-4 w-4 md:h-5 md:w-5 rounded-full border-2 flex items-center justify-center transition-colors border-gray-300 radio-indicator">
+                                    </div>
+                                </div>
+                            </label>
+
+                            <!-- Mastercard Option -->
+                            <label class="flex items-center justify-between p-2 md:p-3 border rounded-lg hover:bg-gray-100 cursor-pointer">
+                                <div class="flex items-center">
+                                    <i class="fab fa-cc-mastercard text-xl md:text-2xl text-red-500 mr-2"></i>
+                                    <span class="text-sm md:text-base">Mastercard</span>
+                                </div>
+                                <div class="relative">
+                                    <input type="radio" name="cardType" value="mastercard" class="sr-only">
+                                    <div class="h-4 w-4 md:h-5 md:w-5 rounded-full border-2 flex items-center justify-center transition-colors border-gray-300 radio-indicator">
+                                    </div>
+                                </div>
+                            </label>
+                        </div>
+                    </div>
+
+                    <!-- Card Details -->
+                    <div>
+                        <label class="block text-sm md:text-base font-medium text-gray-700 mb-1">Card Number</label>
+                        <input type="text" class="w-full p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]" placeholder="1234 5678 9012 3456">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 md:gap-4">
+                        <div>
+                            <label class="block text-sm md:text-base font-medium text-gray-700 mb-1">Expiration Date</label>
+                            <input type="text" class="w-full p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]" placeholder="MM/YY">
+                        </div>
+                        <div>
+                            <label class="block text-sm md:text-base font-medium text-gray-700 mb-1">Security Code</label>
+                            <input type="text" class="w-full p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]" placeholder="CVV">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm md:text-base font-medium text-gray-700 mb-1">Name on Card</label>
+                        <input type="text" class="w-full p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]" placeholder="John Doe">
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="flex justify-end gap-2 md:gap-3 pt-2">
+                        <button type="button" class="cancel-form-btn px-3 py-1 md:px-4 md:py-2 text-sm md:text-base border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="button" class="px-3 py-1 md:px-4 md:py-2 text-sm md:text-base bg-[#6366f1] text-white rounded-lg hover:bg-[#4f46e5] transition-colors">
+                            Save Card
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <hr class="border-gray-200">
+
+        <!-- Billing Address Section -->
+        <div class="flex flex-col">
+            <label class="text-sm md:text-base text-gray-700 font-medium">Billing Address</label>
+
+            <!-- Current Address Display -->
+            <div id="currentAddress" class="mt-1 md:mt-2 p-2 md:p-4 border rounded-lg bg-gray-50">
+                <p class="text-sm md:text-base text-gray-900">123 Main Street</p>
+                <p class="text-sm md:text-base text-gray-900">Apartment 4B</p>
+                <p class="text-sm md:text-base text-gray-900">New York, NY 10001</p>
+                <p class="text-sm md:text-base text-gray-900">United States</p>
+                <button id="editAddressBtn" class="mt-1 md:mt-3 text-sm md:text-base text-[#6366f1] hover:text-[#4f46e5] font-medium text-left">
+                    Edit Billing Address
+                </button>
+            </div>
+
+            <!-- Hidden Address Form -->
+            <div id="addressForm" class="hidden mt-4 p-3 md:p-4 border border-gray-200 rounded-lg bg-gray-50">
+                <h3 class="text-base md:text-lg font-medium text-gray-800 mb-2 md:mb-3">Edit Billing Address</h3>
+
+                <div class="space-y-3 md:space-y-4">
+                    <div>
+                        <label class="block text-sm md:text-base font-medium text-gray-700 mb-1">Street Address</label>
+                        <input type="text" class="w-full p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]" value="123 Main Street">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm md:text-base font-medium text-gray-700 mb-1">Apt/Suite (Optional)</label>
+                        <input type="text" class="w-full p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]" value="Apartment 4B">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-2 md:gap-4">
+                        <div>
+                            <label class="block text-sm md:text-base font-medium text-gray-700 mb-1">City</label>
+                            <input type="text" class="w-full p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]" value="New York">
+                        </div>
+                        <div>
+                            <label class="block text-sm md:text-base font-medium text-gray-700 mb-1">State</label>
+                            <select class="w-full p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]">
+                                <option>New York</option>
+                                <!-- Other states would go here -->
+                            </select>
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-sm md:text-base font-medium text-gray-700 mb-1">ZIP Code</label>
+                        <input type="text" class="w-full p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]" value="10001">
+                    </div>
+
+                    <div>
+                        <label class="block text-sm md:text-base font-medium text-gray-700 mb-1">Country</label>
+                        <select class="w-full p-2 md:p-3 text-sm md:text-base border border-gray-300 rounded-lg focus:ring-2 focus:ring-[#6366f1] focus:border-[#6366f1]">
+                            <option>United States</option>
+                            <!-- Other countries would go here -->
+                        </select>
+                    </div>
+
+                    <!-- Form Actions -->
+                    <div class="flex justify-end gap-2 md:gap-3 pt-2">
+                        <button type="button" class="cancel-form-btn px-3 py-1 md:px-4 md:py-2 text-sm md:text-base border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors">
+                            Cancel
+                        </button>
+                        <button type="button" class="px-3 py-1 md:px-4 md:py-2 text-sm md:text-base bg-[#6366f1] text-white rounded-lg hover:bg-[#4f46e5] transition-colors">
+                            Save Address
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Toggle payment form
+        const addPaymentBtn = document.getElementById('addPaymentBtn');
+        const paymentForm = document.getElementById('paymentForm');
+
+        // Toggle address form
+        const editAddressBtn = document.getElementById('editAddressBtn');
+        const addressForm = document.getElementById('addressForm');
+        const currentAddress = document.getElementById('currentAddress');
+
+        // Cancel buttons (shared class)
+        const cancelButtons = document.querySelectorAll('.cancel-form-btn');
+
+        // Add Payment Method toggle
+        addPaymentBtn.addEventListener('click', function() {
+            paymentForm.classList.remove('hidden');
+            addPaymentBtn.classList.add('hidden');
+        });
+
+        // Edit Address toggle
+        editAddressBtn.addEventListener('click', function() {
+            addressForm.classList.remove('hidden');
+            currentAddress.classList.add('hidden');
+        });
+
+        // Cancel buttons functionality
+        cancelButtons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Hide all forms
+                paymentForm.classList.add('hidden');
+                addressForm.classList.add('hidden');
+
+                // Show all buttons and current displays
+                addPaymentBtn.classList.remove('hidden');
+                currentAddress.classList.remove('hidden');
+            });
+        });
+
+        // Radio button selection styling
+        document.querySelectorAll('input[name="cardType"]').forEach(radio => {
+            radio.addEventListener('change', function() {
+                // Reset all indicators
+                document.querySelectorAll('.radio-indicator').forEach(indicator => {
+                    indicator.classList.remove('border-[#6366f1]', 'bg-[#6366f1]');
+                    indicator.classList.add('border-gray-300');
+                    indicator.innerHTML = '';
+                });
+
+                // Style the selected one
+                if (this.checked) {
+                    const indicator = this.nextElementSibling;
+                    indicator.classList.add('border-[#6366f1]', 'bg-[#6366f1]');
+                    indicator.classList.remove('border-gray-300');
+
+                    // Add checkmark
+                    indicator.innerHTML = `
+                        <svg class="h-2 w-2 md:h-3 md:w-3 text-white" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    `;
+                }
+            });
+        });
+    });
+</script>

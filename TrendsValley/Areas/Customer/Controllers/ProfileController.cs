@@ -886,7 +886,10 @@ namespace TrendsValley.Areas.Customer.Controllers
             return RedirectToAction("ManageDevices");
         }
 
-
+        public IActionResult Payments()
+        {
+            return View();
+        }
 
 
     }
