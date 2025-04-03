@@ -15,7 +15,7 @@ namespace TrendsValley.Services
         public Task SendEmailAsync(string email, string subject, string htmlMessage)
             {
             var client = new SendGridClient(SendGridKey);
-            var from_email = new EmailAddress("carastore871@gmail.com", "Cara_Store");
+            var from_email = new EmailAddress("trendsvalley15@gmail.com", "Trends_Valley");
 
             var to_email = new EmailAddress(email);
 
