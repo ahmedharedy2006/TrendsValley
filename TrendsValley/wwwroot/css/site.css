@@ -918,3 +918,9 @@ tr:nth-child(odd) {
 thead {
     background-color: #04AA6D;
 }
+
+.summary-div {
+    position: sticky;
+    top: 205px;
+    color: black;
+}

@@ -3,36 +3,47 @@
 <form method="post">
 
 <div class="row p-4">
-    <div class="col-7">
-        <h2>Shipping Details</h2>
+    <div class="col-lg-7 col-md-12 mb-3">
+            <h2 class="text-center">Shipping Details</h2>
+            <hr class="cart-hr" />
             <div class="form-group">
-                <label>First Name :</label>
-                <input asp-for="OrderHeader.appUser.Fname" class="form-control" />
+                <div class="form-floating col-md-6 textInput w-100">
+                    <input asp-for="OrderHeader.appUser.Fname" type="text" class="form-control w-100 mb-4" id="floatingInput">
+                    <label class="ps-3" for="floatingInput">First Name</label>
+                </div>
             </div>
             <div class="form-group">
-                <label>Last Name :</label>
-                <input asp-for="OrderHeader.appUser.Lname" class="form-control" />
+                <div class="form-floating col-md-6 textInput w-100">
+                    <input asp-for="OrderHeader.appUser.Lname" type="text" class="form-control mb-4" id="floatingInput">
+                    <label class="ps-3" for="floatingInput">Last Name</label>
+                </div>
             </div>
             <div class="form-group">
-                <label>Phone :</label>
-                <input asp-for="OrderHeader.appUser.PhoneNumber" class="form-control" />
+                <div class="form-floating col-md-6 textInput w-100">
+                    <input asp-for="OrderHeader.appUser.PhoneNumber" type="text" class="form-control mb-4" id="floatingInput">
+                    <label class="ps-3" for="floatingInput">Phone</label>
+                </div>
             </div>
             <div class="form-group">
-                <label>Postal Code :</label>
-                <input asp-for="OrderHeader.appUser.PostalCode" class="form-control" />
+                <div class="form-floating col-md-6 textInput w-100">
+                    <input asp-for="OrderHeader.appUser.PostalCode" type="text" class="form-control mb-4" id="floatingInput">
+                    <label class="ps-3" for="floatingInput">Postal Code</label>
+                </div>
             </div>
             <div class="form-group">
-                <label>Address :</label>
-                <input asp-for="OrderHeader.appUser.StreetAddress" class="form-control" />
+                <div class="form-floating col-md-6 textInput w-100">
+                    <input asp-for="OrderHeader.appUser.StreetAddress" type="text" class="form-control mb-3" id="floatingInput">
+                    <label class="ps-3" for="floatingInput">Address</label>
+                </div>
             </div>
             <div class="form-group">
-                <label>Current City : @Model.city</label>
+                <label class="mb-2">Current City : @Model.city</label>
                 <select asp-for="OrderHeader.cityId" class="form-select" asp-items="@Model.CityList">
                     <option disabled selected>--Select City--</option>
                 </select>
             </div>
             <div class="form-group">
-                <label>Current State : @Model.state</label>
+                <label class="mb-2 mt-2">Current State : @Model.state</label>
                 <select asp-for="OrderHeader.stateId" class="form-select" asp-items="@Model.Statelist">
                     <option disabled selected>--Select State--</option>
                 </select>
@@ -41,9 +52,9 @@
            
 
     </div>
-    <div class="col-5">
-        <div class="card">
-            <div class="card-header">
+    <div class="col-lg-5 col-md-12 summary-div">
+        <div class="card summary-div">
+            <div class="card-header text-center fw-bold">
                 Order Summary
             </div>
             <div class="card-body">
@@ -67,15 +78,16 @@
                    
                     <tr>
                         <td>Total</td>
+                        <td></td>
                         <td>@Model.OrderHeader.orderTotal.ToString("c")</td>
                     </tr>
                 </table>
+            <button type="submit" class="btn btn-success w-100">Proceed To Checkout</button>
             </div>
           
         </div>
             <br />
-
-            <button type="submit" class="btn btn-success w-100">Procced To Checkout</button>
-</form>
     </div>
+
+</form>
 </div>
