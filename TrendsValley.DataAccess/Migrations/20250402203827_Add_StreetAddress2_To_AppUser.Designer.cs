@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrendsValley.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using TrendsValley.DataAccess.Data;
 namespace TrendsValley.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250402203827_Add_StreetAddress2_To_AppUser")]
+    partial class Add_StreetAddress2_To_AppUser
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -396,9 +399,6 @@ namespace TrendsValley.DataAccess.Migrations
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("cityId")
-                        .HasColumnType("int");
-
                     b.Property<string>("orderStatus")
                         .HasColumnType("nvarchar(max)");
 
@@ -420,19 +420,12 @@ namespace TrendsValley.DataAccess.Migrations
                     b.Property<string>("sessionId")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("stateId")
-                        .HasColumnType("int");
-
                     b.Property<string>("trackingNumber")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
                     b.HasIndex("AppUserId");
-
-                    b.HasIndex("cityId");
-
-                    b.HasIndex("stateId");
 
                     b.ToTable("OrderHeaders");
                 });
@@ -798,23 +791,7 @@ namespace TrendsValley.DataAccess.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TrendsValley.Models.Models.City", "city")
-                        .WithMany()
-                        .HasForeignKey("cityId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("TrendsValley.Models.Models.State", "state")
-                        .WithMany()
-                        .HasForeignKey("stateId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("appUser");
-
-                    b.Navigation("city");
-
-                    b.Navigation("state");
                 });
 
             modelBuilder.Entity("TrendsValley.Models.Models.Product", b =>

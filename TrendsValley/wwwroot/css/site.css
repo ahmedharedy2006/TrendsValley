@@ -788,3 +788,133 @@ input[type="number"]::-webkit-inner-spin-button {
 .google-btn:hover {
     background-color: #bcbaba;
 }
+
+.product-cell {
+    border-top-left-radius: 10px;
+}
+
+.action-cell {
+    border-top-right-radius: 10px;
+}
+
+.quantity-input {
+    width: 50px;
+    text-align: center;
+    height: 35px;
+    border: none;
+    font-weight: 600;
+}
+
+.align-ver {
+    vertical-align: middle;
+}
+
+.removeItem {
+    background-color: transparent;
+    font-size: 20px;
+    color: #cdcdcd;
+    border: none;
+    scale: 1.2;
+    transition: all 0.5s ease;
+}
+
+.removeItem:hover {
+    background-color: transparent;
+    color: red;
+}
+
+tr:nth-child(even) {
+    background-color: white;
+}
+
+tr:nth-child(odd) {
+    background-color: white;
+}
+
+.dec-btn {
+    background-color: #bbbaba;
+    border-top-left-radius: 10px;
+    border-bottom-left-radius: 10px;
+    border: none;
+    padding: 10px;
+    margin-right: 0px;
+    font-weight: bold;
+    font-size: 18px;
+    transition: all 0.5s ease;
+}
+
+.inc-btn {
+    background-color: #bbbaba;
+    border-top-right-radius: 10px;
+    border-bottom-right-radius: 10px;
+    border: none;
+    padding: 10px;
+    margin-left: 0px;
+    font-weight: bold;
+/*    font-size: 18px;*/
+    transition: all 0.5s ease;
+}
+
+.dec-btn:hover {
+    background-color: red;
+    color: white;
+}
+
+.inc-btn:hover {
+    background-color: green;
+    color: white;
+}
+
+.num-p {
+/*    border: 2px solid #EDEDED;*/
+    margin: 10px;
+    width: 30px;
+    font-size: 20px;
+}
+
+.order-div {
+    border: 2px solid #ededed;
+    height: fit-content;
+    border-radius: 10px;
+    position: sticky;
+    top: 120px;
+/*    margin-top: 10px;*/
+}
+
+.procced-btn {
+    color: white;
+    border: 1px solid green;
+    transition: all 0.5s ease;
+}
+
+.procced-btn:hover {
+    background-color: transparent;
+    border: 1px solid #989898;
+    color: black;
+}
+
+.cart-hr {
+    border: 3px solid black;
+    width: 80px;
+    margin: auto;
+    margin-bottom: 20px;
+    margin-top: 20px;
+}
+
+.clearCart-btn {
+    background-color: transparent;
+    color: black;
+    border: none;
+    border: 1px solid #989898;
+    transition: all 0.5s ease;
+}
+
+.clearCart-btn:hover {
+    background-color: red;
+    color: white;
+    border: 1px solid red;
+}
+
+thead {
+    background-color: #04AA6D;
+}
