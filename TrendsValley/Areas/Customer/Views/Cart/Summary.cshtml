@@ -25,6 +25,18 @@
                 <label>Address :</label>
                 <input asp-for="OrderHeader.appUser.StreetAddress" class="form-control" />
             </div>
+            <div class="form-group">
+                <label>Current City : @Model.city</label>
+                <select asp-for="OrderHeader.cityId" class="form-select" asp-items="@Model.CityList">
+                    <option disabled selected>--Select City--</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Current State : @Model.state</label>
+                <select asp-for="OrderHeader.stateId" class="form-select" asp-items="@Model.Statelist">
+                    <option disabled selected>--Select State--</option>
+                </select>
+            </div>
             <br />
            
 

@@ -1,8 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore;
 using Stripe.Checkout;
 using System.Linq.Expressions;
 using System.Security.Claims;
+using TrendsValley.DataAccess.Data;
 using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
 using TrendsValley.Models.ViewModels;
@@ -15,9 +18,11 @@ namespace TrendsValley.Areas.Customer.Controllers
     public class CartController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
-        public CartController(IUnitOfWork unitOfWork)
+        private readonly AppDbContext _db;
+        public CartController(IUnitOfWork unitOfWork , AppDbContext db)
         {
             _unitOfWork = unitOfWork;
+            _db = db;
         }
 
         public async Task<IActionResult> Index()
@@ -127,10 +132,12 @@ namespace TrendsValley.Areas.Customer.Controllers
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var appuser = await _unitOfWork.AppUserRepo.GetAsync(u => u.Id == userId);
+            var appuser = await _db.appUsers.Where(u => u.Id == userId).Include(u => u.state).Include(c => c.city).FirstOrDefaultAsync();
 
             ShoppingCartViewModel cart = new()
             {
+                city = appuser.city.name,
+                state = appuser.state.Name,
                 ListCart = _unitOfWork.ShoppingCartRepo.GetAllAsync(
                     s => s.UserId == userId,
                     new Expression<Func<ShoppingCart, object>>[] { s => s.Product }
@@ -138,7 +145,18 @@ namespace TrendsValley.Areas.Customer.Controllers
                 OrderHeader = new OrderHeader()
                 {
                     appUser = appuser,
-                }
+                },
+                CityList = _db.cities.Select(i => new SelectListItem
+                {
+                    Text = i.name,
+                    Value = i.Id.ToString()
+                }),
+                Statelist = _db.states.Select(i => new SelectListItem
+                {
+                    Text = i.Name,
+                    Value = i.Id.ToString()
+                }),
+
             };
             foreach (var item in cart.ListCart)
             {
@@ -154,15 +172,22 @@ namespace TrendsValley.Areas.Customer.Controllers
         {
             var claimsIdentity = (ClaimsIdentity)User.Identity;
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var user = await _unitOfWork.AppUserRepo.GetAsync(u => u.Id == userId);
 
             cart.ListCart = _unitOfWork.ShoppingCartRepo.GetAllAsync(
                 s => s.UserId == userId,
                 new Expression<Func<ShoppingCart, object>>[] { s => s.Product }
                 ).Result.ToList();
+            
+            if(cart.OrderHeader.cityId == 0 || cart.OrderHeader.stateId == 0)
+            {
+                cart.OrderHeader.cityId = user.CityId;
+                cart.OrderHeader.stateId = user.StateId;
+            }
 
             cart.OrderHeader.OrderDate = DateTime.Now;
             cart.OrderHeader.AppUserId = userId;
-            cart.OrderHeader.appUser = await _unitOfWork.AppUserRepo.GetAsync(u => u.Id == userId);
+            cart.OrderHeader.appUser = user;
             foreach (var item in cart.ListCart)
             {
                 cart.OrderHeader.orderTotal += (double)(item.Count * item.Product.Product_Price);

@@ -27,6 +27,15 @@ namespace TrendsValley.Models.Models
 
         public string? trackingNumber { get; set; }
 
+        [ForeignKey("city")]
+        public int cityId { get; set; }
+
+        public City city { get; set; }
+
+        [ForeignKey("state")]
+        public int stateId { get; set; }
+
+        public State state { get; set; }
         public DateTime paymentDate { get; set; }
 
         public DateOnly paymentDueDate { get; set; }
