@@ -956,6 +956,7 @@ namespace TrendsValley.Areas.Customer.Controllers
                 result = await _userManager.AddLoginAsync(user, info);
                 if (result.Succeeded)
                 {
+                    user.EmailConfirmed = true;
                     await _signInManager.SignInAsync(user, isPersistent: false);
                     await _signInManager.UpdateExternalAuthenticationTokensAsync(info);
                     await TrackUserDevice(user);
