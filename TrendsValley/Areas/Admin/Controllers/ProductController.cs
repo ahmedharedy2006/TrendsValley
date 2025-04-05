@@ -21,7 +21,6 @@ namespace TrendsValley.Areas.Admin.Controllers
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
         }
-        //View All Product
         public async Task<IActionResult> Index()
         {
            var products = await _unitOfWork.ProductRepo.GetAllAsync(
@@ -39,18 +38,16 @@ namespace TrendsValley.Areas.Admin.Controllers
 
             return View(objList);
         }
-        //Upsert
+
         public async Task<IActionResult> Upsert(int? id)
         {
             ProductViewModel obj = new();
-            //Brand List
             var brands = await _unitOfWork.BrandRepo.GetAllAsync();
             obj.BrandList = brands.Select(i => new SelectListItem
             {
                 Text = i.Brand_Name,
                 Value = i.Brand_Id.ToString()
             });
-            // Category List
             var categories = await _unitOfWork.CategoryRepo.GetAllAsync();
 
             obj.CategoryList = categories.Select(i => new SelectListItem
@@ -60,10 +57,10 @@ namespace TrendsValley.Areas.Admin.Controllers
             });
             if (id == null || id == 0)
             {
-                // to Create product
+                //Create product
                 return View(obj);
             }
-            //To Edit
+            //Edit
 
             obj.product = await _unitOfWork.ProductRepo.GetAsync(u => u.Product_Id == id);
             if (obj == null)
@@ -73,7 +70,6 @@ namespace TrendsValley.Areas.Admin.Controllers
             return View(obj);
         }
 
-        //Add and Update Column
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(ProductViewModel obj, IFormFile? file)
@@ -113,9 +109,6 @@ namespace TrendsValley.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        // ... other code ...
-
-        //Delete
         public async Task<IActionResult> Delete(int id)
         {
             Product obj = new();
@@ -133,7 +126,7 @@ namespace TrendsValley.Areas.Admin.Controllers
             // Check if file exists and delete it
             if (System.IO.File.Exists(imagePath)) // Use System.IO.File instead of File
             {
-                System.IO.File.Delete(imagePath); // Use System.IO.File instead of File
+                System.IO.File.Delete(imagePath); 
             }
 
             await _unitOfWork.ProductRepo.RemoveAsync(obj);

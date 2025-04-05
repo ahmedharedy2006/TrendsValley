@@ -246,8 +246,6 @@ namespace TrendsValley.Areas.Customer.Controllers
             await _unitOfWork.SaveAsync();
             Response.Headers.Add("Location", session.Url);
             return new StatusCodeResult(303);
-
-            //return RedirectToAction(nameof(orderConfirm), new { id = cart.OrderHeader.Id });
         }
 
         public async Task<IActionResult> orderConfirm(int id)

@@ -12,15 +12,18 @@ namespace TrendsValley.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepo _categoryRepo;
+
         public CategoryController(ICategoryRepo categoryRepo)
         {
             _categoryRepo = categoryRepo;
         }
+
         public async Task<IActionResult> Index()
         {
             List<Category> objList = await _categoryRepo.GetAllAsync();
             return View(objList);
         }
+
         public async Task<IActionResult> Upsert(int? id)
         {
             Category obj = new();
@@ -37,6 +40,7 @@ namespace TrendsValley.Areas.Admin.Controllers
             }
             return View(obj);
         }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(Category obj)
@@ -55,7 +59,7 @@ namespace TrendsValley.Areas.Admin.Controllers
             }
             return RedirectToAction(nameof(Index));
         }
-        //Remove
+
         public async Task<IActionResult> Delete(int id)
         {
             Category obj = new();

@@ -8,7 +8,6 @@
         <input type="hidden" asp-for="product.Product_Id" />
         @if (Model.product == null || Model.product.Product_Id != 0)
         {
-            //edit
             title = "Edit Product";
         }
         <div>
@@ -81,7 +80,7 @@
 @section Scripts {
     <script>
         tinymce.init({
-            selector: 'textarea',  // change this value according to your HTML
+            selector: 'textarea',
 
             toolbar_mode: 'floating',
             tinycomments_mode: 'embedded',

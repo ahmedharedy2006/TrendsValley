@@ -24,9 +24,6 @@ body {
     overflow-x: hidden;
 }
 
-/*Not Worked*/
-/*@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@200..700&display=swap');*/
-
 .nav-button {
     position: relative;
     width: fit-content;
@@ -94,9 +91,6 @@ body {
 }
 
 .hero-head {
-/*    width: max-content;*/
-/*    font-size: clamp(12px, 60px, 50px);*/
-/*    font-size: inherit;*/
     font-size: clamp(15px, 3vw, 60px);
     margin-bottom: 0px;
 }
@@ -264,16 +258,13 @@ a {
     text-align: center;
     color: white;
     padding-top: 0px;
-/*    padding-bottom: 0px;*/
 }
 
 .repair-h {
-/*    font-size: 30px;*/
     font-size: clamp(15px, 1.563vw, 50px)
 }
 
 .repair-p {
-/*    font-size: 60px;*/
     font-size: clamp(15px, 3.125vw, 50px);
 }
 
@@ -302,9 +293,6 @@ a {
 }
 
 .firstcard-text {
-    /*Not Worked*/
-    /*    font-family: "Oswald", Roboto;*/
-/*    font-size: 50px;*/
     font-weight: 900;
     margin-bottom: 5px;
     font-size: clamp(15px, 2.604vw, 60px);
@@ -312,7 +300,6 @@ a {
 
 .firstcard-title {
     margin-bottom: 0px;
-/*    font-size: 20px;*/
     font-size: clamp(15px, 1.042vw, 50px);
 }
 
@@ -382,7 +369,6 @@ a {
 }
 
 .signup-button {
-    /*    height: 60px;*/
     height: clamp(51px, 1vw, 60px);
     position: absolute;
     border-radius: 0px;
@@ -530,7 +516,6 @@ a {
     transition: transform 250ms ease-in-out;
     font-size: 17px;
     font-weight: 600;
-/*    line-height: 18px;*/
     color: #575756;
     background-color: transparent;
     background-image: url("data:image/svg+xml;charset=utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Cpath d='M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z'/%3E%3Cpath d='M0 0h24v24H0z' fill='none'/%3E%3C/svg%3E");
@@ -551,9 +536,6 @@ a {
 
 /*=======================adjust for the register and login underline=======================*/
 
-/*.nav-link {
-    padding: 0px; 
-}*/
 
 .emailInput,
 .passwordInput {
@@ -594,9 +576,9 @@ a {
 /*=======================for website theme=======================*/
 
 input:focus {
-    border-color: #04AA6D !important; /* Change border color */
-    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5) !important; /* Change focus ring */
-    outline: none !important; /*Remove default outline */
+    border-color: #04AA6D !important; 
+    box-shadow: 0 0 5px rgba(40, 167, 69, 0.5) !important; 
+    outline: none !important;
 }
 
 input[type="checkbox"] {
@@ -699,7 +681,6 @@ input[type="number"]::-webkit-inner-spin-button {
     top: 0;
     left: 0;
     width: 100%;
-/*    height: 100vh;*/
     background-image: url("https://static.vecteezy.com/system/resources/thumbnails/020/414/416/original/clean-gradient-corporate-background-video.jpg"); /* Optional */
     background-repeat: no-repeat;
     background-size: cover;
@@ -709,7 +690,6 @@ input[type="number"]::-webkit-inner-spin-button {
     top: 0;
     left: 0;
     width: 100%;
-/*    height: 80vh;*/
     background-image: url("https://static.vecteezy.com/system/resources/thumbnails/020/414/416/original/clean-gradient-corporate-background-video.jpg"); /* Optional */
     background-repeat: no-repeat;
     background-size: cover;
@@ -733,12 +713,10 @@ input[type="number"]::-webkit-inner-spin-button {
 
 .addToCartBtn {
     width: 40%;
-    background-color: black !important; /* color of the site */
+    background-color: black !important;
     color: blue;
     box-shadow: 0 0 0 rgba(255, 255, 255, 1) !important;
     outline: none !important;
-    /* transform: translate(0px, 0px); */
-    /* transition: all 0.5s ease; */
 }
 
     .addToCartBtn:hover {
@@ -749,7 +727,6 @@ input[type="number"]::-webkit-inner-spin-button {
 
     .addToCartBtn:active {
         scale: 0.8;
-        /* transition: all 0.5s ease; */
     }
 
 .h1SimilarSection {
@@ -854,7 +831,6 @@ tr:nth-child(odd) {
     padding: 10px;
     margin-left: 0px;
     font-weight: bold;
-/*    font-size: 18px;*/
     transition: all 0.5s ease;
 }
 
@@ -869,7 +845,6 @@ tr:nth-child(odd) {
 }
 
 .num-p {
-/*    border: 2px solid #EDEDED;*/
     margin: 10px;
     width: 30px;
     font-size: 20px;
@@ -881,7 +856,6 @@ tr:nth-child(odd) {
     border-radius: 10px;
     position: sticky;
     top: 120px;
-/*    margin-top: 10px;*/
 }
 
 .procced-btn {

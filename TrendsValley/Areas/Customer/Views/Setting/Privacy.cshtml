@@ -7,7 +7,6 @@
 </div>
 
 <div class="space-y-4 lg:space-y-8">
-    <!-- Purchase History Privacy -->
     <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
         <h3 class="text-lg font-semibold mb-3 lg:mb-4 flex items-center">
             <i class="fas fa-shopping-bag text-[#088178] mr-2"></i>
@@ -15,7 +14,6 @@
         </h3>
 
         <div class="space-y-3 lg:space-y-4">
-            <!-- Save Purchase History -->
             <div class="flex items-center justify-between p-3 lg:p-4 border rounded-lg hover:bg-gray-50">
                 <div class="flex items-center">
                     <i class="fas fa-history text-blue-500 mr-2 lg:mr-3"></i>
@@ -36,7 +34,6 @@
                 </div>
             </div>
 
-            <!-- Personalized Recommendations -->
             <div class="flex items-center justify-between p-3 lg:p-4 border rounded-lg hover:bg-gray-50">
                 <div class="flex items-center">
                     <i class="fas fa-tshirt text-purple-500 mr-2 lg:mr-3"></i>
@@ -59,7 +56,6 @@
         </div>
     </div>
 
-    <!-- Marketing Preferences -->
     <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
         <h3 class="text-lg font-semibold mb-3 lg:mb-4 flex items-center">
             <i class="fas fa-envelope text-[#088178] mr-2"></i>
@@ -67,7 +63,6 @@
         </h3>
 
         <div class="space-y-3 lg:space-y-4">
-            <!-- Email Offers -->
             <div class="flex items-center justify-between p-3 lg:p-4 border rounded-lg hover:bg-gray-50">
                 <div class="flex items-center">
                     <i class="fas fa-tag text-red-500 mr-2 lg:mr-3"></i>
@@ -88,7 +83,6 @@
                 </div>
             </div>
 
-            <!-- SMS Alerts -->
             <div class="flex items-center justify-between p-3 lg:p-4 border rounded-lg hover:bg-gray-50">
                 <div class="flex items-center">
                     <i class="fas fa-sms text-green-500 mr-2 lg:mr-3"></i>
@@ -110,7 +104,6 @@
         </div>
     </div>
 
-    <!-- Data & Security -->
     <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
         <h3 class="text-lg font-semibold mb-3 lg:mb-4 flex items-center">
             <i class="fas fa-lock text-[#088178] mr-2"></i>
@@ -118,7 +111,6 @@
         </h3>
 
         <div class="space-y-4">
-            <!-- Saved Payment Methods -->
             <div class="flex items-center justify-between p-3 lg:p-4 border rounded-lg hover:bg-gray-50">
                 <div class="flex items-center">
                     <i class="fas fa-credit-card text-yellow-500 mr-2 lg:mr-3"></i>
@@ -139,7 +131,6 @@
                 </div>
             </div>
 
-            <!-- Download Purchase History -->
             <div class="flex items-center justify-between p-3 lg:p-4 border rounded-lg hover:bg-gray-50">
                 <div class="flex items-center">
                     <i class="fas fa-file-download text-blue-500 mr-2 lg:mr-3"></i>
@@ -156,7 +147,6 @@
         </div>
     </div>
 
-    <!-- Account Deletion -->
     <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
         <h3 class="text-lg font-semibold mb-3 lg:mb-4 flex items-center">
             <i class="fas fa-user-times text-[#088178] mr-2"></i>
@@ -179,7 +169,6 @@
     </div>
 </div>
 
-<!-- Delete Account Modal -->
 <div id="deleteAccountModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
     <div class="bg-white rounded-xl p-6 w-full max-w-md">
         <h3 class="text-lg font-semibold mb-4">Delete Your Account</h3>
@@ -216,7 +205,6 @@
     </div>
 </div>
 
-<!-- Success Notification -->
 <div id="successNotification" class="fixed top-4 right-4 z-50 animate-fade-in hidden">
     <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg flex items-center justify-between">
         <span class="flex items-center">
@@ -230,9 +218,7 @@
 </div>
 
 <script>
-    // Initialize settings
     document.addEventListener('DOMContentLoaded', function() {
-        // Mock saved preferences
         const settings = {
             saveHistory: true,
             recommendations: true,
@@ -241,14 +227,12 @@
             savedPayments: true
         };
 
-        // Set initial toggle states
         document.getElementById('saveHistoryToggle').checked = settings.saveHistory;
         document.getElementById('recommendationsToggle').checked = settings.recommendations;
         document.getElementById('emailOffersToggle').checked = settings.emailOffers;
         document.getElementById('smsAlertsToggle').checked = settings.smsAlerts;
         document.getElementById('savedPaymentsToggle').checked = settings.savedPayments;
 
-        // Delete account confirmation
         document.getElementById('confirmDelete').addEventListener('change', function() {
             document.getElementById('deleteAccountButton').disabled = !this.checked;
         });
@@ -262,7 +246,6 @@
     function downloadPurchaseHistory() {
         console.log('Downloading purchase history');
         showSuccessNotification('Preparing your purchase history...');
-        // In a real app, this would trigger a download or email
     }
 
     function showDeleteAccountModal() {

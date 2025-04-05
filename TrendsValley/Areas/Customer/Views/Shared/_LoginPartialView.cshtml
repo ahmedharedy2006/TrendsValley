@@ -70,7 +70,6 @@
 
             <li><hr class="dropdown-divider my-1"></li>
 
-            <!-- Logout Button -->
             <li>
                 <form asp-area="Customer" asp-controller="Auth" asp-action="Logout" method="post">
                     <button type="submit" class="dropdown-item py-2 px-3 hover-effect">
@@ -85,20 +84,17 @@
 }
 else
 {
-    <!-- Guest Links -->
     <li class="nav-item"><a asp-controller="Auth" asp-action="Register" class="nav-link pt-0 pb-0">Register</a></li>
     <li class="nav-item"><a asp-controller="Auth" asp-action="SignIn" class="nav-link pt-0 pb-0">Login</a></li>
 }
 
 <style>
-    /* إزالة التأثير الأزرق */
     .custom-focus {
         outline: none !important;
         box-shadow: none !important;
         transition: none !important;
     }
 
-    /* تأثير الدوران */
     .rotate-on-focus {
         transition: transform 0.3s ease;
     }
@@ -110,7 +106,6 @@ else
 
    
 
-    /* تأثيرات الـ hover */
     .hover-effect {
         transition: all 0.3s ease;
         border-radius: 4px;
@@ -127,7 +122,6 @@ else
                 transform: scale(1.2);
             }
 
-    /* تأثير النبض */
     .animate-pulse {
         animation: pulse 2s infinite;
     }

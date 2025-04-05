@@ -13,18 +13,15 @@ namespace TrendsValley.Models.Models
 
         [ForeignKey("User")]
         public string? UserId { get; set; }
-
-        public string? DeviceName { get; set; } // مثال: "iPhone 13, Chrome"
-        public string? DeviceType { get; set; } // "Mobile", "Desktop", etc.
-        public string? OS { get; set; } // "iOS", "Android", "Windows"
-        public string? Browser { get; set; } // "Chrome", "Safari"
+        public string? DeviceName { get; set; } 
+        public string? DeviceType { get; set; } 
+        public string? OS { get; set; } 
+        public string? Browser { get; set; } 
         public string? IpAddress { get; set; }
-        public string? Location { get; set; } // مدينة الدخول
+        public string? Location { get; set; } 
         public DateTime? FirstLoginDate { get; set; } = DateTime.Now;
         public DateTime? LastLoginDate { get; set; } = DateTime.Now;
-        public string? DeviceToken { get; set; } // Unique identifier للجهاز
-
-        // Navigation property
+        public string? DeviceToken { get; set; } 
         public virtual AppUser? User { get; set; }
     }
 }

@@ -61,7 +61,6 @@ namespace TrendsValley.Areas.Customer.Controllers
             if (await _userManager.GetTwoFactorEnabledAsync(user))
             {
                 // Generate code
-                var code = new Random().Next(100000, 999999).ToString();
                 var emailBody = GenerateEmail2FA(user, code);
 
                 // Store in session
@@ -236,7 +235,6 @@ namespace TrendsValley.Areas.Customer.Controllers
             var userId = HttpContext.Session.GetString("2FA_User");
             var correctCode = HttpContext.Session.GetString("2FA_Code");
 
-            // If code matches, log the user in
             if (userId != null && code == correctCode)
             {
                 var user = await _userManager.FindByIdAsync(userId);
@@ -274,8 +272,6 @@ namespace TrendsValley.Areas.Customer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Register(RegisterViewModel obj)
         {
-
-
             var user = new AppUser
             {
                 UserName = obj.appUser.Email,
@@ -571,21 +567,16 @@ namespace TrendsValley.Areas.Customer.Controllers
             var deviceName = System.Net.Dns.GetHostName();
             var changeTime = DateTime.UtcNow;
 
-            // Generate a 6-digit code
             var resetCode = new Random().Next(100000, 999999).ToString();
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
 
-            // Generate password reset link
-            var resetLink = passwordResetLink(user, resetToken); // Using resetToken instead of resetCode
+            var resetLink = passwordResetLink(user, resetToken); 
 
-            // Store the code in a temporary place (e.g., user claims)
             await _userManager.RemoveClaimsAsync(user, await _userManager.GetClaimsAsync(user));
             await _userManager.AddClaimAsync(user, new Claim("ResetCode", resetCode));
 
-            // Generate email body
             var emailBody = GenerateForgotPasswordEmail(user, ipAddress, deviceName, changeTime, resetCode, resetLink);
 
-            // Send email using SendGrid
             await _emailSender.SendEmailAsync(user.Email, "Password Reset Code", emailBody);
 
             return RedirectToAction("VerifyResetCode", new { email = user.Email });

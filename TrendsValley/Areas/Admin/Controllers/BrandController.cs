@@ -17,13 +17,11 @@ namespace TrendsValley.Areas.Admin.Controllers
             _brandRepo = brandRepo;
         }
 
-
         public async Task<IActionResult> Index()
         {
             List<Brand> objList = await _brandRepo.GetAllAsync(); 
             return View(objList);
         }
-
 
         public async Task<IActionResult> Upsert(int? id)
         {
@@ -40,7 +38,6 @@ namespace TrendsValley.Areas.Admin.Controllers
             return View(obj);
         }
 
-
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(Brand obj)
@@ -56,8 +53,6 @@ namespace TrendsValley.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
-        
-        // remove
         public async Task<IActionResult> Delete(int id)
         {
             Brand obj = new();

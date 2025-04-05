@@ -10,10 +10,8 @@
             <table class="table d-inline mb-3">
                 <thead class="text-center">
                     <tr style="height: 60px;background-color: #04AA6D;color: white;">
-                        @* <th>Id</th> *@
                         <th class="product-cell align-ver fs-4">Product</th>
                         <th></th>
-                        @* <th>Product Name</th> *@
                         <th class="align-ver fs-4">Product Price</th>
                         <th class="align-ver fs-4 ps-3">Product Quantity</th>
                         <th class="action-cell"></th>
@@ -27,7 +25,6 @@
                     @foreach (var item in Model.ListCart)
                     {
                         <tr class="border-bottom">
-                            @* <td>@i</td> *@
                             <td class="">
                                 <img src="~/pics/images.jpg" class="rounded mx-auto d-block" alt="..." width="200px" height="200px">
                             </td>
@@ -35,7 +32,6 @@
                                 <p class="fw-bold mt-3">@item.Product.Product_Name</p>
                                 <p class="d-inline">size: EX | color: Ex</p>
                             </td>
-                            @* <td>@item.Product.Product_Name</td> *@
                             <td class="fw-bold fs-3 align-ver">@item.Product.Product_Price$</td>
                             <td class="w-auto align-ver">
                                 <div class="d-flex flex-lg-wrap align-items-center justify-content-center">
@@ -43,7 +39,6 @@
                                     <p class="d-inline num-p w-25">@item.Count</p>
                                     <a class="inc-btn" asp-action="increaseQuantity" asp-route-id="@item.Id">+</a>
                                 </div>
-                                @* <input type="number" class="quantity-input" value="1"> *@
                             </td>
                             <td class="text-start align-ver">
                                 <a class="btn btn-danger btn-sm removeItem" asp-action="remove" asp-route-id="@item.Id">
@@ -68,10 +63,6 @@
             </div>
         </div>
 </div>
-
-
-
-
 </div>
 <br />
 <br />

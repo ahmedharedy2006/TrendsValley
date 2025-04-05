@@ -20,6 +20,7 @@ namespace TrendsValley.Areas.Admin.Controllers
             _userManager = userManager;
             _db = db;
         }
+
         public IActionResult Index()
         {
             var UserAccount = _db.appUsers.ToList();
@@ -62,7 +63,6 @@ namespace TrendsValley.Areas.Admin.Controllers
             });
             return View(objFromDb);
         }
-
         public IActionResult Delete(string userId)
         {
             AppUser obj = new();

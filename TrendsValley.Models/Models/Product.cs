@@ -18,11 +18,9 @@ namespace TrendsValley.Models.Models
         public string imgUrl { get; set; }
         public decimal Product_Price { get; set; }
 
-        //brand
         [ForeignKey("Product_Brand")]
         public int Brand_Id { get; set; }
         public Brand Product_Brand { get; set; }
-        //category
         [ForeignKey("Product_Category")]
         public int Category_id { get; set; }
         public Category Product_Category { get; set; }

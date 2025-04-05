@@ -6,7 +6,6 @@ namespace TrendsValley.Services
 {
     public class EmailSender : IEmailSender
     {
-        //Sendgrid Setup
         public string SendGridKey { get; set; }
         public EmailSender(IConfiguration _config)
         {

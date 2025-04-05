@@ -10,22 +10,21 @@ namespace TrendsValley.Models.Models
             public int Id { get; set; }
 
             [Required]
-            public string UserId { get; set; } // Foreign key to ApplicationUser
+            public string UserId { get; set; }
 
             [ForeignKey("UserId")]
             public AppUser User { get; set; }
 
             [Required]
-            public string Name { get; set; } = "Unknown"; // Default value
+            public string Name { get; set; } = "Unknown";
 
-            public string? Address { get; set; } // Nullable
+            public string? Address { get; set; } 
+            public string? CurrentCity { get; set; } 
 
-            public string? CurrentCity { get; set; } // Nullable
+            public string? PostalCode { get; set; } 
 
-            public string? PostalCode { get; set; } // Nullable
+            public string? Gender { get; set; } 
 
-            public string? Gender { get; set; } // Nullable
-
-            public string? ProfileImageUrl { get; set; } // Nullable
+            public string? ProfileImageUrl { get; set; }
         }
 }

@@ -43,8 +43,8 @@ builder.Services.AddIdentity<AppUser, IdentityRole>()
 
 builder.Services.Configure<IdentityOptions>(options =>
 {
-    options.User.RequireUniqueEmail = true; //  => For unique emails 
-    options.Password.RequireDigit = false; // => Controll RequireCapitale 
+    options.User.RequireUniqueEmail = true; 
+    options.Password.RequireDigit = false; 
     options.Password.RequireLowercase = false;
     options.Password.RequireNonAlphanumeric = false;
     options.Tokens.PasswordResetTokenProvider = TokenOptions.DefaultProvider;
@@ -57,17 +57,17 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.ConfigureApplicationCookie(options =>
 {
     options.LoginPath = "/Customer/Auth/SignIn";
-    options.AccessDeniedPath = "/Customer/Home/Index";  // Redirect users without permission
+    options.AccessDeniedPath = "/Customer/Home/Index"; 
 });
 builder.Services.AddSession(options =>
 {
-    options.IdleTimeout = TimeSpan.FromMinutes(5); // Code expires in 5 mins
+    options.IdleTimeout = TimeSpan.FromMinutes(5);
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
-builder.Services.AddHttpContextAccessor(); // لو محتاج تستخدم HttpContext في أي مكان
+builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IStateRepo, StateRepo>();
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
@@ -84,11 +84,9 @@ builder.Services.AddTransient<IEmailSender, EmailSender>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Home/Error");
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
