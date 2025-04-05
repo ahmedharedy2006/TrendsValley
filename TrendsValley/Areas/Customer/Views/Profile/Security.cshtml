@@ -41,10 +41,13 @@
             }
             else
             {
-                <button onclick="showEmailVerificationModal()"
+                <form asp-controller="Profile" asp-action="SendEmailVerificationCode" method="post">
+                    <input type="hidden" name="userId" value="@Model.UserId" />
+                <button 
                         class="text-primary hover:text-[#076b63] text-sm font-medium">
                     <i class="fas fa-envelope mr-1"></i> Verify Email
                 </button>
+                </form>
             }
         </div>
         <div class="mt-4">
@@ -71,6 +74,14 @@
     </div>
 
     <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
+        @if (TempData["ErrorMessage"] != null)
+        {
+            <div class="mb-4 p-3 bg-red-50 text-red-600 rounded-md text-sm">
+                <i class="fas fa-exclamation-circle mr-1"></i>
+                @TempData["ErrorMessage"]
+            </div>
+        }
+
         <div class="flex justify-between items-center">
             <h3 class="text-lg font-semibold flex items-center">
                 <i class="fas fa-shield-alt text-primary mr-2"></i>
@@ -78,18 +89,18 @@
             </h3>
             @if (Model.IsTwoFactorEnabled)
             {
-               <form asp-action="Disable2FA" method="post" id="disable2faForm">
+                <form asp-action="Disable2FA" method="post" id="disable2faForm">
                     @Html.AntiForgeryToken()
-                    <button type ="button" onclick="confirmDisable2FA()"
-                        class="text-red-500 hover:text-red-700 text-sm font-medium">
-                    <i class="fas fa-times-circle mr-1"></i> Disable
-                </button>
+                    <button type="button" onclick="confirmDisable2FA()"
+                            class="text-red-500 hover:text-red-700 text-sm font-medium">
+                        <i class="fas fa-times-circle mr-1"></i> Disable
+                    </button>
                 </form>
             }
             else
             {
                 <a asp-action="Enable2FA"
-                        class="text-primary hover:text-[#076b63] text-sm font-medium">
+                   class="text-primary hover:text-[#076b63] text-sm font-medium">
                     <i class="fas fa-plus-circle mr-1"></i> Enable
                 </a>
             }
