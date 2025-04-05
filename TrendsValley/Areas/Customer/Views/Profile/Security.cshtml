@@ -6,165 +6,208 @@
     Layout = "~/Areas/Customer/Views/Shared/_ProfileLayout.cshtml";
 }
 
-<section>
-    <!-- Login and Security Header -->
-    <div class="text-center mb-8">
-        <h1 class="text-4xl font-bold text-[#1f2937] mb-2">Login & Security</h1>
-        <p class="text-gray-600">Manage your login credentials and security settings.</p>
+@if (TempData["SuccessMessage"] != null)
+{
+    <div id="successMessage" class="fixed top-4 right-4 z-50 animate-fade-in">
+        <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-lg shadow-lg flex items-center justify-between">
+            <span class="flex items-center">
+                <i class="fas fa-check-circle mr-2"></i>
+                @TempData["SuccessMessage"]
+            </span>
+            <button type="button" class="text-green-700 hover:text-green-900" onclick="closeMessage('successMessage')">
+                <i class="fas fa-times"></i>
+            </button>
+        </div>
+    </div>
+}
+
+<div class="mb-6 lg:mb-8">
+    <h2 class="text-xl lg:text-2xl font-bold text-gray-800">Login & Security</h2>
+    <p class="text-gray-500 text-sm lg:text-base">Manage your account security settings</p>
+</div>
+
+<div class="space-y-4 lg:space-y-6">
+    <!-- Email Section -->
+    <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
+        <div class="flex justify-between items-center">
+            <h3 class="text-lg font-semibold flex items-center">
+                <i class="fas fa-envelope text-primary mr-2"></i>
+                Email Address
+            </h3>
+            @if (Model.IsEmailConfirmed)
+            {
+                <span class="text-green-600 text-sm flex items-center">
+                    <i class="fas fa-check-circle mr-1"></i> Confirmed
+                </span>
+            }
+            else
+            {
+                <button onclick="showEmailVerificationModal()"
+                        class="text-primary hover:text-[#076b63] text-sm font-medium">
+                    <i class="fas fa-envelope mr-1"></i> Verify Email
+                </button>
+            }
+        </div>
+        <div class="mt-4">
+            <p class="text-gray-800">@Model.Email</p>
+        </div>
     </div>
 
-    <!-- Login and Security Settings -->
-    <div class="bg-white p-6 rounded-lg shadow-xl border border-gray-200">
-        <h2 class="text-2xl font-semibold text-[#6366f1] mb-4">Security Settings</h2>
-        <div class="space-y-6">
+    <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
+        <div class="flex justify-between items-center">
+            <h3 class="text-lg font-semibold flex items-center">
+                <i class="fas fa-lock text-primary mr-2"></i>
+                Password
+            </h3>
+            <a asp-controller="Profile"
+               asp-action="ChangePassword"
+               class="text-primary hover:text-[#076b63] text-sm font-medium">
+                <i class="fas fa-edit mr-1"></i> Change
 
-            <!-- Email Confirmation -->
-            <div class="flex flex-col">
-                <label class="text-gray-700 font-medium">Email Address</label>
-                <div class="flex items-center justify-between mt-1">
-                    <p class="text-gray-900">@Model.Email</p>
+            </a>
+        </div>
+        <div class="mt-4">
+            <p class="text-gray-800">••••••••</p>
+        </div>
+    </div>
 
-                    @if (Model.IsEmailConfirmed)
-                    {
-                        <p class="text-green-600">Confirmed!</p>
-                    }
-                    else
-                    {
-                        <form asp-controller="Profile" asp-action="SendEmailVerificationCode" method="post">
-                            <input type="hidden" name="userId" value="@Model.UserId" />
-                            <div class="flex items-center gap-2">
-                                <p class="text-red-600">Not Confirmed</p>
-                                <button class="bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:transform hover:-translate-y-0.5 active:translate-y-0">
-                                    Confirm Email
-                                </button>
-                            </div>
-                        </form>
-                    }
-                </div>
-            </div>
+    <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
+        <div class="flex justify-between items-center">
+            <h3 class="text-lg font-semibold flex items-center">
+                <i class="fas fa-shield-alt text-primary mr-2"></i>
+                Two-Factor Authentication
+            </h3>
+            @if (Model.IsTwoFactorEnabled)
+            {
+               <form asp-action="Disable2FA" method="post" id="disable2faForm">
+                    @Html.AntiForgeryToken()
+                    <button type ="button" onclick="confirmDisable2FA()"
+                        class="text-red-500 hover:text-red-700 text-sm font-medium">
+                    <i class="fas fa-times-circle mr-1"></i> Disable
+                </button>
+                </form>
+            }
+            else
+            {
+                <a asp-action="Enable2FA"
+                        class="text-primary hover:text-[#076b63] text-sm font-medium">
+                    <i class="fas fa-plus-circle mr-1"></i> Enable
+                </a>
+            }
+        </div>
+        <div class="mt-4">
+            <p class="text-gray-800">@(Model.IsTwoFactorEnabled ? "Enabled" : "Disabled")</p>
+        </div>
+    </div>
 
-            <!-- Separator Line -->
-            <hr class="border-gray-200">
-
-            <!-- Change Password -->
-            <div class="flex flex-col">
-                <label class="text-gray-700 font-medium">Password</label>
-                <div class="flex items-center justify-between mt-1">
-                    <p class="text-gray-900">********</p>
-                    <a asp-controller="Profile"
-                       asp-action="ChangePassword"
-                       class="bg-[#6366f1] text-white px-6 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:transform hover:-translate-y-0.5 active:translate-y-0">
-                        Change Password
-                    </a>
-                </div>
-            </div>
-
-            <!-- Separator Line -->
-            <hr class="border-gray-200">
-
-            <!-- Two-Factor Authentication (2FA) -->
-            <!-- In Security.cshtml -->
-            <div class="flex flex-col">
-                <label class="text-gray-700 font-medium">Two-Factor Authentication</label>
-                <div class="flex items-center justify-between mt-1">
-                    <p class="text-gray-900">@(Model.IsTwoFactorEnabled ? "Enabled" : "Disabled")</p>
-                    @if (Model.IsTwoFactorEnabled)
-                    {
-                        <form asp-action="Disable2FA" method="post" id="disable2faForm">
-                            @Html.AntiForgeryToken()
-                            <button type="button" onclick="confirmDisable2FA()"
-                                    class="bg-red-500 text-white px-4 py-2 rounded-md hover:bg-red-600 transition-colors duration-200 ">
-                                Disable
-                            </button>
-                        </form>
-                    }
-                    else
-                    {
-                        <a asp-action="Enable2FA"
-                           class="bg-[#6366f1] text-white px-4 py-2 rounded-md hover:bg-[#4f46e5] transition-colors duration-200 transition-transform duration-300 ease-[cubic-bezier(0.34,1.56,0.64,1)] hover:transform hover:-translate-y-0.5 active:translate-y-0">
-                            Enable
-                        </a>
-                    }
-                </div>
-            </div>
-
-            <!-- Separator Line -->
-            <hr class="border-gray-200">
-
-            <!-- Connected Devices -->
-            <div class="flex flex-col">
-                <label class="text-gray-700 font-medium">Connected Devices</label>
-
-                <div class="mt-1 space-y-2">
-                    @if (Model.ConnectedDevices != null && Model.ConnectedDevices.Count > 0)
-                    {
-                        @foreach (var device in Model.ConnectedDevices)
-                        {
-                            <p class="text-gray-900">
-                                @device.DeviceName (Last active:
+    <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
+        <div class="flex justify-between items-center">
+            <h3 class="text-lg font-semibold flex items-center">
+                <i class="fas fa-laptop text-primary mr-2"></i>
+                Connected Devices
+            </h3>
+            <a asp-action="ManageDevices"
+               class="text-primary hover:text-[#076b63] text-sm font-medium">
+                <i class="fas fa-cog mr-1"></i> Manage
+            </a>
+        </div>
+<div class="mt-4 space-y-2">
+            @if (Model.ConnectedDevices != null && Model.ConnectedDevices.Count > 0)
+            {
+                foreach (var device in Model.ConnectedDevices)
+                {
+                    <div class="flex justify-between items-center py-2 border-b border-gray-100">
+                        <div>
+                            <p class="text-gray-800 font-medium">@device.DeviceName</p>
+                            <p class="text-gray-500 text-sm">
+                                Last active:
                                 @if (device.LastLoginDate.HasValue)
                                 {
-                                    var lastLogin = device.LastLoginDate.Value;
-                                    var timeSinceLastLogin = DateTime.Now - lastLogin;
-
-                                    if (timeSinceLastLogin.TotalHours < 1)
-                                    {
-                                        <span>@Math.Round(timeSinceLastLogin.TotalMinutes) minutes ago</span>
-                                    }
-                                    else if (timeSinceLastLogin.TotalHours < 24)
-                                    {
-                                        <span>@Math.Round(timeSinceLastLogin.TotalHours) hours ago</span>
-                                    }
-                                    else
-                                    {
-                                        <span>@Math.Round(timeSinceLastLogin.TotalDays) days ago</span>
-                                    }
+                                    @FormatLastActive(device.LastLoginDate.Value)
                                 }
                                 else
                                 {
                                     <span>unknown</span>
-                                })
+                                }
                             </p>
-                        }
-                    }
-                    else
-                    {
-                        <p class="text-gray-500">No connected devices</p>
-                    }
-                </div>
-                
-                <a asp-action="ManageDevices" class="mt-2 bg-[#6366f1] text-white px-6 py-2.5 rounded-lg hover:bg-[#4f46e5] transition-all 
-                                            duration-300 ease-in-out shadow-md hover:shadow-lg transform hover:-translate-y-0.5 active  inline-flex items-center justify-center gap-2 font-medium text-sm sm:text-base no-underline cursor-pointer">
-                    Manage Devices
-                </a>
-            </div>
-
-            <!-- Separator Line -->
-            <hr class="border-gray-200">
-
-            <!-- Recent Security Activity -->
-            <div class="flex flex-col">
-                <label class="text-gray-700 font-medium">Recent Security Activity</label>
-                <div class="mt-1 space-y-1">
-                    @if (Model.RecentSecurityActivities.Any())
-                    {
-                        @foreach (var activity in Model.RecentSecurityActivities)
-                        {
-                            <p class="text-gray-900">@activity.Description on @activity.ActivityDate.ToString("MMMM dd, yyyy")</p>
-                        }
-                    }
-                    else
-                    {
-                        <p class="text-gray-500">No recent security activities</p>
-                    }
-                </div>
-            </div>
+                            @if (device.DeviceToken == Context.Request.Cookies["DeviceToken"])
+                            {
+                                <span class="inline-block bg-green-100 text-green-800 text-xs px-2 py-0.5 rounded mt-1">This device</span>
+                            }
+                        </div>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-gray-500">No connected devices</p>
+            }
         </div>
     </div>
-</section>
-<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+    <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
+        <h3 class="text-lg font-semibold flex items-center">
+            <i class="fas fa-history text-primary mr-2"></i>
+            Recent Security Activity
+        </h3>
+        <div class="mt-4 space-y-2">
+            @if (Model.RecentSecurityActivities.Any())
+            {
+                foreach (var activity in Model.RecentSecurityActivities)
+                {
+                    <div class="py-2 border-b border-gray-100">
+                        <p class="text-gray-800">@activity.Description</p>
+                        <p class="text-gray-500 text-sm">@activity.ActivityDate.ToString("MMMM dd, yyyy h:mm tt")</p>
+                    </div>
+                }
+            }
+            else
+            {
+                <p class="text-gray-500">No recent security activities</p>
+            }
+        </div>
+    </div>
+</div>
+
+<div class="mt-8 flex justify-start">
+    <a asp-area="Customer" asp-controller="Home" asp-action="Index"
+       class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors inline-flex items-center text-sm font-medium">
+        <i class="fas fa-arrow-left mr-2"></i> Back to Home
+    </a>
+</div>
+
+
 @section Scripts {
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script>
+        function closeMessage(id) {
+            let element = document.getElementById(id);
+            if (element) {
+                element.classList.add('animate-fade-out');
+                setTimeout(() => element.remove(), 1000);
+            }
+        }
+
+        function showModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.remove('hidden');
+            document.body.classList.add('overflow-hidden');
+        }
+
+        function hideModal(modalId) {
+            const modal = document.getElementById(modalId);
+            modal.classList.add('hidden');
+            document.body.classList.remove('overflow-hidden');
+        }
+
+        function showEmailVerificationModal() {
+            showModal('emailVerificationModal');
+        }
+
+        function showEnable2FAModal() {
+            showModal('enable2FAModal');
+        }
+
         function confirmDisable2FA() {
             Swal.fire({
                 title: 'Disable Two-Factor Authentication?',
@@ -180,5 +223,61 @@
                 }
             });
         }
+
+        document.addEventListener("DOMContentLoaded", function() {
+            setTimeout(() => {
+                closeMessage('successMessage');
+            }, 5000);
+        });
     </script>
+}
+
+<style>
+    .animate-fade-in {
+        opacity: 0;
+        transform: translateY(-10px);
+        animation: fadeIn 0.5s ease-out forwards;
+    }
+
+    @@keyframes fadeIn {
+        from {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .animate-fade-out {
+        animation: fadeOut 1s ease-out forwards;
+    }
+
+    @@keyframes fadeOut {
+        from {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        to {
+            opacity: 0;
+            transform: translateY(-10px);
+        }
+    }
+</style>
+
+@functions {
+    public string FormatLastActive(DateTime lastActive)
+    {
+        var timeSince = DateTime.Now - lastActive;
+
+        if (timeSince.TotalMinutes < 1) return "just now";
+        if (timeSince.TotalHours < 1) return $"{Math.Floor(timeSince.TotalMinutes)} minutes ago";
+        if (timeSince.TotalDays < 1) return $"{Math.Floor(timeSince.TotalHours)} hours ago";
+        if (timeSince.TotalDays < 30) return $"{Math.Floor(timeSince.TotalDays)} days ago";
+
+        return lastActive.ToString("MMMM dd, yyyy");
+    }
 }
