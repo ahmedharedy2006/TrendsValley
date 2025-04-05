@@ -104,8 +104,12 @@
         <center class="mt-3">
             <span class="" style="width:fit-content;height:fit-content;">Already Have An Account ? <a asp-action="SignIn" style="text-decoration:underline">Sign-In Now !</a></span>
         </center>
-        <p class="text-center mt-3 fs-7 fw-bold">Or Login With</p>
         <div class="text-center mt-2">
+            <div class="d-flex align-items-center my-4">
+                <div class="flex-grow-1 border-top border-1"></div>
+                <span class="px-3 text-muted">Or Sign In With Email</span>
+                <div class="flex-grow-1 border-top border-1"></div>
+            </div>
             @{
                 var schemes = await signinManager.GetExternalAuthenticationSchemesAsync();
                 var loginProviders = schemes.ToList();
