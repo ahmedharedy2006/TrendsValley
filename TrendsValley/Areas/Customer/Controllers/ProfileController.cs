@@ -44,14 +44,12 @@ namespace TrendsValley.Areas.Customer.Controllers
             var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value; // Get the current user's ID
 
 
-            // Fetch the user's profile
             var profile = await _db.appUsers.Where(u => u.Id == userId).Include(u => u.state).Include(c => c.city).FirstOrDefaultAsync();
 
             if (profile == null)
             {
                 return NotFound();
             }
-            // Populate the ProfileViewModel
             var model = new ProfileViewModel
             {
                 Id = profile.Id,
@@ -77,10 +75,11 @@ namespace TrendsValley.Areas.Customer.Controllers
 
             return View(model);
         }
+
         [HttpPost]
-        public async Task<IActionResult> UpdateProfile(ProfileViewModel model)
+        public async Task<IActionResult> UpdateFirstName(ProfileViewModel model)
         {
-            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); // Get the current user's ID
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier); 
             var user = await _userManager.FindByIdAsync(userId);
 
             if (user == null)
@@ -88,30 +87,147 @@ namespace TrendsValley.Areas.Customer.Controllers
                 return NotFound();
             }
 
-
-            if (user.Email != model.Email)
-            {
-                // Mark the new email as unconfirmed
-                user.Email = model.Email;
-                user.EmailConfirmed = false; // Set email as unconfirmed
-            }
-
-
             user.Fname = model.FName;
-            user.Lname = model.LName;
-            user.StreetAddress = model.Address;
-            user.CityId = model.CityId;
-            user.PostalCode = model.PostalCode;
-
-            // Update the user's phone number
-            user.PhoneNumber = model.PhoneNumber;
-
-            // Save changes to the database
             await _userManager.UpdateAsync(user);
             await _db.SaveChangesAsync();
 
-            // Redirect to the Index action with a success message
-            TempData["SuccessMessage"] = "Profile updated successfully!";
+            TempData["SuccessMessage"] = "First Name updated successfully!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateLastName(ProfileViewModel model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.Lname = model.LName;
+            await _userManager.UpdateAsync(user);
+            await _db.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Last Name updated successfully!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateEmail(ProfileViewModel model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            if (user.Email != model.Email)
+            {
+                user.Email = model.Email;
+                user.EmailConfirmed = false;
+            }
+
+            await _userManager.UpdateAsync(user);
+            await _db.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Email updated successfully!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePhone(ProfileViewModel model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+            user.PhoneNumber = model.PhoneNumber;
+            await _userManager.UpdateAsync(user);
+            await _db.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Phone Number updated successfully!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateAddress(ProfileViewModel model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.StreetAddress = model.Address;
+            await _userManager.UpdateAsync(user);
+            await _db.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Address updated successfully!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdatePostalCode(ProfileViewModel model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.PostalCode = model.PostalCode;
+            await _userManager.UpdateAsync(user);
+            await _db.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "Postal Code updated successfully!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateCity(ProfileViewModel model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.CityId = model.CityId;
+            await _userManager.UpdateAsync(user);
+            await _db.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "City updated successfully!";
+            return RedirectToAction(nameof(Index));
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> UpdateState(ProfileViewModel model)
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            user.StateId = model.stateId;
+            await _userManager.UpdateAsync(user);
+            await _db.SaveChangesAsync();
+
+            TempData["SuccessMessage"] = "State updated successfully!";
             return RedirectToAction(nameof(Index));
         }
 
@@ -138,7 +254,7 @@ namespace TrendsValley.Areas.Customer.Controllers
                 .OrderByDescending(a => a.ActivityDate)
                 .Take(5)
                 .ToListAsync()
-                };
+            };
             return View(model);
         }
 
@@ -191,7 +307,6 @@ namespace TrendsValley.Areas.Customer.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> VerifyEmailCode(VerifyEmailCodeViewModel model)
         {
-            // Basic model validation
             if (!ModelState.IsValid)
             {
                 var user = await _userManager.FindByIdAsync(model.UserId);
@@ -200,7 +315,6 @@ namespace TrendsValley.Areas.Customer.Controllers
                 return View(model);
             }
 
-            // Get the stored code WITHOUT reading it (to prevent deletion)
             var storedCode = TempData.Peek("EmailVerificationCode")?.ToString();
 
             if (string.IsNullOrEmpty(storedCode)
@@ -214,10 +328,8 @@ namespace TrendsValley.Areas.Customer.Controllers
                 return View(model);
             }
 
-            // Only remove the code AFTER successful verification
             TempData.Remove("EmailVerificationCode");
 
-            // Update user's email confirmation status
             var verifiedUser = await _userManager.FindByIdAsync(model.UserId);
             if (verifiedUser == null)
             {
@@ -384,12 +496,10 @@ namespace TrendsValley.Areas.Customer.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return NotFound();
 
-            // Get client information
             var ipAddress = GetClientIpAddress();
             var deviceName = System.Net.Dns.GetHostName();
             var changeTime = DateTime.Now;
 
-            // Change password
             var activity = new SecurityActivity
             {
                 UserId = user.Id,
@@ -409,7 +519,6 @@ namespace TrendsValley.Areas.Customer.Controllers
                 return View(model);
             }
 
-            // Generate password reset link
             var resetToken = await _userManager.GeneratePasswordResetTokenAsync(user);
             var passwordResetLink = Url.Action(
                 "ResetPassword",
@@ -418,7 +527,6 @@ namespace TrendsValley.Areas.Customer.Controllers
                 protocol: HttpContext.Request.Scheme
             );
 
-            // Send email notification
             var emailSubject = "Your password has been changed";
             var emailBody = GeneratePasswordChangeEmail(user, ipAddress, deviceName, changeTime, passwordResetLink);
             await _emailSender.SendEmailAsync(user.Email, emailSubject, emailBody);
@@ -427,33 +535,6 @@ namespace TrendsValley.Areas.Customer.Controllers
             return RedirectToAction("Security");
         }
 
-        private string GetClientIpAddress()
-        {
-            var ip = HttpContext.Request.Headers["X-Forwarded-For"].FirstOrDefault();
-
-            if (string.IsNullOrEmpty(ip))
-            {
-                ip = HttpContext.Connection.RemoteIpAddress?.ToString();
-            }
-            else
-            {
-                ip = ip.Split(',')[0].Trim();
-            }
-
-            if (IPAddress.TryParse(ip, out var address))
-            {
-                if (address.AddressFamily == System.Net.Sockets.AddressFamily.InterNetworkV6)
-                {
-                    ip = address.MapToIPv4().ToString();
-                }
-                else if (ip == "::1")
-                {
-                    ip = "127.0.0.1";
-                }
-            }
-
-            return ip ?? "Unknown";
-        }
 
         private string GeneratePasswordChangeEmail(
             AppUser user,
@@ -593,7 +674,6 @@ namespace TrendsValley.Areas.Customer.Controllers
                 return RedirectToAction("Security");
             }
 
-            // Generate cryptographically secure random code
             var code = GenerateSecureSixDigitCode();
             var emailBody = GenerateEmailEnable2FA(user, code);
 
@@ -748,7 +828,6 @@ namespace TrendsValley.Areas.Customer.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return NotFound();
 
-            // Validate code expiration
             var expiry = DateTime.Parse(HttpContext.Session.GetString("2FA_Expiry"));
             if (DateTime.Now > expiry)
             {
@@ -756,13 +835,11 @@ namespace TrendsValley.Areas.Customer.Controllers
                 return RedirectToAction("Enable2FA");
             }
 
-            // Case-insensitive comparison and trim whitespace
             var storedCode = HttpContext.Session.GetString("2FA_Code");
             if (string.Equals(code?.Trim(), storedCode, StringComparison.OrdinalIgnoreCase))
             {
                 await _userManager.SetTwoFactorEnabledAsync(user, true);
 
-                // Clear session data
                 HttpContext.Session.Remove("2FA_Code");
                 HttpContext.Session.Remove("2FA_Expiry");
 
@@ -784,7 +861,6 @@ namespace TrendsValley.Areas.Customer.Controllers
                 return NotFound();
             }
 
-            // Disable 2FA
             var disableResult = await _userManager.SetTwoFactorEnabledAsync(user, false);
 
             if (!disableResult.Succeeded)
@@ -820,7 +896,6 @@ namespace TrendsValley.Areas.Customer.Controllers
             var user = await _userManager.GetUserAsync(User);
             if (user == null) return NotFound();
 
-            // هنا هنجيب بيانات الأجهزة المتصلة من الداتابيز
             var devices = await _db.UserDevices
                 .Where(d => d.UserId == user.Id)
                 .OrderByDescending(d => d.LastLoginDate)
