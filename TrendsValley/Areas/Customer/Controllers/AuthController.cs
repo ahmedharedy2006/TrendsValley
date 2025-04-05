@@ -61,6 +61,7 @@ namespace TrendsValley.Areas.Customer.Controllers
             if (await _userManager.GetTwoFactorEnabledAsync(user))
             {
                 // Generate code
+                var code = new Random().Next(100000, 999999).ToString();
                 var emailBody = GenerateEmail2FA(user, code);
 
                 // Store in session
