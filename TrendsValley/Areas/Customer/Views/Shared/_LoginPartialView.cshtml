@@ -12,13 +12,13 @@
 @if (SignInManager.IsSignedIn(User))
 {
     <li class="nav-item">
-        <a asp-area="customer" asp-controller="Cart" asp-action="Index" class="nav-link">
+        <a asp-area="customer" asp-controller="Cart" asp-action="Index" class="nav-link pb-0 pt-0">
 
             <span>Cart <span class="badge bg-success">@ViewBag.CartCount</span></span>
 
         </a>
     </li>
-    <div class="dropdown ms-3">
+    <div class="dropdown m-auto text-center p-auto">
         <button class="btn p-0 border-0 position-relative custom-focus" type="button"
                 id="userDropdown" data-bs-toggle="dropdown"
                 aria-expanded="false">
@@ -30,7 +30,7 @@
             }
         </button>
 
-        <ul class="dropdown-menu dropdown-menu-end shadow-lg" style="min-width: 240px;" aria-labelledby="userDropdown">
+        <ul class="dropdown-menu dropdown-menu-end shadow-lg" style="min-width: 240px; width: 24%;" aria-labelledby="userDropdown">
             <li class="dropdown-header px-3 py-2 bg-light bg-opacity-10" style="background: linear-gradient(to right, #f0fdf4, white);">
                 <h6 class="mb-0 text-success">
                     @user?.Fname @user?.Lname

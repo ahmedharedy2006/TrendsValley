@@ -22,36 +22,70 @@
     <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
 </head>
 <body>
-    <section id="header">
-        <a asp-area="customer" asp-controller="Home" asp-action="index">
-            <img src="~/pics/logo.png" class="img-fluid" alt="logo" style="width:190px;margin-left:-50px;margin-bottom:-50px; margin-top:-90px">
-        </a>
-        <!-- Search -->
-        <form asp-controller="Home" asp-action="Search" method="get">
-            <div class="col-rt-3 equal-height">
-                <div class="search__container">
-                    <input class="search__input" type="search"
-                           placeholder="Need Something ?"
-                           aria-describedby="basic-addon2"
-                           aria-label="Need Something ?"
-                           name="searchTerm"> <!-- غيرت من 'key' لـ 'searchTerm' عشان يبقي متسق مع الكود اللي فوق -->
-                    <button type="submit" class="search__button" hidden>Search</button>
-                </div>
+    @* <section id="header"> *@
+    @*     <a asp-area="customer" asp-controller="Home" asp-action="index"> *@
+    @*         <img src="~/pics/logo.png" class="img-fluid" alt="logo" style="width:190px;margin-left:-50px;margin-bottom:-50px; margin-top:-90px"> *@
+    @*     </a> *@
+    @*     <!-- Search --> *@
+    @*     <form asp-controller="Home" asp-action="Search" method="get"> *@
+    @*         <div class="col-rt-3 equal-height"> *@
+    @*             <div class="search__container"> *@
+    @*                 <input class="search__input" type="search" *@
+    @*                        placeholder="Need Something ?" *@
+    @*                        aria-describedby="basic-addon2" *@
+    @*                        aria-label="Need Something ?" *@
+    @*                        name="searchTerm"> <!-- غيرت من 'key' لـ 'searchTerm' عشان يبقي متسق مع الكود اللي فوق --> *@
+    @*                 <button type="submit" class="search__button" hidden>Search</button> *@
+    @*             </div> *@
+    @*         </div> *@
+    @*     </form> *@
+    @*     <!-- End of Search --> *@
+    @*     <div> *@
+    @*         <ul id="navbar"> *@
+    @*             <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="Index" class="@IsActive("Home","Index")">Home</a></li> *@
+
+    @*             <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products" class="@IsActive("Home","products")">Shop</a></li> *@
+
+    @*             <partial name="_LoginPartialView" /> *@
+    @* <partial name=" _ProfileAndCartPartialView" /> *@
+
+    @*         </ul> *@
+    @*     </div> *@
+    @* </section> *@
+
+    <nav class="navbar navbar-expand-lg bg-body-tertiary nav-top p-auto" id="navbar">
+        <div class="container-fluid">
+            <a class="navbar-brand m-auto" asp-area="customer" asp-controller="Home" asp-action="index">
+                <img src="~/pics/logo.png" class="img-fluid" alt="logo" style="width:190px;margin-left:-50px;margin-bottom:-50px; margin-top:-90px">
+            </a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+            <div class="collapse navbar-collapse text-end" id="navbarSupportedContent" style="text-align: end;">
+                <!-- Search -->
+                <div class="equal-height w-sm-25 ms-auto mt-auto">
+                <form asp-controller="Home" asp-action="Search" method="get">
+                        <div class="search__container w-lg-100 w-sm-25" style="display: flex; justify-content: left;">
+                            <input class="search__input w-sm-25" type="search"
+                                   placeholder="Need Something ?"
+                                   aria-describedby="basic-addon2"
+                                   aria-label="Need Something ?"
+                                   name="searchTerm"> <!-- غيرت من 'key' لـ 'searchTerm' عشان يبقي متسق مع الكود اللي فوق -->
+                            <button type="submit" class="search__button" hidden>Search</button>
+                        </div>
+                </form>
+                    </div>
+                <!-- End of Search -->
+                <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="navbar" style="margin-right: 0;">
+                    <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="Index" class="@IsActive("Home","Index")">Home</a></li>
+
+                    <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products" class="@IsActive("Home","products")">Shop</a></li>
+
+                    <partial name="_LoginPartialView" />
+                </ul>
             </div>
-        </form>
-        <!-- End of Search -->
-        <div>
-            <ul id="navbar">
-                <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="Index" class="@IsActive("Home","Index")">Home</a></li>
-
-                <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products" class="@IsActive("Home","products")">Shop</a></li>
-
-                <partial name="_LoginPartialView" />
-                @* <partial name=" _ProfileAndCartPartialView" /> *@
-
-            </ul>
         </div>
-    </section>
+    </nav>
 
 
     <div>
