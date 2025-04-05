@@ -1,6 +1,7 @@
 ﻿html {
   font-size: 14px;
   font-family: Roboto;
+  height: 0px;
 }
 
 @media (min-width: 768px) {
