@@ -15,24 +15,39 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - TrendsValley</title>
+
+    <!--Start Of Reuired Links-->
+
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link href="https://cdn.jsdelivr.net/npm/tailwindcss@3.3.3/dist/tailwind.min.css" rel="stylesheet">
 
     <link rel="stylesheet" href="~/TrendsValley.styles.css" asp-append-version="true" />
     <link href="~/css/site.css" rel="stylesheet" asp-append-version="true" />
+
+    <!--End Of Reuired Links-->
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg bg-body-tertiary nav-top p-auto" id="navbar">
-        <div class="container-fluid">
-            <a class="navbar-brand m-auto" asp-area="customer" asp-controller="Home" asp-action="index">
-                <img src="~/pics/logo.png" class="img-fluid" alt="logo" style="width:190px;margin-left:-50px;margin-bottom:-50px; margin-top:-90px">
+    <!--Start Of Navbar-->
+
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <div class="container-fluid p-2">
+            <!--Start Of Logo-->
+
+            <a class="navbar-brand m-auto p-2" asp-area="customer" asp-controller="Home" asp-action="index">
+               &nbsp; <img src="~/pics/logo.png" class="img-fluid" alt="logo" style="width:190px;margin-left:-50px;margin-bottom:-50px; margin-top:-90px">
             </a>
+
+            <!--End Of Logo-->
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <i class="fa-solid fa-bars"></i>
             </button>
-            <div class="collapse navbar-collapse text-end" id="navbarSupportedContent" style="text-align: end;">
-                <div class="equal-height w-sm-25 ms-auto mt-auto">
-                <form asp-controller="Home" asp-action="Search" method="get">
+            <div class="collapse navbar-collapse text-start" id="navbarSupportedContent" style="text-align: end;">
+
+                <!-- Start of Search -->
+                <ul class="navbar-nav me-auto">
+
+                <div class="equal-height w-sm-25">
+                    <form asp-controller="Home" asp-action="Search" method="get">
                         <div class="search__container w-lg-100 w-sm-25" style="display: flex; justify-content: left;">
                             <input class="search__input w-sm-25" type="search"
                                    placeholder="Need Something ?"
@@ -41,18 +56,27 @@
                                    name="searchTerm"> 
                             <button type="submit" class="search__button" hidden>Search</button>
                         </div>
-                </form>
-                    </div>
-                <ul class="navbar-nav ms-auto mb-2 mb-lg-0" id="navbar" style="margin-right: 0;">
-                    <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="Index" class="@IsActive("Home","Index")">Home</a></li>
+                    </form>
+                </div>
+                </ul>
+                <!-- End of Search -->
 
-                    <li class="navShop"><a asp-area="customer" asp-controller="Home" asp-action="products" class="@IsActive("Home","products")">Shop</a></li>
+                <ul class="d-flex navbar-nav">
+                    <!--Start Of Links-->
+                    <li class="nav-link navShop p-2"><a asp-area="customer" asp-controller="Home" asp-action="Index" class="@IsActive("Home","Index")">Home</a></li>
+
+                    <li class="nav-link p-2"><a asp-area="customer" asp-controller="Home" asp-action="products" class="@IsActive("Home","products")">Shop</a></li>
 
                     <partial name="_LoginPartialView" />
+
+                    <!--End Of Links-->
                 </ul>
+
             </div>
         </div>
     </nav>
+
+    <!--End Of Navbar-->
 
 
     <div>
@@ -62,6 +86,7 @@
                 💬
             </button>
 
+            <!-- Start of Chat Window -->
             <div class="chat-container" id="chatBox">
                 <div class="chat-header">
                     Chat Support
@@ -69,9 +94,12 @@
                 </div>
                 <iframe src="https://copilotstudio.microsoft.com/environments/Default-5d3edc64-3c81-4c40-89c6-d3f5e1095f71/bots/cr1c4_faqBot/webchat?__version__=2" frameborder="0" style="width: 100%; height: 100%;"></iframe>
             </div>
+            <!-- End of Chat Window -->
+
         </main>
     </div>
 
+    <!--Start Of Footer-->
     <div class="container-fluid border-top ">
         <div class="row mb-0">
             <div class="col-lg-3 col-sm-12 text-center border-end">
@@ -131,6 +159,7 @@
             </div>
         </div>
     </div>
+    <!--End Of Footer-->
 
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>

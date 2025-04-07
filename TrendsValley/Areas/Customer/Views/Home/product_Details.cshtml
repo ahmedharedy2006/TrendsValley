@@ -5,18 +5,26 @@
     </div>
     <div class="col-lg-5 col-md-5 col-sm-12">
         <h1>@Model.ProductDetailsViewModel.product.Product_Name</h1>
-        <h3>Brand : @Model.ProductDetailsViewModel.Brandname</h3>
-        <div class="mb-2">
-            <h4 class="d-inline">Category : @Model.ProductDetailsViewModel.CategoryName</h4>
-        </div>
+      
         <br />
 
         <h5 class="text-secondary">Description :</h5>
-        <p> @Model.ProductDetailsViewModel.product.Product_Details</p>
-        <br />
+        <p> @Html.Raw(Model.ProductDetailsViewModel.product.Product_Details)</p>
+        <hr>
+        
+        <div class="row">
+            <div class="col-6">
+                <h5 class="d-inline">Category : @Model.ProductDetailsViewModel.CategoryName</h5>
+
+            </div>
+            <div class="col-6">
+                <h5>Brand : @Model.ProductDetailsViewModel.Brandname</h5>
+            </div>
+           
+        </div>
         <!-- sizes -->
         <div class="align-middle">
-            <label for="" class="fs-2" style="vertical-align: bottom;">Sizes  </label>
+            <label for="" class="fs-2" style="vertical-align: bottom;">Sizes  &nbsp;</label>
             <div class="btn-group" role="group" aria-label="Basic radio toggle button group">
                 <input type="radio" class="btn-check" name="btnradio" id="btnradio1" autocomplete="off">
                 <label class="btn btn-outline-success" for="btnradio1">Small</label>
@@ -37,17 +45,29 @@
 
         <div>
             <br />
-            <p class="fs-2 fw-bold"> Price : @Model.ProductDetailsViewModel.product.Product_Price $</p>
-            <p>No In Stock : @Model.ProductDetailsViewModel.product.NoInStock</p>
-        </div>
-        <form method="post" asp-action="product_Details" asp-controller="Home">
-            <input hidden asp-for="@Model.ProductId" />
-            <input value="0" type="number" asp-for="@Model.Count" class="form-control" max="@Model.ProductDetailsViewModel.product.NoInStock" min="0" />
-            <br/>
-            <button type="submit" class="btn btn-success"> Add To Cart </button>
-            <a asp-action="products" class="btn btn-warning"> Go Back </a>
+            <form method="post" asp-action="product_Details" asp-controller="Home">
 
-        </form>
+            <div class="row">
+                <div class="col-6 pt-2 pb-2">
+                    <p>No In Stock : @Model.ProductDetailsViewModel.product.NoInStock</p>
+
+                </div>
+
+                <div class="col-6">
+                        <input hidden asp-for="@Model.ProductId" />
+                        <input value="1" type="number" asp-for="@Model.Count" class="form-control" max="@Model.ProductDetailsViewModel.product.NoInStock" min="1" />
+                        <br />
+                    
+                </div>
+            </div>
+            <hr />
+            <p class="fs-2 fw-bold"> Price : @Model.ProductDetailsViewModel.product.Product_Price $</p>
+                <button type="submit" class="btn btn-success"> Add To Cart </button>
+                        <a asp-action="products" class="btn btn-warning"> Go Back </a>
+
+                    </form>
+        </div>
+        
 
     </div>
 </div>

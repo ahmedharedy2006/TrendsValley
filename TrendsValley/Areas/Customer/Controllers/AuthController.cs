@@ -548,6 +548,32 @@ namespace TrendsValley.Areas.Customer.Controllers
             return View();
         }
 
+        public async Task<IActionResult> DeleteAccount()
+        {
+            var userId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+            var user = await _userManager.FindByIdAsync(userId);
+            if (user == null)
+            {
+                return NotFound();
+            }
+            var userDervices = await _db.UserDevices.Where(u => u.UserId == userId).ToListAsync();
+            var carts = await _db.Carts.Where(u => u.UserId == userId).ToListAsync();
+            var orders = await _db.OrderHeaders.Where(u => u.AppUserId == userId).ToListAsync();
+
+            _db.UserDevices.RemoveRange(userDervices);
+            _db.Carts.RemoveRange(carts);
+            _db.OrderHeaders.RemoveRange(orders);
+            await _db.SaveChangesAsync();
+
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                await _signInManager.SignOutAsync();
+                return RedirectToAction("Index", "Home");
+            }
+            return View("Error");
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> ForgotPassword(ForgotPasswordViewModel model)

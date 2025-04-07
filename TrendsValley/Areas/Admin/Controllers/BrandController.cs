@@ -17,31 +17,47 @@ namespace TrendsValley.Areas.Admin.Controllers
             _brandRepo = brandRepo;
         }
 
+        // GET All Brands Method and View
         public async Task<IActionResult> Index()
         {
-            List<Brand> objList = await _brandRepo.GetAllAsync(); 
+            // Get All Brands from Database
+            List<Brand> objList = await _brandRepo.GetAllAsync();
+
+            // Return the list to the view
             return View(objList);
         }
 
+        // GET Create and Edit Method and View
         public async Task<IActionResult> Upsert(int? id)
         {
+            // Create a new Brand object
             Brand obj = new();
-            if(id == null || id == 0)
+
+            // If id is null or 0, return the view with the new object
+            if (id == null || id == 0)
             {
                 return View(obj);
             }
+
+            // If id is not null or 0, get the Brand object from the database
             obj = await _brandRepo.GetAsync(u => u.Brand_Id == id);
-            if(obj == null)
+
+            // If the object is null, return NotFound
+            if (obj == null)
             {
                 return NotFound();
             }
+
+            // If the object is not null, return the view with the object
             return View(obj);
         }
 
+        // POST Create and Edit Method
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(Brand obj)
         {
+            // Check if the model state is valid
             if (obj.Brand_Id == 0)
             {
                 await _brandRepo.CreateAsync(obj);
@@ -53,11 +69,16 @@ namespace TrendsValley.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        // GET Delete Method and View
         public async Task<IActionResult> Delete(int id)
         {
+            // Get the Brand object from the database
             Brand obj = new();
+
+            // If id is not null or 0, get the Brand object from the database
             obj = await _brandRepo.GetAsync(c => c.Brand_Id == id);
 
+            // If the object is null, return NotFound
             if (obj == null)
             {
                 return NotFound();

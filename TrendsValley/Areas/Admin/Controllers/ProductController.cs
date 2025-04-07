@@ -21,9 +21,13 @@ namespace TrendsValley.Areas.Admin.Controllers
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
         }
+
+        // GET All Products Method and View
         public async Task<IActionResult> Index()
         {
-           var products = await _unitOfWork.ProductRepo.GetAllAsync(
+            // Get All Products from Database
+            // Include related entities (Product_Brand and Product_Category) using Include method
+            var products = await _unitOfWork.ProductRepo.GetAllAsync(
 
                 null,
                 new Expression<Func<Product, object>>[]
@@ -34,47 +38,69 @@ namespace TrendsValley.Areas.Admin.Controllers
 
                 );
 
+            // Convert the result to a list
             List<Product> objList = products.ToList();
 
+            // Return the list to the view
             return View(objList);
         }
 
+        // GET Create and Edit Method and View
         public async Task<IActionResult> Upsert(int? id)
         {
+            // Create a new ProductViewModel object
             ProductViewModel obj = new();
+
+            // Get all brands and categories from the database
             var brands = await _unitOfWork.BrandRepo.GetAllAsync();
+
+            // Create a list of SelectListItem for brands
             obj.BrandList = brands.Select(i => new SelectListItem
             {
                 Text = i.Brand_Name,
                 Value = i.Brand_Id.ToString()
             });
+
+            // Get all categories from the database
             var categories = await _unitOfWork.CategoryRepo.GetAllAsync();
 
+            // Create a list of SelectListItem for categories
             obj.CategoryList = categories.Select(i => new SelectListItem
             {
                 Text = i.Category_Name,
                 Value = i.Category_id.ToString()
             });
+
+            // If id is null or 0, return the view with the new object
             if (id == null || id == 0)
             {
                 //Create product
                 return View(obj);
             }
-            //Edit
+
+            // If id is not null or 0, get the Product object from the database
 
             obj.product = await _unitOfWork.ProductRepo.GetAsync(u => u.Product_Id == id);
+
+            // If the object is null, return NotFound
             if (obj == null)
             {
                 return NotFound();
             }
+
+            // If the object is not null, return the view with the object
             return View(obj);
         }
 
+        // POST Create and Edit Method
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(ProductViewModel obj, IFormFile? file)
         {
+            
             string wwwRootPath = _webHostEnvironment.WebRootPath;
+
+            // Check if the model state is valid
             if (file != null)
             {
                 if (!string.IsNullOrEmpty(obj.product.imgUrl))
@@ -87,18 +113,26 @@ namespace TrendsValley.Areas.Admin.Controllers
                     }
                 }
 
+                // Generate a unique file name using Guid
                 string fileName = Guid.NewGuid().ToString() + Path.GetExtension(file.FileName);
+
+                // Combine the wwwroot path with the desired folder and file name
                 string productPath = Path.Combine(wwwRootPath, @"pics");
 
                 using (var fileStream = new FileStream(Path.Combine(productPath, fileName), FileMode.Create))
                 {
+                    // Copy the uploaded file to the specified path
                     file.CopyTo(fileStream);
                 }
+
+                // Set the image URL to the relative path of the uploaded file
                 obj.product.imgUrl = @"\pics\" + fileName;
             }
+
+            // Validate the model state
             if (obj.product.Product_Id == 0)
             {
-                //Add Product
+                //Create Product
                 await _unitOfWork.ProductRepo.CreateAsync(obj.product);
             }
             else
@@ -106,13 +140,21 @@ namespace TrendsValley.Areas.Admin.Controllers
                 //Update Product
                await _unitOfWork.ProductRepo.UpdateAsync(obj.product);
             }
+
+            //redirect to index
             return RedirectToAction(nameof(Index));
         }
 
+        // GET Delete Method and View
         public async Task<IActionResult> Delete(int id)
         {
+            // Get the Product object from the database
             Product obj = new();
+
+            // If id is not null or 0, get the Product object from the database
             obj = await _unitOfWork.ProductRepo.GetAsync(u => u.Product_Id == id);
+
+            // If the object is null, return NotFound
             if (obj == null)
             {
                 return NotFound();
@@ -129,7 +171,10 @@ namespace TrendsValley.Areas.Admin.Controllers
                 System.IO.File.Delete(imagePath); 
             }
 
+            // Delete the Product object from the database
             await _unitOfWork.ProductRepo.RemoveAsync(obj);
+
+            //redirect to index
             return RedirectToAction(nameof(Index));
         }
     }

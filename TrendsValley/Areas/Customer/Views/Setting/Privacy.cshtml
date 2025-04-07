@@ -258,6 +258,7 @@
 
     function deleteAccount() {
         console.log('Account deletion requested');
+        window.location.href = '/Customer/Auth/DeleteAccount';
         hideDeleteAccountModal();
         showSuccessNotification('Account deletion initiated. You will receive a confirmation email.');
     }
