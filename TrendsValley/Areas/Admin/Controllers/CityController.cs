@@ -4,6 +4,8 @@ using TrendsValley.DataAccess.Data;
 using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
+using TrendsValley.DataAccess.Repository;
 
 namespace TrendsValley.Areas.Admin.Controllers
 {
@@ -13,9 +15,12 @@ namespace TrendsValley.Areas.Admin.Controllers
     public class CityController : Controller
     {
         private readonly ICityRepo _cityRepo;
-        public CityController(ICityRepo cityRepo)
+        private readonly UserManager<AppUser> _userManager;
+
+        public CityController(ICityRepo cityRepo, UserManager<AppUser> userManager)
         {
             _cityRepo = cityRepo;
+            _userManager = userManager;
         }
 
         // GET All Cities Method and View
@@ -58,16 +63,32 @@ namespace TrendsValley.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(City obj)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
             // Check if the model state is valid
             if (obj.Id == null)
             {
                 // If the object is null or 0, create a new object
                 await _cityRepo.CreateAsync(obj);
+                await _cityRepo.AdminActivityAsync(
+               userId: user.Id,
+               activityType: "AddCity",
+               description: $"Add City(Id: {obj.Id})",
+               ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                );
+
             }
             else
             {
                 // If the object is not null or 0, update the existing object
                 await _cityRepo.UpdateAsync(obj);
+                await _cityRepo.AdminActivityAsync(
+                userId: user.Id,
+                activityType: "UpdateCity",
+                description: $"Update City(Id: {obj.Id})",
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                );
             }
 
             // Redirect to the Index action
@@ -77,6 +98,8 @@ namespace TrendsValley.Areas.Admin.Controllers
         // GET Delete Method and View
         public async Task<IActionResult> Delete(int id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
             // Get the City object from the database
             City obj =new();
 
@@ -91,6 +114,12 @@ namespace TrendsValley.Areas.Admin.Controllers
             else
             {
                 await _cityRepo.RemoveAsync(obj);
+                await _cityRepo.AdminActivityAsync(
+                userId: user.Id,
+                activityType: "RemoveCity",
+                description: $"Remove City(Id: {obj.Id})",
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                );
             }
 
             // Redirect to the Index action

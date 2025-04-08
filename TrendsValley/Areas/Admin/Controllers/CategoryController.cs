@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TrendsValley.DataAccess.Data;
+using TrendsValley.DataAccess.Repository;
 using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
 
@@ -12,10 +14,11 @@ namespace TrendsValley.Areas.Admin.Controllers
     public class CategoryController : Controller
     {
         private readonly ICategoryRepo _categoryRepo;
-
-        public CategoryController(ICategoryRepo categoryRepo)
+        private readonly UserManager<AppUser> _userManager;
+        public CategoryController(ICategoryRepo categoryRepo, UserManager<AppUser> userManager)
         {
             _categoryRepo = categoryRepo;
+            _userManager = userManager;
         }
 
         // GET All Categories Method and View
@@ -59,12 +62,19 @@ namespace TrendsValley.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(Category obj)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
             // Check if the model state is valid
             if (obj.Category_id == 0)
             {
                 // If the object is null, create a new Category
                 await _categoryRepo.CreateAsync(obj);
-
+                await _categoryRepo.AdminActivityAsync(
+                       userId: user.Id,
+                       activityType: "AddCategory",
+                       description: $"Add Category(Id: {obj.Category_id})",
+                       ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                   );
                 // Set a success message in TempData
                 TempData["Success"] = "Category Added Successfully";
 
@@ -73,7 +83,12 @@ namespace TrendsValley.Areas.Admin.Controllers
             {
                 // If the object is not null, update the Category
                 await _categoryRepo.UpdateAsync(obj);
-
+                await _categoryRepo.AdminActivityAsync(
+                userId: user.Id,
+                activityType: "UpdateCategory",
+                description: $"Update Category (Id: {obj.Category_id})",
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+            );
                 // Set a success message in TempData
                 TempData["Success"] = "Category Updated Successfully";
 
@@ -86,6 +101,8 @@ namespace TrendsValley.Areas.Admin.Controllers
         // GET Delete Method and View
         public async Task<IActionResult> Delete(int id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
             // Get the Category object from the database
             Category obj = new();
 
@@ -100,8 +117,13 @@ namespace TrendsValley.Areas.Admin.Controllers
             else
             {
                 await _categoryRepo.RemoveAsync(obj);
+                await _categoryRepo.AdminActivityAsync(
+                userId: user.Id,
+                activityType: "RemoveCategory",
+                description: $"Remove Category (Id: {obj.Category_id})",
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                );
                 TempData["Success"] = "Category Removed Successfully";
-
             }
 
             // Redirect to the Index action

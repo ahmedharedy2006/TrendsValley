@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using TrendsValley.DataAccess.Data;
 
@@ -11,9 +12,11 @@ using TrendsValley.DataAccess.Data;
 namespace TrendsValley.DataAccess.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250408113435_Add_AAdminActivity_To_Db")]
+    partial class Add_AAdminActivity_To_Db
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -252,11 +255,9 @@ namespace TrendsValley.DataAccess.Migrations
 
                     b.Property<string>("UserId")
                         .IsRequired()
-                        .HasColumnType("nvarchar(450)");
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("AdminActivities");
                 });
@@ -281,27 +282,27 @@ namespace TrendsValley.DataAccess.Migrations
                         new
                         {
                             Brand_Id = 1,
-                            Brand_Name = "adidass"
+                            Brand_Name = "adidas"
                         },
                         new
                         {
                             Brand_Id = 2,
-                            Brand_Name = "NIKEe"
+                            Brand_Name = "NIKE"
                         },
                         new
                         {
                             Brand_Id = 3,
-                            Brand_Name = "Activee"
+                            Brand_Name = "Active"
                         },
                         new
                         {
                             Brand_Id = 4,
-                            Brand_Name = "ZARAa"
+                            Brand_Name = "ZARA"
                         },
                         new
                         {
                             Brand_Id = 5,
-                            Brand_Name = "H.Ms"
+                            Brand_Name = "H.M"
                         });
                 });
 
@@ -325,17 +326,17 @@ namespace TrendsValley.DataAccess.Migrations
                         new
                         {
                             Category_id = 1,
-                            Category_Name = "T-Shirts"
+                            Category_Name = "T-Shirt"
                         },
                         new
                         {
                             Category_id = 2,
-                            Category_Name = "Pantalons"
+                            Category_Name = "Pantalon"
                         },
                         new
                         {
                             Category_id = 3,
-                            Category_Name = "Shortss"
+                            Category_Name = "Shorts"
                         });
                 });
 
@@ -360,27 +361,27 @@ namespace TrendsValley.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            name = "Arcadias"
+                            name = "Arcadia"
                         },
                         new
                         {
                             Id = 2,
-                            name = "Breas"
+                            name = "Brea"
                         },
                         new
                         {
                             Id = 3,
-                            name = "Chicos"
+                            name = "Chico"
                         },
                         new
                         {
                             Id = 4,
-                            name = "Ajos"
+                            name = "Ajo"
                         },
                         new
                         {
                             Id = 5,
-                            name = "Cliftons"
+                            name = "Clifton"
                         });
                 });
 
@@ -516,8 +517,8 @@ namespace TrendsValley.DataAccess.Migrations
                             Brand_Id = 2,
                             Category_id = 3,
                             NoInStock = 0,
-                            Product_Details = "Black Shortss",
-                            Product_Name = "Black Shortssss",
+                            Product_Details = "Black Short",
+                            Product_Name = "Black Short",
                             Product_Price = 69.00m,
                             imgUrl = "test.jpg"
                         },
@@ -527,8 +528,8 @@ namespace TrendsValley.DataAccess.Migrations
                             Brand_Id = 5,
                             Category_id = 1,
                             NoInStock = 0,
-                            Product_Details = "Black T_Shirtsss",
-                            Product_Name = "Black T-shirtsss",
+                            Product_Details = "Black T_Shirt",
+                            Product_Name = "Black T-shirt",
                             Product_Price = 54.00m,
                             imgUrl = "test1.jpg"
                         });
@@ -649,12 +650,12 @@ namespace TrendsValley.DataAccess.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "Californias"
+                            Name = "California"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "Floridas"
+                            Name = "Florida"
                         });
                 });
 
@@ -801,17 +802,6 @@ namespace TrendsValley.DataAccess.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
-                });
-
-            modelBuilder.Entity("TrendsValley.Models.Models.AdminActivity", b =>
-                {
-                    b.HasOne("TrendsValley.Models.Models.AppUser", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("TrendsValley.Models.Models.OrderDetails", b =>

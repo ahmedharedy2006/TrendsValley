@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using System.Reflection.Metadata.Ecma335;
 using TrendsValley.DataAccess.Data;
@@ -12,9 +13,14 @@ namespace TrendsValley.Areas.Admin.Controllers
     public class BrandController : Controller
     {
         private readonly IBrandRepo _brandRepo;
-        public BrandController(IBrandRepo brandRepo)
+
+        private readonly UserManager<AppUser> _userManager;
+
+
+        public BrandController(IBrandRepo brandRepo, SignInManager<AppUser> signInManager, UserManager<AppUser> userManager)
         {
             _brandRepo = brandRepo;
+            _userManager = userManager;
         }
 
         // GET All Brands Method and View
@@ -57,14 +63,32 @@ namespace TrendsValley.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(Brand obj)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+
+
+
             // Check if the model state is valid
             if (obj.Brand_Id == 0)
             {
                 await _brandRepo.CreateAsync(obj);
+
+                await _brandRepo.AdminActivityAsync(
+                        userId: user.Id,
+                        activityType: "AddBrand",
+                        description: $"Add Brand (Id: {obj.Brand_Id})",
+                        ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                    );
             }
             else
             {
                 _brandRepo.UpdateAsync(obj);
+                await _brandRepo.AdminActivityAsync(
+                        userId: user.Id,
+                        activityType: "UpdateBrand",
+                        description: $"Update Brand (Id: {obj.Brand_Id})",
+                        ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                    );
             }
             return RedirectToAction(nameof(Index));
         }
@@ -75,6 +99,8 @@ namespace TrendsValley.Areas.Admin.Controllers
             // Get the Brand object from the database
             Brand obj = new();
 
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
             // If id is not null or 0, get the Brand object from the database
             obj = await _brandRepo.GetAsync(c => c.Brand_Id == id);
 
@@ -86,6 +112,12 @@ namespace TrendsValley.Areas.Admin.Controllers
             else
             {
                 await _brandRepo.RemoveAsync(obj);
+                await _brandRepo.AdminActivityAsync(
+                userId: user.Id,
+                activityType: "RemoveBrand",
+                description: $"Remove Brand (Id: {obj.Brand_Id})",
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                );
             }
 
             return RedirectToAction(nameof(Index));

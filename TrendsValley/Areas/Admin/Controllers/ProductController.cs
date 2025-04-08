@@ -1,9 +1,11 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using System.Linq.Expressions;
 using TrendsValley.DataAccess.Data;
+using TrendsValley.DataAccess.Repository;
 using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
 using TrendsValley.Models.ViewModels;
@@ -15,11 +17,13 @@ namespace TrendsValley.Areas.Admin.Controllers
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly IWebHostEnvironment _webHostEnvironment; 
-        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment)
+        private readonly IWebHostEnvironment _webHostEnvironment;
+        private readonly UserManager<AppUser> _userManager;
+        public ProductController(IUnitOfWork unitOfWork, IWebHostEnvironment webHostEnvironment,UserManager<AppUser> userManager)
         {
             _unitOfWork = unitOfWork;
             _webHostEnvironment = webHostEnvironment;
+            _userManager = userManager;
         }
 
         // GET All Products Method and View
@@ -97,7 +101,8 @@ namespace TrendsValley.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(ProductViewModel obj, IFormFile? file)
         {
-            
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
             string wwwRootPath = _webHostEnvironment.WebRootPath;
 
             // Check if the model state is valid
@@ -134,11 +139,23 @@ namespace TrendsValley.Areas.Admin.Controllers
             {
                 //Create Product
                 await _unitOfWork.ProductRepo.CreateAsync(obj.product);
+                await _unitOfWork.ProductRepo.AdminActivityAsync(
+                userId: user.Id,
+                activityType: "AddProduct",
+                description: $"Add Product(Id: {obj.product.Product_Id})",
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                );
             }
             else
             {
                 //Update Product
                await _unitOfWork.ProductRepo.UpdateAsync(obj.product);
+                await _unitOfWork.ProductRepo.AdminActivityAsync(
+                userId: user.Id,
+                activityType: "UpdateProduct",
+                description: $"Update Product(Id: {obj.product.Product_Id})",
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                );
             }
 
             //redirect to index
@@ -148,6 +165,8 @@ namespace TrendsValley.Areas.Admin.Controllers
         // GET Delete Method and View
         public async Task<IActionResult> Delete(int id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
             // Get the Product object from the database
             Product obj = new();
 
@@ -173,6 +192,12 @@ namespace TrendsValley.Areas.Admin.Controllers
 
             // Delete the Product object from the database
             await _unitOfWork.ProductRepo.RemoveAsync(obj);
+            await _unitOfWork.ProductRepo.AdminActivityAsync(
+            userId: user.Id,
+            activityType: "RemoveProduct",
+            description: $"Remove Product(Id: {obj.Product_Id})",
+            ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+            );
 
             //redirect to index
             return RedirectToAction(nameof(Index));

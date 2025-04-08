@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.DataAccess.Repository.Interfaces;
+using TrendsValley.Models.Models;
 
 namespace TrendsValley.DataAccess.Repository
 {
@@ -86,7 +87,19 @@ namespace TrendsValley.DataAccess.Repository
             await _db.SaveChangesAsync();
         }
 
+        public async Task AdminActivityAsync(string userId, string activityType, string description, string ipAddress)
+        {
+            var activity = new AdminActivity
+            {
+                UserId = userId,
+                ActivityType = activityType,
+                Description = description,
+                IpAddress = ipAddress
+            };
 
-        
+            _db.AdminActivities.Add(activity);
+            await _db.SaveChangesAsync();
+        }
+
     }
 }

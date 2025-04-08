@@ -19,7 +19,6 @@ namespace TrendsValley.DataAccess.Repository
         public async Task UpdateAsync(Brand brand)
         {
             _db.Brands.Update(brand);
-            await _db.SaveChangesAsync();
         }
     }
    

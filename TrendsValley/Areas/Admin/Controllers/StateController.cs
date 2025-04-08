@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using TrendsValley.DataAccess.Data;
+using TrendsValley.DataAccess.Repository;
 using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
 
@@ -11,9 +13,11 @@ namespace TrendsValley.Areas.Admin.Controllers
     public class StateController : Controller
     {
         private readonly IStateRepo _stateRepoo;
-        public StateController(IStateRepo stateRepo)
+        private readonly UserManager<AppUser> _userManager;
+        public StateController(IStateRepo stateRepo,UserManager<AppUser> userManager)
         {
             _stateRepoo = stateRepo;
+            _userManager = userManager;
         }
 
         // GET All States Method and View
@@ -54,15 +58,29 @@ namespace TrendsValley.Areas.Admin.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Upsert(State obj)
         {
-            if (obj == null)
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
+            if (obj.Id == null)
             {
                 //Create a new State object
                 await _stateRepoo.CreateAsync(obj);
+                await _stateRepoo.AdminActivityAsync(
+                userId: user.Id,
+                activityType: "AddState",
+                description: $"Add State(Id: {obj.Id})",
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                );
             }
             else
             {
                 //Update the existing State object
                 await _stateRepoo.UpdateAsync(obj);
+                await _stateRepoo.AdminActivityAsync(
+                userId: user.Id,
+                activityType: "UpdateState",
+                description: $"Update State(Id: {obj.Id})",
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                );
             }
 
             //redirect to the Index action
@@ -72,6 +90,8 @@ namespace TrendsValley.Areas.Admin.Controllers
         // GET Delete Method and View
         public async Task<IActionResult> Delete(int id)
         {
+            var user = await _userManager.GetUserAsync(User);
+            if (user == null) return NotFound();
             // Get the State object from the database
             State obj = new();
 
@@ -87,6 +107,12 @@ namespace TrendsValley.Areas.Admin.Controllers
             {
                 //remove the State object from the database
                 await _stateRepoo.RemoveAsync(obj);
+                await _stateRepoo.AdminActivityAsync(
+                userId: user.Id,
+                activityType: "RemoveState",
+                description: $"Remove State(Id: {obj.Id})",
+                ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                );
             }
 
             //redirect to the Index action

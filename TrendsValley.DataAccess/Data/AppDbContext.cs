@@ -36,30 +36,32 @@ namespace TrendsValley.DataAccess.Data
 
         public DbSet<UserDevice> UserDevices { get; set; }
         public DbSet<SecurityActivity> SecurityActivities { get; set; }
+        public DbSet<AdminActivity> AdminActivities { get; set; }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
 
             modelBuilder.Entity<Brand>().HasData(
-                new Brand { Brand_Id = 1, Brand_Name = "adidas" },
-                new Brand { Brand_Id = 2, Brand_Name = "NIKE" },
-                new Brand { Brand_Id = 3, Brand_Name = "Active" },
-                new Brand { Brand_Id = 4, Brand_Name = "ZARA" },
-                new Brand { Brand_Id = 5, Brand_Name = "H.M" }
+                new Brand { Brand_Id = 1, Brand_Name = "adidass" },
+                new Brand { Brand_Id = 2, Brand_Name = "NIKEe" },
+                new Brand { Brand_Id = 3, Brand_Name = "Activee" },
+                new Brand { Brand_Id = 4, Brand_Name = "ZARAa" },
+                new Brand { Brand_Id = 5, Brand_Name = "H.Ms" }
                 );
 
             modelBuilder.Entity<Category>().HasData(
-                new Category { Category_id = 1, Category_Name = "T-Shirt" },
-                new Category { Category_id = 2, Category_Name = "Pantalon" },
-                new Category { Category_id = 3, Category_Name = "Shorts" }
+                new Category { Category_id = 1, Category_Name = "T-Shirts" },
+                new Category { Category_id = 2, Category_Name = "Pantalons" },
+                new Category { Category_id = 3, Category_Name = "Shortss" }
                 );
 
             modelBuilder.Entity<Product>().HasData(
                 new Product
                 {
                     Product_Id = 1,
-                    Product_Name = "Black Short",
-                    Product_Details = "Black Short",
+                    Product_Name = "Black Shortssss",
+                    Product_Details = "Black Shortss",
                     Product_Price = 69.00m,
                     Brand_Id = 2,
                     Category_id = 3,
@@ -68,8 +70,8 @@ namespace TrendsValley.DataAccess.Data
                 new Product
                 {
                     Product_Id = 2,
-                    Product_Name = "Black T-shirt",
-                    Product_Details = "Black T_Shirt",
+                    Product_Name = "Black T-shirtsss",
+                    Product_Details = "Black T_Shirtsss",
                     Product_Price = 54.00m,
                     Brand_Id = 5,
                     Category_id = 1,
@@ -82,13 +84,13 @@ namespace TrendsValley.DataAccess.Data
                 new State
                 {
                     Id = 1,
-                    Name = "California"
+                    Name = "Californias"
                 },
 
                 new State
                 {
                     Id = 2,
-                    Name = "Florida"
+                    Name = "Floridas"
                 }
                 );
 
@@ -97,29 +99,29 @@ namespace TrendsValley.DataAccess.Data
                 new City
                 {
                     Id = 1,
-                    name = "Arcadia"
+                    name = "Arcadias"
                 },
 
                 new City
                 {
                     Id = 2,
-                    name = "Brea"
+                    name = "Breas"
                 },
 
                 new City
                 {
                     Id = 3,
-                    name = "Chico"
+                    name = "Chicos"
                 },
                 new City
                 {
                     Id = 4,
-                    name = "Ajo"
+                    name = "Ajos"
                 },
                 new City
                 {
                     Id = 5,
-                    name = "Clifton"
+                    name = "Cliftons"
                 }
                 );
         }

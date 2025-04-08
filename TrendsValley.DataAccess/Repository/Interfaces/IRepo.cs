@@ -18,6 +18,8 @@ namespace TrendsValley.DataAccess.Repository.Interfaces
         Task RemoveAsync(T entity);
 
         Task RemoveRangeAsync(IEnumerable<T> entities);
+        Task AdminActivityAsync(string userId, string activityType, string description, string ipAddress);
+
 
     }
 }
