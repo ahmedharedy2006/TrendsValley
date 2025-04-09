@@ -47,3 +47,7 @@
     text-transform: uppercase;
     transition: transform 80ms ease-in;
 }
+
+.rounded-none {
+    border-bottom: 1px solid black;
+}
