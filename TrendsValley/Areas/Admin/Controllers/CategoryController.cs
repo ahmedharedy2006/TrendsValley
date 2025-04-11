@@ -22,10 +22,25 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
 
         // GET All Categories Method and View
-        public async Task<IActionResult> Index()
+        [Authorize(Policy = "ViewCategory")]
+        public async Task<IActionResult> Index(int pg = 1)
         {
             // Get All Categories from Database
             List<Category> objList = await _categoryRepo.GetAllAsync();
+
+            const int pageSize = 8;
+            if (pg < 1)
+                pg = 1;
+
+            int recsCount = objList.Count();
+
+            var pager = new Pager(recsCount, pg, pageSize);
+
+            int recSkip = (pg - 1) * pageSize;
+
+            objList = objList.Skip(recSkip).Take(pager.PageSize).ToList();
+
+            ViewBag.Pager = pager;
 
             // Return the list to the view
             return View(objList);
@@ -34,27 +49,36 @@ namespace TrendsValley.Areas.Admin.Controllers
         // GET Create and Edit Method and View
         public async Task<IActionResult> Upsert(int? id)
         {
-            // Create a new Category object
-            Category obj = new();
-
-            // If id is null or 0, return the view with the new object
-            if (id == null || id == 0)
+            if (User.HasClaim("Add Category", "Add Category"))
             {
-                // If the object is null
+                // Create a new Category object
+                Category obj = new();
+
+                // If id is null or 0, return the view with the new object
+                if (id == null || id == 0)
+                {
+                    // If the object is null
+                    return View(obj);
+                }
+
+            }
+
+            else if (User.HasClaim("Edit Category", "Edit Category"))
+            {
+                // If id is not null or 0, get the Category object from the database
+                Category obj = await _categoryRepo.GetAsync(u => u.Category_id == id);
+
+                // If the object is null, return NotFound
+                if (obj == null)
+                {
+                    return NotFound();
+                }
+
+                // If the object is not null, return the view with the object
                 return View(obj);
             }
-
-            // If id is not null or 0, get the Category object from the database
-            obj = await _categoryRepo.GetAsync(u => u.Category_id == id);
-
-            // If the object is null, return NotFound
-            if (obj == null)
-            {
-                return NotFound();
-            }
-
-            // If the object is not null, return the view with the object
-            return View(obj);
+           
+                return RedirectToAction("Index", "Dashboard");
         }
 
         // POST Create and Edit Method
@@ -98,6 +122,7 @@ namespace TrendsValley.Areas.Admin.Controllers
             return RedirectToAction(nameof(Index));
         }
 
+        [Authorize(Policy = "DeleteCategory")]
         // GET Delete Method and View
         public async Task<IActionResult> Delete(int id)
         {

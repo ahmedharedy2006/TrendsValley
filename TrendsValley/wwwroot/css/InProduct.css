@@ -47,3 +47,17 @@
     text-transform: uppercase;
     transition: transform 80ms ease-in;
 }
+
+.rounded-none {
+    border-bottom: 1px solid black;
+}
+
+.backImgBody {
+    background-image: url('../pics/abstract-seamless-white-and-grey-square-3d-pattern-background-modern-geometric-texture-design-illustration-vector.jpg');
+    background-repeat: repeat;
+    background-size: 300px;
+    height: 100px;
+    margin-top:-30px;
+    margin-left:-20px;
+    margin-right:-20px;
+}

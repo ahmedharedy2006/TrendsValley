@@ -27,6 +27,7 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
 
         // GET All Products Method and View
+        [Authorize(Policy = "ViewProduct")]
         public async Task<IActionResult> Index()
         {
             // Get All Products from Database
@@ -52,39 +53,44 @@ namespace TrendsValley.Areas.Admin.Controllers
         // GET Create and Edit Method and View
         public async Task<IActionResult> Upsert(int? id)
         {
-            // Create a new ProductViewModel object
-            ProductViewModel obj = new();
-
-            // Get all brands and categories from the database
-            var brands = await _unitOfWork.BrandRepo.GetAllAsync();
-
-            // Create a list of SelectListItem for brands
-            obj.BrandList = brands.Select(i => new SelectListItem
+            if (User.HasClaim("Add Product", "Add Product"))
             {
-                Text = i.Brand_Name,
-                Value = i.Brand_Id.ToString()
-            });
+                // Create a new ProductViewModel object
+                ProductViewModel obj = new();
 
-            // Get all categories from the database
-            var categories = await _unitOfWork.CategoryRepo.GetAllAsync();
+                // Get all brands and categories from the database
+                var brands = await _unitOfWork.BrandRepo.GetAllAsync();
 
-            // Create a list of SelectListItem for categories
-            obj.CategoryList = categories.Select(i => new SelectListItem
-            {
-                Text = i.Category_Name,
-                Value = i.Category_id.ToString()
-            });
+                // Create a list of SelectListItem for brands
+                obj.BrandList = brands.Select(i => new SelectListItem
+                {
+                    Text = i.Brand_Name,
+                    Value = i.Brand_Id.ToString()
+                });
 
-            // If id is null or 0, return the view with the new object
-            if (id == null || id == 0)
-            {
-                //Create product
-                return View(obj);
+                // Get all categories from the database
+                var categories = await _unitOfWork.CategoryRepo.GetAllAsync();
+
+                // Create a list of SelectListItem for categories
+                obj.CategoryList = categories.Select(i => new SelectListItem
+                {
+                    Text = i.Category_Name,
+                    Value = i.Category_id.ToString()
+                });
+
+                // If id is null or 0, return the view with the new object
+                if (id == null || id == 0)
+                {
+                    //Create product
+                    return View(obj);
+                }
             }
 
-            // If id is not null or 0, get the Product object from the database
+            else if (User.HasClaim("Edit Product", "Edit Product")) {
+                // If id is not null or 0, get the Product object from the database
+                ProductViewModel obj = new();
 
-            obj.product = await _unitOfWork.ProductRepo.GetAsync(u => u.Product_Id == id);
+                 obj.product = await _unitOfWork.ProductRepo.GetAsync(u => u.Product_Id == id);
 
             // If the object is null, return NotFound
             if (obj == null)
@@ -94,6 +100,10 @@ namespace TrendsValley.Areas.Admin.Controllers
 
             // If the object is not null, return the view with the object
             return View(obj);
+            }
+           
+                return RedirectToAction("Index", "Dashboard");
+           
         }
 
         // POST Create and Edit Method
@@ -163,6 +173,7 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
 
         // GET Delete Method and View
+        [Authorize(Policy = "DeleteProduct")]
         public async Task<IActionResult> Delete(int id)
         {
             var user = await _userManager.GetUserAsync(User);

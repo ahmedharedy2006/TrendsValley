@@ -14,7 +14,6 @@ using TrendsValley.Utilities;
 namespace TrendsValley.Areas.Customer.Controllers
 {
     [Area("Customer")]
-    [Authorize]
     public class CartController : BaseController
     {
         private readonly IUnitOfWork _unitOfWork;
@@ -27,8 +26,13 @@ namespace TrendsValley.Areas.Customer.Controllers
 
         public async Task<IActionResult> Index()
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var userId = HttpContext.Session.GetString("UserId");
+            var userRole = HttpContext.Session.GetString("UserRole");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Account"); // Redirect to login if user is not authenticated
+            }
 
             ShoppingCartViewModel cart = new()
             {
@@ -51,9 +55,13 @@ namespace TrendsValley.Areas.Customer.Controllers
 
         public async Task<IActionResult> increaseQuantity(int id)
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = HttpContext.Session.GetString("UserId");
+            var userRole = HttpContext.Session.GetString("UserRole");
 
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Account"); // Redirect to login if user is not authenticated
+            }
 
             var cart = await _unitOfWork.ShoppingCartRepo
                             .GetAsync(c => c.Id == id && c.UserId == userId, true,
@@ -72,9 +80,13 @@ namespace TrendsValley.Areas.Customer.Controllers
 
         public async Task<IActionResult> decreaseQuantity(int id)
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = HttpContext.Session.GetString("UserId");
+            var userRole = HttpContext.Session.GetString("UserRole");
 
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Account"); // Redirect to login if user is not authenticated
+            }
 
             var cart = await _unitOfWork.ShoppingCartRepo
                 .GetAsync(c => c.Id == id && c.UserId == userId, true,
@@ -99,10 +111,13 @@ namespace TrendsValley.Areas.Customer.Controllers
 
         public async Task<IActionResult> remove(int id)
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = HttpContext.Session.GetString("UserId");
+            var userRole = HttpContext.Session.GetString("UserRole");
 
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Account"); // Redirect to login if user is not authenticated
+            }
             var cart = await _unitOfWork.ShoppingCartRepo
                 .GetAsync(c => c.Id == id && c.UserId == userId, true,
                     new Expression<Func<ShoppingCart, object>>[] { c => c.Product }
@@ -117,10 +132,13 @@ namespace TrendsValley.Areas.Customer.Controllers
 
         public async Task<IActionResult> ClearCart()
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
+            var userId = HttpContext.Session.GetString("UserId");
+            var userRole = HttpContext.Session.GetString("UserRole");
 
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Account"); // Redirect to login if user is not authenticated
+            }
             var cart = await _unitOfWork.ShoppingCartRepo.GetAllAsync(u => u.UserId == userId);
 
             await _unitOfWork.ShoppingCartRepo.RemoveRangeAsync(cart);
@@ -130,9 +148,14 @@ namespace TrendsValley.Areas.Customer.Controllers
 
         public async Task<IActionResult> Summary()
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var appuser = await _db.appUsers.Where(u => u.Id == userId).Include(u => u.state).Include(c => c.city).FirstOrDefaultAsync();
+            var userId = HttpContext.Session.GetString("UserId");
+            var userRole = HttpContext.Session.GetString("UserRole");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Account"); // Redirect to login if user is not authenticated
+            }
+            var appuser = await _db.customers.Where(u => u.Id == userId).Include(u => u.state).Include(c => c.city).FirstOrDefaultAsync();
 
             ShoppingCartViewModel cart = new()
             {
@@ -144,7 +167,7 @@ namespace TrendsValley.Areas.Customer.Controllers
                     ).Result.ToList(),
                 OrderHeader = new OrderHeader()
                 {
-                    appUser = appuser,
+                    customer = appuser,
                 },
                 CityList = _db.cities.Select(i => new SelectListItem
                 {
@@ -170,9 +193,15 @@ namespace TrendsValley.Areas.Customer.Controllers
         [ActionName("Summary")]
         public async Task<IActionResult> SummaryPost(ShoppingCartViewModel cart)
         {
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var userId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var user = await _unitOfWork.AppUserRepo.GetAsync(u => u.Id == userId);
+            var userId = HttpContext.Session.GetString("UserId");
+            var userRole = HttpContext.Session.GetString("UserRole");
+
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Account"); // Redirect to login if user is not authenticated
+            }
+
+            var user = await _db.customers.Where(u => u.Id == userId).Include(u => u.state).Include(c => c.city).FirstOrDefaultAsync();
 
             cart.ListCart = _unitOfWork.ShoppingCartRepo.GetAllAsync(
                 s => s.UserId == userId,
@@ -187,15 +216,18 @@ namespace TrendsValley.Areas.Customer.Controllers
 
             cart.OrderHeader.OrderDate = DateTime.Now;
             cart.OrderHeader.AppUserId = userId;
-            cart.OrderHeader.appUser = user;
+            cart.OrderHeader.customer = user;
             foreach (var item in cart.ListCart)
             {
                 cart.OrderHeader.orderTotal += (double)(item.Count * item.Product.Product_Price);
             }
 
-            cart.OrderHeader.paymentStatus = SD.PaymentStatusPending;
-            cart.OrderHeader.orderStatus = SD.StatusPending;
+           
 
+            cart.OrderHeader.paymentStatus = SD.PaymentStatusPending;
+            cart.OrderHeader.phoneNumber = cart.OrderHeader.customer.phoneNumber;
+            cart.OrderHeader.Name = "";
+            cart.OrderHeader.orderStatus = SD.StatusPending;
             await _unitOfWork.orderHeaderRepo.CreateAsync(cart.OrderHeader);
 
             foreach (var item in cart.ListCart)

@@ -25,10 +25,10 @@ namespace TrendsValley.Models.Models
         [Range(1,1000 , ErrorMessage = "Please Enter A Value Between 1 And 1000")]
         public int Count { get; set; }
 
-        [ForeignKey("appUser")]
+        [ForeignKey("customer")]
 
         public string UserId { get; set; }
 
-        public AppUser appUser { get; set; }
+        public Customer customer { get; set; }
     }
 }

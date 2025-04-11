@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.Cookies;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Options;
@@ -54,11 +56,63 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.Tokens.AuthenticatorTokenProvider = TokenOptions.DefaultProvider;
 });
 
-builder.Services.ConfigureApplicationCookie(options =>
+
+builder.Services.AddAuthentication(options =>
 {
-    options.LoginPath = "/Customer/Auth/SignIn";
-    options.AccessDeniedPath = "/Customer/Home/Index"; 
+    options.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+.AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
+{
+    options.LoginPath = "/Admin/Auth/SignIn";  // Identity Login Path
+    options.AccessDeniedPath = "/Customer/Home/Index";
+})
+.AddCookie("MyCustomAuth", options =>
+{
+    options.LoginPath = "/Customer/Auth/SignIn"; // Custom login path
+    options.AccessDeniedPath = "/Customer/Home/Index";
 });
+
+builder.Services.AddAuthorization(options =>
+{
+    options.AddPolicy("ViewCategory", policy => policy.RequireClaim("View Category"));
+    options.AddPolicy("AddCategory", policy => policy.RequireClaim("Add Category"));
+    options.AddPolicy("EditCategory", policy => policy.RequireClaim("Edit Category"));
+    options.AddPolicy("DeleteCategory", policy => policy.RequireClaim("Delete Category"));
+
+    options.AddPolicy("ViewBrand", policy => policy.RequireClaim("View Brand"));
+    options.AddPolicy("AddBrand", policy => policy.RequireClaim("Add Brand"));
+    options.AddPolicy("EditBrand", policy => policy.RequireClaim("Edit Brand"));
+    options.AddPolicy("DeleteBrand", policy => policy.RequireClaim("Delete Brand"));
+
+    options.AddPolicy("ViewCity", policy => policy.RequireClaim("View City"));
+    options.AddPolicy("AddCity", policy => policy.RequireClaim("Add City"));
+    options.AddPolicy("EditCity", policy => policy.RequireClaim("Edit City"));
+    options.AddPolicy("DeleteCity", policy => policy.RequireClaim("Delete City"));
+
+    options.AddPolicy("ViewAdminUser", policy => policy.RequireClaim("View Admin"));
+    options.AddPolicy("AddAdminUser", policy => policy.RequireClaim("Add Admin"));
+    options.AddPolicy("EditAdminUser", policy => policy.RequireClaim("Edit Admin"));
+    options.AddPolicy("DeleteAdminUser", policy => policy.RequireClaim("Delete Admin"));
+
+    options.AddPolicy("ViewCustomer", policy => policy.RequireClaim("View User"));
+    options.AddPolicy("AddCustomer", policy => policy.RequireClaim("Add User"));
+    options.AddPolicy("EditCustomer", policy => policy.RequireClaim("Edit User"));
+    options.AddPolicy("DeleteCustomer", policy => policy.RequireClaim("Delete User"));
+
+    options.AddPolicy("ViewState", policy => policy.RequireClaim("View State"));
+    options.AddPolicy("AddState", policy => policy.RequireClaim("Add State"));
+    options.AddPolicy("EditState", policy => policy.RequireClaim("Edit State"));
+    options.AddPolicy("DeleteState", policy => policy.RequireClaim("Delete State"));
+
+    options.AddPolicy("ViewProduct", policy => policy.RequireClaim("View Product"));
+    options.AddPolicy("AddProduct", policy => policy.RequireClaim("Add Product"));
+    options.AddPolicy("EditProduct", policy => policy.RequireClaim("Edit Product"));
+    options.AddPolicy("DeleteProduct", policy => policy.RequireClaim("Delete Product"));
+
+
+});
+
 builder.Services.AddSession(options =>
 {
     options.IdleTimeout = TimeSpan.FromMinutes(5);
@@ -68,6 +122,9 @@ builder.Services.AddSession(options =>
 builder.Services.AddDistributedMemoryCache();
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
+
+builder.Services.AddScoped<IClaimsTransformation, RoleClaimsTransformation>();
+
 
 builder.Services.AddScoped<IStateRepo, StateRepo>();
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
@@ -80,6 +137,7 @@ builder.Services.AddScoped<IOrderHeaderRepo, OrderHeaderRepo>();
 builder.Services.AddScoped<IOrderDetailsRepo, OrderDetailsRepo>();
 builder.Services.AddScoped<IAppUserRepo, AppUserRepo>();
 
+builder.Services.AddScoped<UserService>();
 
 builder.Services.AddTransient<IEmailSender, EmailSender>();
 

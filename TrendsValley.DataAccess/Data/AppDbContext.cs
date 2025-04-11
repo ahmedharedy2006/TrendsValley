@@ -18,6 +18,7 @@ namespace TrendsValley.DataAccess.Data
         {
         }
 
+        public DbSet<Customer> customers { get; set; }
         public DbSet<AppUser> appUsers { get; set; }
 
         public DbSet<State> states { get; set; }

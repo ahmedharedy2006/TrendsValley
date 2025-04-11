@@ -8,31 +8,26 @@
             <hr class="cart-hr" />
             <div class="form-group">
                 <div class="form-floating col-md-6 textInput w-100">
-                    <input asp-for="OrderHeader.appUser.Fname" type="text" class="form-control w-100 mb-4" id="floatingInput">
+                    <input asp-for="OrderHeader.customer.Fname" type="text" class="form-control w-100 mb-4" id="floatingInput">
                     <label class="ps-3" for="floatingInput">First Name</label>
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-floating col-md-6 textInput w-100">
-                    <input asp-for="OrderHeader.appUser.Lname" type="text" class="form-control mb-4" id="floatingInput">
+                    <input asp-for="OrderHeader.customer.Lname" type="text" class="form-control mb-4" id="floatingInput">
                     <label class="ps-3" for="floatingInput">Last Name</label>
                 </div>
             </div>
             <div class="form-group">
                 <div class="form-floating col-md-6 textInput w-100">
-                    <input asp-for="OrderHeader.appUser.PhoneNumber" type="text" class="form-control mb-4" id="floatingInput">
+                    <input asp-for="OrderHeader.customer.phoneNumber" type="text" class="form-control mb-4" id="floatingInput">
                     <label class="ps-3" for="floatingInput">Phone</label>
                 </div>
             </div>
+
             <div class="form-group">
                 <div class="form-floating col-md-6 textInput w-100">
-                    <input asp-for="OrderHeader.appUser.PostalCode" type="text" class="form-control mb-4" id="floatingInput">
-                    <label class="ps-3" for="floatingInput">Postal Code</label>
-                </div>
-            </div>
-            <div class="form-group">
-                <div class="form-floating col-md-6 textInput w-100">
-                    <input asp-for="OrderHeader.appUser.StreetAddress" type="text" class="form-control mb-3" id="floatingInput">
+                    <input asp-for="OrderHeader.customer.StreetAddress" type="text" class="form-control mb-3" id="floatingInput">
                     <label class="ps-3" for="floatingInput">Address</label>
                 </div>
             </div>

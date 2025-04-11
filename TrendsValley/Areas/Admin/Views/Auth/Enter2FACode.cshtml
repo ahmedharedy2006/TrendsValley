@@ -1,0 +1,19 @@
+﻿@{
+    ViewData["Title"] = "Enter 2FA Code";
+}
+
+<div style="max-width: 400px; margin: 2rem auto; padding: 2rem; border: 1px solid #ddd;">
+    <h2>Enter your 2FA code</h2>
+
+    <form method="post" action="Verify2FA">
+        <input type="text"
+               name="code"
+               placeholder="123456"
+               style="width: 100%; padding: 0.5rem; margin: 0.5rem 0;"
+               required>
+        <button type="submit"
+                style="background: #6366f1; color: white; padding: 0.5rem; border: none; width: 100%;">
+            Verify
+        </button>
+    </form>
+</div>

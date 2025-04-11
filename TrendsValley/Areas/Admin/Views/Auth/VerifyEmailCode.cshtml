@@ -1,0 +1,76 @@
+﻿@using TrendsValley.Models.ViewModels
+@model VerifyEmailCodeViewModel
+<br />
+<center>
+
+    <div class="row col-md-10">
+
+        <div class="row">
+
+            <div class="col-md-12">
+                <img src="/pics/Email Icon.png" style="width:225px;" />
+                <h2>Verify Your Email</h2>
+
+                <form asp-controller="Auth" asp-action="VerifyEmailCode" method="post" role="form">
+                    <input asp-for="UserId" hidden />
+
+                    <p>We Sent a Verfication Code To Your Email , Please Check Your Inbox and Enter The Code Below.</p>
+
+
+                    <div asp-validation-summary="All" class="text-danger"></div>
+                <div class="form-group">
+                    <label asp-for="Code" class="col-md-2"></label>
+                    <div class="col-md-10">
+                            <input asp-for="Code" class="form-control w-50 text-center" placeholder="Enter Code" />
+                        <span asp-validation-for="Code" class="text-danger"></span>
+                    </div>
+                </div>
+
+                    @if (TempData["Message"] != null)
+                    {
+                        <p style="color: green;">@TempData["Message"]</p>
+                    }
+                    @if (TempData["ErrorMessage"] != null)
+                    {
+                        <p style="color: red;">@TempData["ErrorMessage"]</p>
+                    }
+
+                    <br />
+                    <div class="form-group">
+                        <button type="submit" class="btn btn-success ">Verify</button>
+                        <form method="post" asp-action="ResendEmailCode">
+                            <input type="hidden" name="id" value="@Model.UserId" />
+                            <button type="submit" class="btn btn-warning" id="resendButton" disabled>Resend Code</button>
+                        </form>
+                    </div>
+
+                </form>
+
+            </div>
+        </div>
+    </div>
+</center>
+<br />
+<br />
+<script>
+    let resendButton = document.getElementById("resendButton");
+    let countdown = 60;
+
+    function updateButton() {
+        if (countdown > 0) {
+            resendButton.innerText = `Resend Code (${countdown}s)`;
+            countdown--;
+            setTimeout(updateButton, 1000);
+        } else {
+            resendButton.innerText = "Resend Code";
+            resendButton.disabled = false;
+        }
+    }
+
+    updateButton(); 
+</script>
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+}

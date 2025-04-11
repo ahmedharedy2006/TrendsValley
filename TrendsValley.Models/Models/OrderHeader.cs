@@ -12,10 +12,10 @@ namespace TrendsValley.Models.Models
     {
         public int Id { get; set; }
 
-        [ForeignKey("appUser")]
+        [ForeignKey("customer")]
         public string AppUserId { get; set; }
 
-        public AppUser appUser { get; set; }
+        public Customer customer { get; set; }
 
         public double orderTotal { get; set; }
 
@@ -43,6 +43,11 @@ namespace TrendsValley.Models.Models
         public string? sessionId { get; set; }
 
         public string? paymentIntentId { get; set; }
+
+        public string phoneNumber { get; set; }
+
+        public string Name { get; set; }
+
 
     }
 }

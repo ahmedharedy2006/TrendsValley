@@ -10,13 +10,7 @@ namespace TrendsValley.DataAccess.Migrations
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.DropColumn(
-                name: "Name",
-                table: "OrderHeaders");
 
-            migrationBuilder.DropColumn(
-                name: "phoneNumber",
-                table: "OrderHeaders");
 
             migrationBuilder.AddColumn<string>(
                 name: "SelectedAddress",
@@ -42,19 +36,6 @@ namespace TrendsValley.DataAccess.Migrations
                 name: "StreetAddress2",
                 table: "AspNetUsers");
 
-            migrationBuilder.AddColumn<string>(
-                name: "Name",
-                table: "OrderHeaders",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
-
-            migrationBuilder.AddColumn<string>(
-                name: "phoneNumber",
-                table: "OrderHeaders",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
         }
     }
 }

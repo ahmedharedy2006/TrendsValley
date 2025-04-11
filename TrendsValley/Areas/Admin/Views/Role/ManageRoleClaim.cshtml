@@ -1,0 +1,136 @@
+﻿@model ClaimsViewModel
+
+<form method="post">
+    <input asp-for="@Model.Role.Id" hidden />
+    <br />
+    <div class="card shadow border-0 mt-4">
+        <div class="card-header bg-success bg-gradient ml-0 py-3">
+            <div class="row">
+                <div class="col-12 text-center">
+                    <h2 class="text-white py-2">Manage User Claims</h2>
+                </div>
+            </div>
+        </div>
+        <div class="card-body p-4">
+            <div class="border p-2 rounded">
+                <div class="form-group mt-3 p-2 border rounded">
+                    <span>Products</span>
+                    @for (int i = 0; i < Model.ProductClaimList.Count; i++)
+                    {
+                        <div class="m-2 form-check">
+                            <input asp-for="@Model.ProductClaimList[i].ClaimType" hidden />
+                            <input asp-for="@Model.ProductClaimList[i].IsSelected" class="form-check-input" />
+                            <label class="form-check-label" asp-for="@Model.ProductClaimList[i].IsSelected">
+                                @Model.ProductClaimList[i].ClaimType
+                            </label>
+                        </div>
+                    }
+
+                </div>
+
+                <div class="form-group mt-3 p-2 border rounded">
+                    <span>Categories Assignment</span>
+                    @for (int i = 0; i < Model.CategoryClaimList.Count; i++)
+                    {
+                        <div class="m-2 form-check">
+                            <input asp-for="@Model.CategoryClaimList[i].ClaimType" hidden />
+                            <input asp-for="@Model.CategoryClaimList[i].IsSelected" class="form-check-input" />
+                            <label class="form-check-label" asp-for="@Model.CategoryClaimList[i].IsSelected">
+                                @Model.CategoryClaimList[i].ClaimType
+                            </label>
+                        </div>
+                    }
+
+                </div>
+
+                <div class="form-group mt-3 p-2 border rounded">
+                    <span>Brands Assignment</span>
+                    @for (int i = 0; i < Model.BrandClaimList.Count; i++)
+                    {
+                        <div class="m-2 form-check">
+                            <input asp-for="@Model.BrandClaimList[i].ClaimType" hidden />
+                            <input asp-for="@Model.BrandClaimList[i].IsSelected" class="form-check-input" />
+                            <label class="form-check-label" asp-for="@Model.BrandClaimList[i].IsSelected">
+                                @Model.BrandClaimList[i].ClaimType
+                            </label>
+                        </div>
+                    }
+
+                </div>
+
+                <div class="form-group mt-3 p-2 border rounded">
+                    <span>States Assignment</span>
+                    @for (int i = 0; i < Model.StateClaimList.Count; i++)
+                    {
+                        <div class="m-2 form-check">
+                            <input asp-for="@Model.StateClaimList[i].ClaimType" hidden />
+                            <input asp-for="@Model.StateClaimList[i].IsSelected" class="form-check-input" />
+                            <label class="form-check-label" asp-for="@Model.StateClaimList[i].IsSelected">
+                                @Model.StateClaimList[i].ClaimType
+                            </label>
+                        </div>
+                    }
+
+                </div>
+
+
+                <div class="form-group mt-3 p-2 border rounded">
+                    <span>Citites Assignment</span>
+                    @for (int i = 0; i < Model.CityClaimList.Count; i++)
+                    {
+                        <div class="m-2 form-check">
+                            <input asp-for="@Model.CityClaimList[i].ClaimType" hidden />
+                            <input asp-for="@Model.CityClaimList[i].IsSelected" class="form-check-input" />
+                            <label class="form-check-label" asp-for="@Model.CityClaimList[i].IsSelected">
+                                @Model.CityClaimList[i].ClaimType
+                            </label>
+                        </div>
+                    }
+
+                </div>
+
+                <div class="form-group mt-3 p-2 border rounded">
+                    <span>Customers Assignment</span>
+                    @for (int i = 0; i < Model.CustomerClaimList.Count; i++)
+                    {
+                        <div class="m-2 form-check">
+                            <input asp-for="@Model.CustomerClaimList[i].ClaimType" hidden />
+                            <input asp-for="@Model.CustomerClaimList[i].IsSelected" class="form-check-input" />
+                            <label class="form-check-label" asp-for="@Model.CustomerClaimList[i].IsSelected">
+                                @Model.CustomerClaimList[i].ClaimType
+                            </label>
+                        </div>
+                    }
+
+                </div>
+
+                <div class="form-group mt-3 p-2 border rounded">
+                    <span>Admins Assignment</span>
+                    @for (int i = 0; i < Model.AdminUserClaimList.Count; i++)
+                    {
+                        <div class="m-2 form-check">
+                            <input asp-for="@Model.AdminUserClaimList[i].ClaimType" hidden />
+                            <input asp-for="@Model.AdminUserClaimList[i].IsSelected" class="form-check-input" />
+                            <label class="form-check-label" asp-for="@Model.AdminUserClaimList[i].IsSelected">
+                                @Model.AdminUserClaimList[i].ClaimType
+                            </label>
+                        </div>
+                    }
+
+                </div>
+
+                
+
+                <div class="form-group pt-3 row">
+                    <div class="col-md-6">
+                        <a class="btn btn-secondary w-100" asp-action="Index">Back to List</a>
+                    </div>
+                    <div class="col-md-6 ">
+                        <input type="submit" class="btn btn-success w-100" value="Update" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>

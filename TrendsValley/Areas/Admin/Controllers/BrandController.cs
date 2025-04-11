@@ -24,6 +24,8 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
 
         // GET All Brands Method and View
+
+        [Authorize(Policy = "ViewBrand")]
         public async Task<IActionResult> Index()
         {
             // Get All Brands from Database
@@ -36,26 +38,37 @@ namespace TrendsValley.Areas.Admin.Controllers
         // GET Create and Edit Method and View
         public async Task<IActionResult> Upsert(int? id)
         {
-            // Create a new Brand object
-            Brand obj = new();
-
-            // If id is null or 0, return the view with the new object
-            if (id == null || id == 0)
+            if (User.HasClaim("Add Brand", "Add Brand"))
             {
+                // Create a new Brand object
+                Brand obj = new();
+
+                // If id is null or 0, return the view with the new object
+
+                if (id == null || id == 0)
+                {
+                    return View(obj);
+                }
+            }
+           
+
+            else if (User.HasClaim("Edit Brand", "Edit Brand"))
+            {
+                // If id is not null or 0, get the Brand object from the database
+                Brand obj = await _brandRepo.GetAsync(u => u.Brand_Id == id);
+
+                // If the object is null, return NotFound
+                if (obj == null)
+                {
+                    return NotFound();
+                }
+
+                // If the object is not null, return the view with the object
                 return View(obj);
             }
-
-            // If id is not null or 0, get the Brand object from the database
-            obj = await _brandRepo.GetAsync(u => u.Brand_Id == id);
-
-            // If the object is null, return NotFound
-            if (obj == null)
-            {
-                return NotFound();
-            }
-
-            // If the object is not null, return the view with the object
-            return View(obj);
+           
+                return RedirectToAction("Index", "Dashboard");
+            
         }
 
         // POST Create and Edit Method
@@ -67,23 +80,30 @@ namespace TrendsValley.Areas.Admin.Controllers
             if (user == null) return NotFound();
 
 
+            
+                // Check if the model state is valid
+                if (obj.Brand_Id == 0)
+                {
 
-            // Check if the model state is valid
-            if (obj.Brand_Id == 0)
-            {
-                await _brandRepo.CreateAsync(obj);
+                    
+                        await _brandRepo.CreateAsync(obj);
+                        await _brandRepo.AdminActivityAsync(
+                          userId: user.Id,
+                          activityType: "AddBrand",
+                          description: $"Add Brand (Id: {obj.Brand_Id})",
+                          ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
+                           );
+ 
 
-                await _brandRepo.AdminActivityAsync(
-                        userId: user.Id,
-                        activityType: "AddBrand",
-                        description: $"Add Brand (Id: {obj.Brand_Id})",
-                        ipAddress: HttpContext.Connection.RemoteIpAddress?.ToString()
-                    );
-            }
+                  
+                }
+            
+           
             else
             {
-                _brandRepo.UpdateAsync(obj);
-                await _brandRepo.AdminActivityAsync(
+               
+                    _brandRepo.UpdateAsync(obj);
+                    await _brandRepo.AdminActivityAsync(
                         userId: user.Id,
                         activityType: "UpdateBrand",
                         description: $"Update Brand (Id: {obj.Brand_Id})",
@@ -94,6 +114,7 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
 
         // GET Delete Method and View
+        [Authorize(Policy = "DeleteBrand")]
         public async Task<IActionResult> Delete(int id)
         {
             // Get the Brand object from the database

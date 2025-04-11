@@ -124,18 +124,22 @@ namespace TrendsValley.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        [Authorize]
         public async Task<IActionResult> product_Details(ShoppingCart cart)
         {
 
 
-            var claimsIdentity = (ClaimsIdentity)User.Identity;
-            var AppuserId = claimsIdentity.FindFirst(ClaimTypes.NameIdentifier).Value;
-           
-            ShoppingCart cartFromDB = await _shoppingCartRepo
-                                            .GetAsync(u => u.ProductId == cart.ProductId && u.UserId == AppuserId);
+            var userId = HttpContext.Session.GetString("UserId");
+            var userRole = HttpContext.Session.GetString("UserRole");
 
-            if (cartFromDB != null)
+            if (string.IsNullOrEmpty(userId))
+            {
+                return RedirectToAction("Login", "Account"); // Redirect to login if user is not authenticated
+            }
+
+            ShoppingCart cartFromDB = await _shoppingCartRepo
+                                            .GetAsync(u => u.ProductId == cart.ProductId && u.UserId == "3d453630-3206-40b1-ac83-3d40f3f196d6");
+
+            if (cartFromDB.Id != 0)
             {
                 var newCount = cartFromDB.Count + cart.Count;
                 cart.Count = newCount;
@@ -146,7 +150,7 @@ namespace TrendsValley.Controllers
             {
                 ShoppingCart newCart = new()
                 {
-                    UserId = AppuserId,
+                    UserId = userId,
                     ProductId = cart.ProductId,
                     Count = cart.Count
                 };

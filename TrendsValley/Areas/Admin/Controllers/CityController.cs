@@ -24,6 +24,7 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
 
         // GET All Cities Method and View
+        [Authorize(Policy = "ViewCity")]
         public async Task<IActionResult> Index()
         {
             // Get All Cities from Database
@@ -36,17 +37,20 @@ namespace TrendsValley.Areas.Admin.Controllers
         // GET Create and Edit Method and View
         public async Task<IActionResult> Upsert(int? id)
         {
-            // Create a new City object
-            City obj = new();
+            if (User.HasClaim("Add City", "Add City")) { 
+                // Create a new City object
+                City obj = new();
 
             // If id is null or 0, return the view with the new object
-            if (id == null || id == 0)
-            {
-                return View(obj);
-            }
+                if (id == null || id == 0)
+                {
+                    return View(obj);
+                }
 
+            }
+            else if(User.HasClaim("Edit City", "Edit City")) { 
             // If id is not null or 0, get the City object from the database
-            obj = await _cityRepo.GetAsync(u => u.Id == id);
+            City obj = await _cityRepo.GetAsync(u => u.Id == id);
 
             // If the object is null, return NotFound
             if (obj == null)
@@ -56,6 +60,11 @@ namespace TrendsValley.Areas.Admin.Controllers
 
             // If the object is not null, return the view with the object
             return View(obj);
+            }
+            
+                return RedirectToAction("Index", "Dashboard");
+            
+
         }
 
         // POST Create and Edit Method
@@ -96,6 +105,7 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
 
         // GET Delete Method and View
+        [Authorize(Policy = "DeleteCity")]
         public async Task<IActionResult> Delete(int id)
         {
             var user = await _userManager.GetUserAsync(User);
