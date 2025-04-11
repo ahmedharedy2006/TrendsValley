@@ -1,0 +1,42 @@
+{
+  "CategoryTitle": "Categories",
+  "Category2ndColumnHeader": "Category Name",
+  "Category3rdColumnHeader": "Actions",
+  "CategoryAddButton": "Add Category",
+
+  "BrandTitle": "Brands",
+  "Brand2ndColumnHeader": "Brand Name",
+  "Brand3rdColumnHeader": "Actions",
+  "BrandAddButton": "Add Brand",
+
+  "CityTitle": "Cities",
+  "City2ndColumnHeader": "City Name",
+  "City3rdColumnHeader": "Actions",
+  "CityAddButton": "Add City",
+
+  "StateTitle": "States",
+  "State2ndColumnHeader": "State Name",
+  "State3rdColumnHeader": "Actions",
+  "StateAddButton": "Add State",
+
+  "AdminTitle": "Admins",
+  "Admin2ndColumnHeader": "Username",
+  "Admin2ndColumnHeader2": "Full Name",
+  "Admin2ndColumnHeader3": "Email",
+  "Admin2ndColumnHeader4": "Phone Number",
+  "Admin3rdColumnHeader": "Actions",
+  "AdminAddButton": "Add Admin",
+
+  "CustomerTitle": "Customers",
+  "Customer2ndColumnHeader": "Username",
+  "Customer2ndColumnHeader2": "Full Name",
+  "Customer2ndColumnHeader3": "Email",
+  "Customer2ndColumnHeader4": "Phone Number",
+  "Customer3rdColumnHeader": "Actions",
+
+
+
+  "id": "Id",
+  "search": "Search"
+
+}

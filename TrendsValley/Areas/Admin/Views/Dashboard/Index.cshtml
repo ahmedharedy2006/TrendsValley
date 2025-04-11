@@ -1,4 +1,9 @@
-﻿<div>
+﻿@{
+    var lang = Context.Session.GetString("lang");
+
+    Layout = lang == "ar" ? "_ArLayout" : "_Layout";
+}
+<div>
     <p class="text-4xl font-semibold dark:text-black">Dashboard <i class="fa-solid fa-table-columns"></i></p>
     <hr class="h-px my-8 bg-gray-200 border-0 dark:bg-gray-700">
 

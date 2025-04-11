@@ -1,0 +1,43 @@
+{
+  "CategoryTitle": "تصنيفات",
+  "Category2ndColumnHeader": "إسم التصنيف",
+  "Category3rdColumnHeader": "أفعال",
+  "CategoryAddButton": "إضافة تصنيف",
+
+  "BrandTitle": "العلامات التجارية",
+  "Brand2ndColumnHeader": "العلامة التجارية",
+  "Brand3rdColumnHeader": "أفعال",
+  "BrandAddButton": "إضافة علامة تجارية",
+
+  "CityTitle": "المدن",
+  "City2ndColumnHeader": "إسم المدينة",
+  "City3rdColumnHeader": "أفعال",
+  "CityAddButton": "إضافة مدينة",
+
+  "StateTitle": "الولايات",
+  "State2ndColumnHeader": "إسم الولاية",
+  "State3rdColumnHeader": "أفعال",
+  "StateAddButton": "إضافة ولاية",
+
+  "AdminTitle": "المسؤولون",
+  "Admin2ndColumnHeader": "إسم الدخول",
+  "Admin2ndColumnHeader2": "الإسم الكامل",
+  "Admin2ndColumnHeader3": "البريد الإلكتروني",
+  "Admin2ndColumnHeader4": "رقم الهاتف",
+  "Admin3rdColumnHeader": "أفعال",
+
+  "AdminAddButton": "إضافة مسؤول",
+
+  "CustomerTitle": "العملاء",
+  "Customer2ndColumnHeader": "إسم الدخول",
+  "Customer2ndColumnHeader2": "الإسم الكامل",
+  "Customer2ndColumnHeader3": "البريد الإلكتروني",
+  "Customer2ndColumnHeader4": "رقم الهاتف",
+  "Customer3rdColumnHeader": "أفعال",
+
+
+
+
+  "id": "الرقم",
+  "search": "بحث"
+}

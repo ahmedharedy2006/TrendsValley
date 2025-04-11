@@ -7,7 +7,7 @@
     }
 }
 <!DOCTYPE HTML>
-<html lang="en">
+<html lang="ar" dir="rtl">
 
 <head>
     <meta charset="UTF-8">
@@ -24,7 +24,7 @@
 
 <body>
 
-    <nav class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 mb-0" style="box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.4)">
+    <nav dir="ltr" class="fixed top-0 z-50 w-full bg-white border-b border-gray-200 mb-0" style="box-shadow: 2px 2px 15px rgba(0, 0, 0, 0.4)">
         <div class="px-3 py-3 lg:px-5 lg:pl-3">
             <div class="flex items-center justify-between">
                 <div class="flex items-center justify-start rtl:justify-end">
@@ -42,22 +42,20 @@
                 <div class="flex items-center">
                     <div class="flex items-center ms-3">
                         <div class="flex items-center">
-                            <span class="text-green-700 me-3">Admin User Name</span>
+                            <span class="text-green-700 me-3">إسم المستخدم</span>
                             <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 inline" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                 <span class="sr-only">Open user menu</span>
                                 <img class="w-8 h-8 rounded-full" src="~/pics/admin.png" alt="user photo">
                             </button>
                         </div>
                         <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
+                   
                             <ul class="py-1" role="none">
                                 <li>
-                                    <a asp-controller="Dashboard" asp-action="SetLanguage" asp-route-lang="en">🇬🇧 English</a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">تغير اللغة </a>
                                 </li>
                                 <li>
-                                    <a asp-controller="Dashboard" asp-action="SetLanguage" asp-route-lang="ar">🇸🇦 Arabic</a>
-                                </li>
-                                <li>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
+                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">خروج</a>
                                 </li>
                             </ul>
                         </div>
@@ -67,57 +65,70 @@
         </div>
     </nav>
 
-    <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-full pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0" aria-label="Sidebar" style="box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.6);">
+
+
+    <div class="p-4 sm:ml-64" dir="ltr">
+        <div class="p-4  mt-14" style="margin-left:-250px;">
+            <partial name="_Notification" />
+
+            @RenderBody()
+        </div>
+    </div>
+    <aside id="logo-sidebar" class="fixed top-0 right-0 z-40 w-64 h-full pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0" aria-label="Sidebar" style="box-shadow: 5px 5px 20px rgba(0, 0, 0, 0.6);">
         <div>
 
             <div class="h-full px-3 pb-4 overflow-y-auto bg-white" style="border-right: 6px solid green">
-            <ul class="space-y-2 font-medium text-black">
-                <li>
+                <ul class="space-y-2 font-medium text-black">
+                    <li>
                         <a asp-controller="Dashboard" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg text-black hover:bg-gray-100 dark:hover:bg-gray-700 dark:hover:text-white group rounded-none @IsActive("Dashboard","Index")">
-                        <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
-                            <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
-                            <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
-                        </svg>
-                        <span class="ms-3">Dashboard</span>
-                    </a>
-                </li>
-                <li>
+                            <svg class="w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 22 21">
+                                <path d="M16.975 11H10V4.025a1 1 0 0 0-1.066-.998 8.5 8.5 0 1 0 9.039 9.039.999.999 0 0 0-1-1.066h.002Z" />
+                                <path d="M12.5 0c-.157 0-.311.01-.565.027A1 1 0 0 0 11 1.02V10h8.975a1 1 0 0 0 1-.935c.013-.188.028-.374.028-.565A8.51 8.51 0 0 0 12.5 0Z" />
+                            </svg>
+                            <span class="ms-3">
+                                لوحة التحكم
+                            </span>
+                        </a>
+                    </li>
+                    <li>
                         <a asp-controller="Category" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg text-black hover:bg-gray-100 dark:hover:bg-gray-700 hover:text-white group rounded-none @IsActive("Category","Index")">
-                        <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
-                            <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
-                        </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">category</span>
-                    </a>
-                </li>
-                <li>
+                            <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 18">
+                                <path d="M6.143 0H1.857A1.857 1.857 0 0 0 0 1.857v4.286C0 7.169.831 8 1.857 8h4.286A1.857 1.857 0 0 0 8 6.143V1.857A1.857 1.857 0 0 0 6.143 0Zm10 0h-4.286A1.857 1.857 0 0 0 10 1.857v4.286C10 7.169 10.831 8 11.857 8h4.286A1.857 1.857 0 0 0 18 6.143V1.857A1.857 1.857 0 0 0 16.143 0Zm-10 10H1.857A1.857 1.857 0 0 0 0 11.857v4.286C0 17.169.831 18 1.857 18h4.286A1.857 1.857 0 0 0 8 16.143v-4.286A1.857 1.857 0 0 0 6.143 10Zm10 0h-4.286A1.857 1.857 0 0 0 10 11.857v4.286c0 1.026.831 1.857 1.857 1.857h4.286A1.857 1.857 0 0 0 18 16.143v-4.286A1.857 1.857 0 0 0 16.143 10Z" />
+                            </svg>
+                            <span class="flex-1 ms-3 whitespace-nowrap">الفئات</span>
+                        </a>
+                    </li>
+                    <li>
                         <a asp-controller="Brand" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg text-black hover:bg-gray-100 hover:text-white dark:hover:bg-gray-700 group rounded-none @IsActive("Brand","Index")">
-                        <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
-                            <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z" />
-                        </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Brands</span>
-                    </a>
-                </li>
+                            <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 20">
+                                <path d="m17.418 3.623-.018-.008a6.713 6.713 0 0 0-2.4-.569V2h1a1 1 0 1 0 0-2h-2a1 1 0 0 0-1 1v2H9.89A6.977 6.977 0 0 1 12 8v5h-2V8A5 5 0 1 0 0 8v6a1 1 0 0 0 1 1h8v4a1 1 0 0 0 1 1h2a1 1 0 0 0 1-1v-4h6a1 1 0 0 0 1-1V8a5 5 0 0 0-2.582-4.377ZM6 12H4a1 1 0 0 1 0-2h2a1 1 0 0 1 0 2Z" />
+                            </svg>
+                            <span class="flex-1 ms-3 whitespace-nowrap">العلامات التجارية</span>
+                        </a>
+                    </li>
 
-                <li>
+                    <li>
                         <a asp-controller="Product" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg text-black hover:bg-gray-100 hover:text-white dark:hover:bg-gray-700 group rounded-none @IsActive("Product","Index")">
-                        <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
-                            <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
-                        </svg>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Products</span>
-                    </a>
-                </li>
-                <li>
+                            <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 20">
+                                <path d="M17 5.923A1 1 0 0 0 16 5h-3V4a4 4 0 1 0-8 0v1H2a1 1 0 0 0-1 .923L.086 17.846A2 2 0 0 0 2.08 20h13.84a2 2 0 0 0 1.994-2.153L17 5.923ZM7 9a1 1 0 0 1-2 0V7h2v2Zm0-5a2 2 0 1 1 4 0v1H7V4Zm6 5a1 1 0 1 1-2 0V7h2v2Z" />
+                            </svg>
+                            <span class="flex-1 ms-3 whitespace-nowrap">المنتجات</span>
+                        </a>
+                    </li>
+                    <li>
                         <a asp-controller="City" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg text-black hover:bg-gray-100 hover:text-white dark:hover:bg-gray-700 group rounded-none @IsActive("City","Index")">
-                        <span class="fa-solid fa-globe shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></span>
-                        <span class="flex-1 ms-3 whitespace-nowrap">Cites</span>
-                    </a>
-                </li>
-                <li>
+                            <span class="fa-solid fa-globe shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></span>
+                            <span class="flex-1 ms-3 whitespace-nowrap">
+                                المدن
+                            </span>
+                        </a>
+                    </li>
+                    <li>
                         <a asp-controller="State" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg text-black hover:bg-gray-100 hover:text-white dark:hover:bg-gray-700 group rounded-none @IsActive("State","Index")">
-                        <span class="fa-solid fa-city shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></span>
-                        <span class="flex-1 ms-3 whitespace-nowrap">States</span>
-                    </a>
-                </li>
+                            <span class="fa-solid fa-city shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></span>
+                            <span class="flex-1 ms-3 whitespace-nowrap">الولايات</span>
+                        </a>
+                    </li>
                     <li>
                         <a asp-controller="Role" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg text-black hover:bg-gray-100 hover:text-white dark:hover:bg-gray-700 group rounded-none @IsActive("Role","Index")">
                             <i class="fa-solid fa-users-gear shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
@@ -127,39 +138,30 @@
                     <li>
                         <a asp-controller="Admin" asp-action="Index" class="flex items-center p-2 text-gray-900 rounded-lg text-black hover:bg-gray-100 hover:text-white dark:hover:bg-gray-700 group rounded-none @IsActive("Admin","Index")">
                             <i class="fa-solid fa-user-tie shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                            <span class="flex-1 ms-3 whitespace-nowrap">Admins</span>
+                            <span class="flex-1 ms-3 whitespace-nowrap">المشرفين</span>
                         </a>
                     </li>
                     <li>
                         <a asp-action="Index" asp-controller="Customer" class="flex items-center p-2 text-gray-900 rounded-lg text-black hover:bg-gray-100 hover:text-white dark:hover:bg-gray-700 group rounded-none @IsActive("Customer","Index")">
                             <svg class="shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                                 <path d="M14 2a3.963 3.963 0 0 0-1.4.267 6.439 6.439 0 0 1-1.331 6.638A4 4 0 1 0 14 2Zm1 9h-1.264A6.957 6.957 0 0 1 15 15v2a2.97 2.97 0 0 1-.184 1H19a1 1 0 0 0 1-1v-1a5.006 5.006 0 0 0-5-5ZM6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Z" />
-                            </svg>                            <span class="flex-1 ms-3 whitespace-nowrap">Customers</span>
+                            </svg>                            <span class="flex-1 ms-3 whitespace-nowrap">العملاء</span>
                         </a>
                     </li>
 
                     <li>
                         <a asp-action="Index" asp-controller="Activity" class="flex items-center p-2 text-gray-900 rounded-lg text-black hover:bg-gray-100 hover:text-white dark:hover:bg-gray-700 group rounded-none @IsActive("Activity","Index")">
                             <i class="fa-regular fa-address-book shrink-0 w-5 h-5 text-gray-500 transition duration-75 dark:text-gray-400 group-hover:text-gray-900 dark:group-hover:text-white"></i>
-                            <span class="flex-1 ms-3 whitespace-nowrap">User Activity</span>
+                            <span class="flex-1 ms-3 whitespace-nowrap">أنشطة المستخدمين </span>
                         </a>
                     </li>
-            </ul>
+                </ul>
                 <div class="fixed bottom-0 left-0 backdrop-opacity-60">
-                    <img src="~/pics/modern-green-wave-background.png" alt="Alternate Text" class="w-64 md:w-full lg:w-full h-auto"/>
-        </div>
-        </div>
+                    <img src="~/pics/modern-green-wave-background.png" alt="Alternate Text" class="w-64 md:w-full lg:w-full h-auto" />
+                </div>
+            </div>
         </div>
     </aside>
-
-    <div class="p-4 sm:ml-64">
-        <div class="p-4  mt-14">
-            <partial name="_Notification" />
-
-            @RenderBody()
-        </div>
-    </div>
-
 
 
 

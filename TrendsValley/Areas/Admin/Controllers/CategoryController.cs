@@ -5,6 +5,7 @@ using TrendsValley.DataAccess.Data;
 using TrendsValley.DataAccess.Repository;
 using TrendsValley.DataAccess.Repository.Interfaces;
 using TrendsValley.Models.Models;
+using TrendsValley.Services;
 
 namespace TrendsValley.Areas.Admin.Controllers
 {
@@ -15,10 +16,12 @@ namespace TrendsValley.Areas.Admin.Controllers
     {
         private readonly ICategoryRepo _categoryRepo;
         private readonly UserManager<AppUser> _userManager;
-        public CategoryController(ICategoryRepo categoryRepo, UserManager<AppUser> userManager)
+        private readonly LocalizationService _localizationService;
+        public CategoryController(ICategoryRepo categoryRepo, UserManager<AppUser> userManager , LocalizationService localizationService)
         {
             _categoryRepo = categoryRepo;
             _userManager = userManager;
+            _localizationService = localizationService;
         }
 
         // GET All Categories Method and View
@@ -43,6 +46,10 @@ namespace TrendsValley.Areas.Admin.Controllers
             ViewBag.Pager = pager;
 
             // Return the list to the view
+
+            var lang = _localizationService.GetCurrentLanguage();
+            _localizationService.Load(lang);
+
             return View(objList);
         }
 

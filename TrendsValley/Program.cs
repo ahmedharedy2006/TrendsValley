@@ -125,6 +125,8 @@ builder.Services.AddHttpContextAccessor();
 
 builder.Services.AddScoped<IClaimsTransformation, RoleClaimsTransformation>();
 
+builder.Services.AddSingleton<LocalizationService>();
+
 
 builder.Services.AddScoped<IStateRepo, StateRepo>();
 builder.Services.AddScoped<ICategoryRepo, CategoryRepo>();
