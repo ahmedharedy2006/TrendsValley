@@ -27,8 +27,10 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
 
         // GET All Products Method and View
+        [Area("Admin")]
+        [HttpGet("[area]/[controller]/[action]")]
         [Authorize(Policy = "ViewProduct")]
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(string searchTerm = "")
         {
             // Get All Products from Database
             // Include related entities (Product_Brand and Product_Category) using Include method
@@ -45,7 +47,12 @@ namespace TrendsValley.Areas.Admin.Controllers
 
             // Convert the result to a list
             List<Product> objList = products.ToList();
-
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                objList = objList.Where(b =>
+                    b.Product_Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
+            }
             // Return the list to the view
             return View(objList);
         }

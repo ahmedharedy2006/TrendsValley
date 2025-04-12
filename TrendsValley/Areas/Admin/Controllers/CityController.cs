@@ -24,12 +24,19 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
 
         // GET All Cities Method and View
+        [Area("Admin")]
         [Authorize(Policy = "ViewCity")]
-        public async Task<IActionResult> Index()
+        [HttpGet("[area]/[controller]/[action]")]
+        public async Task<IActionResult> Index(string searchTerm = "")
         {
             // Get All Cities from Database
             List<City> objList = await _cityRepo.GetAllAsync();
-
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                objList = objList.Where(b =>
+                    b.name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
+            }
             // Return the list to the view
             return View(objList);
         }

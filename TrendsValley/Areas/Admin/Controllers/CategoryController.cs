@@ -25,34 +25,40 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
 
         // GET All Categories Method and View
+        [Area("Admin")]
         [Authorize(Policy = "ViewCategory")]
-        public async Task<IActionResult> Index(int pg = 1)
+        [HttpGet("[area]/[controller]/[action]")]
+        public async Task<IActionResult> Index(int pg = 1, string searchTerm = "")
         {
             // Get All Categories from Database
             List<Category> objList = await _categoryRepo.GetAllAsync();
 
+            // Apply search filter
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                objList = objList.Where(c =>
+                    c.Category_Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
+            }
+
+            // Pagination logic
             const int pageSize = 8;
-            if (pg < 1)
-                pg = 1;
+            if (pg < 1) pg = 1;
 
             int recsCount = objList.Count();
-
             var pager = new Pager(recsCount, pg, pageSize);
-
             int recSkip = (pg - 1) * pageSize;
 
             objList = objList.Skip(recSkip).Take(pager.PageSize).ToList();
 
             ViewBag.Pager = pager;
-
-            // Return the list to the view
+            ViewBag.SearchTerm = searchTerm;
 
             var lang = _localizationService.GetCurrentLanguage();
             _localizationService.Load(lang);
 
             return View(objList);
         }
-
         // GET Create and Edit Method and View
         public async Task<IActionResult> Upsert(int? id)
         {

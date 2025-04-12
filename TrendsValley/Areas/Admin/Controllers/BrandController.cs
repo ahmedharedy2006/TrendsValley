@@ -25,13 +25,35 @@ namespace TrendsValley.Areas.Admin.Controllers
 
         // GET All Brands Method and View
 
+        [Area("Admin")]
         [Authorize(Policy = "ViewBrand")]
-        public async Task<IActionResult> Index()
+        [HttpGet("[area]/[controller]/[action]")]
+        public async Task<IActionResult> Index(int pg = 1, string searchTerm = "")
         {
             // Get All Brands from Database
             List<Brand> objList = await _brandRepo.GetAllAsync();
 
-            // Return the list to the view
+            // Apply search filter if searchTerm is provided
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                objList = objList.Where(b =>
+                    b.Brand_Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
+            }
+
+            // Pagination logic
+            const int pageSize = 8;
+            if (pg < 1) pg = 1;
+
+            int recsCount = objList.Count();
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+
+            objList = objList.Skip(recSkip).Take(pager.PageSize).ToList();
+
+            ViewBag.Pager = pager;
+            ViewBag.SearchTerm = searchTerm;
+
             return View(objList);
         }
 

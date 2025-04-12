@@ -21,11 +21,19 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
 
         // GET All States Method and View
-        public async Task<IActionResult> Index()
+        [Area("Admin")]
+        [HttpGet("[area]/[controller]/[action]")]
+
+        public async Task<IActionResult> Index(string searchTerm = "")
         {
             // Get All States from Database
             List<State> objList = await _stateRepoo.GetAllAsync();
-
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                objList = objList.Where(b =>
+                    b.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
+                ).ToList();
+            }
             // Return the list to the view
             return View(objList);
         }

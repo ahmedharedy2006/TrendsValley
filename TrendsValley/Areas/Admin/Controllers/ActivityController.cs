@@ -31,5 +31,47 @@ namespace TrendsValley.Areas.Admin.Controllers
 
             return View(RecentSecurityActivities);
         }
+            public async Task<IActionResult> Search(
+        string searchTerm,
+        string nameSearch,
+        string fromDate,
+        string toDate)
+            {
+            var query = _db.AdminActivities
+                .Include(a => a.User)
+                .AsQueryable();
+
+            // Apply general search if provided
+            if (!string.IsNullOrEmpty(searchTerm))
+            {
+                query = query.Where(a =>
+                    a.Description.Contains(searchTerm) ||
+                    a.User.Fname.Contains(searchTerm) ||
+                    a.User.Lname.Contains(searchTerm));
+            }
+
+            // Apply name search if provided
+            if (!string.IsNullOrEmpty(nameSearch))
+            {
+                query = query.Where(a =>
+                    a.User.Fname.Contains(nameSearch) ||
+                    a.User.Lname.Contains(nameSearch));
+            }
+
+            // Apply date range filter if provided
+            if (!string.IsNullOrEmpty(fromDate) && DateTime.TryParse(fromDate, out var fromDateValue))
+            {
+                query = query.Where(a => a.ActivityDate >= fromDateValue);
+            }
+
+            if (!string.IsNullOrEmpty(toDate) && DateTime.TryParse(toDate, out var toDateValue))
+            {
+                // Add one day to include the entire toDate day
+                query = query.Where(a => a.ActivityDate < toDateValue.AddDays(1));
+            }
+
+            var model = await query.ToListAsync();
+            return View("Index", model);
+        }
     }
 }
