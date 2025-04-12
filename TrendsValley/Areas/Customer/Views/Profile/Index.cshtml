@@ -18,18 +18,8 @@
     </div>
 }
 
-@* <div class="mb-6 lg:mb-8"> *@
-@*     <h2 class="text-xl lg:text-2xl font-bold text-gray-800">Personal Information</h2> *@
-@*     <p class="text-gray-500 text-sm lg:text-base">View and manage your personal details</p> *@
-@* </div> *@
 
-<div class="row">
-       
-    <div class="col-lg-6">
-
-    </div>
-
-    <div class="col-lg-6 lg:w-auto w-full col-sm-12 lg:left-50 absolute right-[0px] w-sm-25 lg:right-[30px]" style="border: 1px dashed green;padding: 20px">
+<div class="lg:w-auto w-full col-sm-12 " style="border: 1px dashed green;padding: 20px; width:100%;background-image:url('https://static.vecteezy.com/system/resources/thumbnails/003/685/386/small/grey-geometric-striped-seamless-pattern-light-grey-and-white-texture-vector.jpg');background-repeat:repeat;background-size:100px ">
         <div class="mb-6 lg:mb-8">
             <h2 class="text-xl lg:text-2xl font-bold text-gray-800">Personal Information</h2>
             <p class="text-gray-500 text-sm lg:text-base">View and manage your personal details</p>
@@ -37,117 +27,132 @@
 
         <div class="space-y-4 lg:space-y-6">
             <!-- Name Group -->
-            <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
-                <h3 class="text-lg font-semibold mb-4 flex items-center">
-                    <i class="fas fa-user text-primary mr-2"></i>
-                    Name
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- First Name -->
-                    <div class="flex flex-col">
-                        <label class="block text-gray-600 text-sm lg:text-base mb-1">First Name</label>
-                        <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
-                             onclick="showFieldModal('firstNameModal')">
-                            <span class="text-gray-800">@Model.FName</span>
+            <div class="row">
+                <div class="col-6">
+                    <div class=" p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100" style="background-image:url('https://static.vecteezy.com/system/resources/previews/019/526/878/non_2x/3d-white-wave-texture-background-concept-free-vector.jpg');background-repeat:no-repeat;background-size:cover">
+                        <h3 class="text-lg font-semibold mb-4 flex items-center">
+                            <i class="fas fa-user text-primary mr-2"></i>
+                            Name
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- First Name -->
+                            <div class="flex flex-col">
+                                <label class="block text-gray-600 text-sm lg:text-base mb-1">First Name</label>
+                                <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
+                                     onclick="showFieldModal('firstNameModal')">
+                                    <span class="text-gray-800">@Model.FName</span>
+                                </div>
+                            </div>
+
+                            <!-- Last Name -->
+                            <div class="flex flex-col">
+                                <label class="block text-gray-600 text-sm lg:text-base mb-1">Last Name</label>
+                                <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
+                                     onclick="showFieldModal('lastNameModal')">
+                                    <span class="text-gray-800">@Model.LName</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <!-- Last Name -->
-                    <div class="flex flex-col">
-                        <label class="block text-gray-600 text-sm lg:text-base mb-1">Last Name</label>
-                        <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
-                             onclick="showFieldModal('lastNameModal')">
-                            <span class="text-gray-800">@Model.LName</span>
+                </div>
+                <div class="col-6">
+                    <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100" style="background-image:url('https://static.vecteezy.com/system/resources/previews/019/526/878/non_2x/3d-white-wave-texture-background-concept-free-vector.jpg');background-repeat:no-repeat;background-size:cover">
+                        <h3 class="text-lg font-semibold mb-4 flex items-center">
+                            <i class="fas fa-address-book text-primary mr-2"></i>
+                            Contact Information
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Email -->
+                            <div class="flex flex-col">
+                                <label class="block text-gray-600 text-sm lg:text-base mb-1">Email</label>
+                                <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 overflow-auto cursor-pointer"
+                                     onclick="showFieldModal('emailModal')">
+                                    <span class="text-gray-800">@Model.Email</span>
+                                </div>
+                            </div>
+
+                            <!-- Phone Number -->
+                            <div class="flex flex-col">
+                                <label class="block text-gray-600 text-sm lg:text-base mb-1">Phone Number</label>
+                                <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
+                                     onclick="showFieldModal('phoneModal')">
+                                    <span class="text-gray-800">@Model.PhoneNumber</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
+
                 </div>
             </div>
 
             <!-- Contact Group -->
-            <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
-                <h3 class="text-lg font-semibold mb-4 flex items-center">
-                    <i class="fas fa-address-book text-primary mr-2"></i>
-                    Contact Information
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Email -->
-                    <div class="flex flex-col">
-                        <label class="block text-gray-600 text-sm lg:text-base mb-1">Email</label>
-                        <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 overflow-auto cursor-pointer"
-                             onclick="showFieldModal('emailModal')">
-                            <span class="text-gray-800">@Model.Email</span>
-                        </div>
-                    </div>
+            
+            <div class="row">
+                <div class="col-6">
+                    <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100" style="background-image:url('https://static.vecteezy.com/system/resources/previews/019/526/878/non_2x/3d-white-wave-texture-background-concept-free-vector.jpg');background-repeat:no-repeat;background-size:cover">
+                        <h3 class="text-lg font-semibold mb-4 flex items-center">
+                            <i class="fas fa-map-marker-alt text-primary mr-2"></i>
+                            Address Information
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- Street Address -->
+                            <div class="flex flex-col">
+                                <label class="block text-gray-600 text-sm lg:text-base mb-1">Street Address</label>
+                                <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
+                                     onclick="showFieldModal('addressModal')">
+                                    <span class="text-gray-800">@Model.Address</span>
+                                </div>
+                            </div>
 
-                    <!-- Phone Number -->
-                    <div class="flex flex-col">
-                        <label class="block text-gray-600 text-sm lg:text-base mb-1">Phone Number</label>
-                        <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
-                             onclick="showFieldModal('phoneModal')">
-                            <span class="text-gray-800">@Model.PhoneNumber</span>
+                            <!-- Postal Code -->
+                            <div class="flex flex-col">
+                                <label class="block text-gray-600 text-sm lg:text-base mb-1">Postal Code</label>
+                                <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
+                                     onclick="showFieldModal('postalModal')">
+                                    <span class="text-gray-800">@Model.PostalCode</span>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
+                <div class="col-6">
+                    <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100" style="background-image:url('https://static.vecteezy.com/system/resources/previews/019/526/878/non_2x/3d-white-wave-texture-background-concept-free-vector.jpg');background-repeat:no-repeat;background-size:cover">
+                        <h3 class="text-lg font-semibold mb-4 flex items-center">
+                            <i class="fas fa-globe text-primary mr-2"></i>
+                            Location
+                        </h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <!-- City -->
+                            <div class="flex flex-col">
+                                <label class="block text-gray-600 text-sm lg:text-base mb-1">City</label>
+                                <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
+                                     onclick="showFieldModal('cityModal')">
+                                    <span class="text-gray-800">@Model.CurrentCity</span>
+                                </div>
+                            </div>
 
+                            <!-- State -->
+                            <div class="flex flex-col">
+                                <label class="block text-gray-600 text-sm lg:text-base mb-1">State</label>
+                                <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
+                                     onclick="showFieldModal('stateModal')">
+                                    <span class="text-gray-800">@Model.CurrentState</span>
+                                </div>
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
             <!-- Address Group -->
-            <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
-                <h3 class="text-lg font-semibold mb-4 flex items-center">
-                    <i class="fas fa-map-marker-alt text-primary mr-2"></i>
-                    Address Information
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- Street Address -->
-                    <div class="flex flex-col">
-                        <label class="block text-gray-600 text-sm lg:text-base mb-1">Street Address</label>
-                        <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
-                             onclick="showFieldModal('addressModal')">
-                            <span class="text-gray-800">@Model.Address</span>
-                        </div>
-                    </div>
-
-                    <!-- Postal Code -->
-                    <div class="flex flex-col">
-                        <label class="block text-gray-600 text-sm lg:text-base mb-1">Postal Code</label>
-                        <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
-                             onclick="showFieldModal('postalModal')">
-                            <span class="text-gray-800">@Model.PostalCode</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
 
             <!-- Location Group -->
-            <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100">
-                <h3 class="text-lg font-semibold mb-4 flex items-center">
-                    <i class="fas fa-globe text-primary mr-2"></i>
-                    Location
-                </h3>
-                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    <!-- City -->
-                    <div class="flex flex-col">
-                        <label class="block text-gray-600 text-sm lg:text-base mb-1">City</label>
-                        <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
-                             onclick="showFieldModal('cityModal')">
-                            <span class="text-gray-800">@Model.CurrentCity</span>
-                        </div>
-                    </div>
-
-                    <!-- State -->
-                    <div class="flex flex-col">
-                        <label class="block text-gray-600 text-sm lg:text-base mb-1">State</label>
-                        <div class="p-2 lg:p-3 border rounded-lg bg-gray-50 cursor-pointer"
-                             onclick="showFieldModal('stateModal')">
-                            <span class="text-gray-800">@Model.CurrentState</span>
-                        </div>
-                    </div>
-                </div>
-
-            </div>
         </div>
         <div class="mt-8 flex justify-start">
             <a asp-area="Customer" asp-controller="Home" asp-action="Index"
-               class="px-5 py-2.5 bg-gray-100 text-gray-700 rounded-lg hover:bg-gray-200 transition-colors inline-flex items-center text-sm font-medium">
+               class="btn btn-success px-5 py-2.5  rounded-lg  inline-flex items-center text-sm font-medium">
                 <i class="fas fa-arrow-left mr-2"></i> Back to Home
             </a>
         </div>
@@ -292,32 +297,7 @@
         </div>
 
         <!-- Postal Code Modal -->
-        <div id="postalModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
-            <div class="bg-white rounded-xl p-6 w-full max-w-md mx-4">
-                <h3 class="text-lg font-semibold mb-4">Edit Postal Code</h3>
-                <form asp-action="UpdatePostalCode" method="post">
-                    @Html.AntiForgeryToken()
-                    <div class="space-y-4">
-                        <div>
-                            <input asp-for="PostalCode" name="PostalCode"
-                                   class="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-primary"
-                                   required>
-                        </div>
-                    </div>
-                    <div class="flex justify-end gap-3 mt-6">
-                        <button type="button"
-                                class="px-4 py-2 border border-gray-300 rounded-lg text-gray-700 hover:bg-gray-50 transition-colors"
-                                onclick="hideModal('postalModal')">
-                            Cancel
-                        </button>
-                        <button type="submit"
-                                class="px-4 py-2 bg-primary text-white rounded-lg hover:bg-[#076b63] transition-colors">
-                            Save Changes
-                        </button>
-                    </div>
-                </form>
-            </div>
-        </div>
+       
 
         <!-- City Modal -->
         <div id="cityModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
@@ -385,7 +365,6 @@
             </div>
         </div>
     </div>
-</div>
 @* <div class="space-y-4 lg:space-y-6"> *@
 @*     <!-- Name Group --> *@
 @*     <div class="bg-white p-4 lg:p-6 rounded-xl shadow-sm border border-gray-100"> *@

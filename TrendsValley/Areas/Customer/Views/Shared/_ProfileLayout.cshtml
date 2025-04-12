@@ -6,14 +6,18 @@
 
         return currentController == controller && actions.Contains(currentAction)
             ? "block py-2 px-4 bg-[#088178] text-white font-medium"
-            : "block py-2 px-1 text-gray-600 hover:bg-gray-300  transition-all ease";
+            : "block py-2 px-4  text-gray-600 bg-gray-300 hover:bg-[#088178] transition-all ease";
     }
 }
 @using Microsoft.AspNetCore.Identity
 @inject UserManager<AppUser> UserManager
+@inject TrendsValley.DataAccess.Data.AppDbContext DbContext
 
+@inject IHttpContextAccessor HttpContextAccessor
 @{
-    var user = await UserManager.GetUserAsync(User);
+    var userName = Context.Session.GetString("UserId");
+
+    var user = await DbContext.customers.FindAsync(userName);
 }
 <!DOCTYPE html>
 <html lang="en">
@@ -122,10 +126,11 @@
     @*     </div> *@
 
     <nav class="navbar navbar-expand-lg bg-body-tertiary shadow d-flex mb-4 justify-content-around flex-nowrap">
-        <div class="container-fluid d-lg-flex justify-content-lg-center">
+        <div class="container-fluid d-lg-flex justify-content-lg-left">
             <a class="navbar-brand" href="#">
                 <img src="~/pics/logo.png" alt="" class="img-fluid" style="width: 190px;margin-top: -60px;margin-bottom: -20px;">
             </a>
+
             <button class="navbar-toggler d-lg-none sidebarTrue" type="button" data-bs-toggle="offcanvas" data-bs-target="#navbarOffcanvas">
                 <i class="fa-solid fa-bars"></i>
             </button>
@@ -154,7 +159,7 @@
                         <div class="sidebarTrue" style="
               border: 1px dashed green;
               padding-top: 30px;
-              width: 100%;
+              width: 95%;
               text-align: center;
             ">
                             <button class="ProfileSideHover border-0 fs-4 p-3 text-start"
@@ -163,12 +168,7 @@
                                     <i class="fas fa-user mr-2"></i> Profile
                                 </a>
                             </button>
-                            <button class="ProfileSideHover border-0 fs-4 p-3 text-start mt-2"
-                                    style="width: 95%">
-                                <a asp-controller="Profile" asp-action="Security" class="@IsActive("Profile","Security","ManageDevices","ChangePassword","Enable2FA","VerifyEmailCode") text-decoration-none text-black">
-                                   <i class="fas fa-lock mr-2"></i> Login & Security
-                                </a>
-                            </button>
+                            
                             <button class="ProfileSideHover border-0 fs-4 p-3 text-start mt-2"
                                     style="width: 95%">
                                 <a asp-controller="Profile" asp-action="Payments" class="@IsActive("Profile","Payments") text-decoration-none text-black">
@@ -194,8 +194,10 @@
             </div>
         </div>
     </nav>
-
-    <div class="d-none flex-column ml-8 flex-wrap text-white w-25 d-sm-none d-md-none sidebar d-lg-block col-lg-12 w-50 position-fixed your-element" style="">
+    
+    <div class="row">
+        <div class="col-lg-3 col-md-6 col-sm-12 col-xs-12">
+            <div class="d-none flex-column ml-8 flex-wrap text-white w-5 d-sm-none d-md-none sidebar d-lg-block col-lg-12 w-25 position-fixed your-element" style=" background-color:#f4f4f4">
         <div class="p-4 border-b border-gray-200 d-flex align-items-center text-black" style="border: 1px dashed green">
             @if (user != null)
             {
@@ -215,30 +217,25 @@
               text-align: center;
             ">
             <button class="ProfileSideHover border-0 fs-4 p-3 text-start hover:translate-1/6"
-                    style="width: 95%">
+                    style="width: 95%; ">
                 <a asp-controller="Profile" asp-action="Index" class="@IsActive("Profile","Index") text-decoration-none text-black">
                     <i class="fas fa-user mr-2"></i> Profile
                 </a>
             </button>
-            <button class="ProfileSideHover border-0 fs-4 p-3 text-start mt-2"
-                    style="width: 95%">
-                <a asp-controller="Profile" asp-action="Security" class="@IsActive("Profile","Security","ManageDevices","ChangePassword","Enable2FA","VerifyEmailCode") text-decoration-none text-black">
-                    <i class="fas fa-lock mr-2"></i> Login & Security
-                </a>
-            </button>
-            <button class="ProfileSideHover border-0 fs-4 p-3 text-start mt-2"
+
+                    <button class="ProfileSideHover border-0 fs-4 p-3 text-start mt-1"
                     style="width: 95%">
                 <a asp-controller="Profile" asp-action="Payments" class="@IsActive("Profile","Payments") text-decoration-none text-black">
                     <i class="fas fa-credit-card mr-2"></i> Your Payments
                 </a>
             </button>
-            <button class="ProfileSideHover border-0 fs-4 p-3 text-start mt-2"
+                    <button class="ProfileSideHover border-0 fs-4 p-3 text-start mt-1"
                     style="width: 95%">
                 <a asp-controller="Profile" asp-action="Orders" class="@IsActive("Profile","Orders") text-decoration-none text-black">
                     <i class="fas fa-box mr-2"></i> Your Orders
                 </a>
             </button>
-            <button class="ProfileSideHover border-0 fs-4 p-3 text-start mt-2 mb-3"
+                    <button class="ProfileSideHover border-0 fs-4 p-3 text-start mt-1 mb-3"
                     style="width: 95%">
                 <a asp-controller="Profile" asp-action="ContactUs" class="@IsActive("Profile","ContactUs") text-decoration-none text-black">
                     <i class="fas fa-envelope mr-2"></i> Contact Us
@@ -246,19 +243,18 @@
             </button>
         </div>
     </div>
-    </div>
     <!-- sidebar -->
+    </div>
 
-
+    <div class="col-lg-9 col-md-6 col-sm-12 col-xs-12">
         <div id="overlay" class="hidden fixed inset-0 bg-black bg-opacity-50 z-40 lg:hidden"></div>
-        <div class="flex-1 p-8 overflow-y-auto">
-            <div class="max-w-4xl mx-auto">
+        <div class="flex-1 p-2" >
+                <div class="max-w-4xl mx-auto" >
                 @RenderBody()
             </div>
         </div>
-
+        </div>
     </div>
-
     <script>
         const menuToggle = document.getElementById('menuToggle');
         const mobileMenu = document.getElementById('mobileMenu');
