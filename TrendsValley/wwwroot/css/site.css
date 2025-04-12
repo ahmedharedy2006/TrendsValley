@@ -925,3 +925,12 @@ thead {
 .detailsColor-p {
     color: #989898;
 }
+
+.profileHover:hover {
+    background-color: #088178;
+    color: white;
+}
+
+.profileSideHover:hover {
+
+}
