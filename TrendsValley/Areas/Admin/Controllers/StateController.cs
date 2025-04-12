@@ -24,7 +24,7 @@ namespace TrendsValley.Areas.Admin.Controllers
         [Area("Admin")]
         [HttpGet("[area]/[controller]/[action]")]
 
-        public async Task<IActionResult> Index(string searchTerm = "")
+        public async Task<IActionResult> Index(int pg = 1,string searchTerm = "")
         {
             // Get All States from Database
             List<State> objList = await _stateRepoo.GetAllAsync();
@@ -34,6 +34,18 @@ namespace TrendsValley.Areas.Admin.Controllers
                     b.Name.Contains(searchTerm, StringComparison.OrdinalIgnoreCase)
                 ).ToList();
             }
+
+            // Pagination logic
+            const int pageSize = 8;
+            if (pg < 1) pg = 1;
+
+            int recsCount = objList.Count();
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+
+            objList = objList.Skip(recSkip).Take(pager.PageSize).ToList();
+
+            ViewBag.Pager = pager;
             // Return the list to the view
             return View(objList);
         }

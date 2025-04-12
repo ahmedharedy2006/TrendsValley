@@ -17,7 +17,7 @@ namespace TrendsValley.Areas.Admin.Controllers
             _db = db;
             _userManager = userManager;
         }
-        public async Task<IActionResult> Index()
+        public async Task<IActionResult> Index(int pg = 1)
         {
             var user = await _userManager.GetUserAsync(User);
             if (user == null)
@@ -28,6 +28,18 @@ namespace TrendsValley.Areas.Admin.Controllers
                 .Include(a => a.User)
                 .OrderByDescending(a => a.ActivityDate)
                 .ToListAsync();
+
+            // Pagination logic
+            const int pageSize = 8;
+            if (pg < 1) pg = 1;
+
+            int recsCount = RecentSecurityActivities.Count();
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+
+            RecentSecurityActivities = RecentSecurityActivities.Skip(recSkip).Take(pager.PageSize).ToList();
+
+            ViewBag.Pager = pager;
 
             return View(RecentSecurityActivities);
         }
@@ -71,6 +83,8 @@ namespace TrendsValley.Areas.Admin.Controllers
             }
 
             var model = await query.ToListAsync();
+
+
             return View("Index", model);
         }
     }

@@ -22,9 +22,22 @@ namespace TrendsValley.Areas.Admin.Controllers
             _userManager = userManager;
             _roleManager = roleManager;
         }
-        public IActionResult Index()
+        public IActionResult Index(int pg = 1)
         {
             var roles = _db.Roles.ToList();
+
+            // Pagination logic
+            const int pageSize = 8;
+            if (pg < 1) pg = 1;
+
+            int recsCount = roles.Count();
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+
+            roles = roles.Skip(recSkip).Take(pager.PageSize).ToList();
+
+            ViewBag.Pager = pager;
+
             return View(roles);
         }
 
@@ -140,14 +153,6 @@ namespace TrendsValley.Areas.Admin.Controllers
                 });
             }
 
-            foreach(Claim claim in ClaimStore.AdminUserClaimsList)
-            {
-                model.CustomerClaimList.Add(new ClaimSelection
-                {
-                    ClaimType = claim.Type,
-                    IsSelected = existingUserClaims.Any(c => c.Type == claim.Type)
-                });
-            }
 
             foreach (Claim claim in ClaimStore.AdminUserClaimsList)
             {

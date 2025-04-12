@@ -22,7 +22,7 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
 
         // GET: All Users method and view
-        public IActionResult Index()
+        public IActionResult Index(int pg = 1)
         {
             // Get all users from the database
             var UserAccount = _db.appUsers.ToList();
@@ -49,6 +49,18 @@ namespace TrendsValley.Areas.Admin.Controllers
                     user.Role = roles.FirstOrDefault(u => u.Id == role.RoleId).Name;
                 }
             }
+
+            // Pagination logic
+            const int pageSize = 8;
+            if (pg < 1) pg = 1;
+
+            int recsCount = UserAccount.Count();
+            var pager = new Pager(recsCount, pg, pageSize);
+            int recSkip = (pg - 1) * pageSize;
+
+            UserAccount = UserAccount.Skip(recSkip).Take(pager.PageSize).ToList();
+
+            ViewBag.Pager = pager;
 
             // Return the list of users to the view
             return View(UserAccount);
