@@ -65,6 +65,7 @@ namespace TrendsValley.Areas.Admin.Controllers
             objList = objList.Skip(recSkip).Take(pager.PageSize).ToList();
 
             ViewBag.Pager = pager;
+            ViewBag.count = recsCount;
 
             // Return the list to the view
             return View(objList);

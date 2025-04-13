@@ -37,6 +37,7 @@ namespace TrendsValley.Areas.Admin.Controllers
             roles = roles.Skip(recSkip).Take(pager.PageSize).ToList();
 
             ViewBag.Pager = pager;
+            ViewBag.count = recsCount;
 
             return View(roles);
         }

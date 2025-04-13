@@ -42,7 +42,7 @@ namespace TrendsValley.Areas.Admin.Controllers
                 // If the role is null, assign "None" to the user role
                 if (role == null)
                 {
-                    user.Role = "None";
+                    user.Role = SD.User;
                 }
                 else
                 {
@@ -61,7 +61,7 @@ namespace TrendsValley.Areas.Admin.Controllers
             UserAccount = UserAccount.Skip(recSkip).Take(pager.PageSize).ToList();
 
             ViewBag.Pager = pager;
-
+            ViewBag.count = recsCount;  
             // Return the list of users to the view
             return View(UserAccount);
         }

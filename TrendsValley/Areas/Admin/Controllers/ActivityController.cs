@@ -40,6 +40,7 @@ namespace TrendsValley.Areas.Admin.Controllers
             RecentSecurityActivities = RecentSecurityActivities.Skip(recSkip).Take(pager.PageSize).ToList();
 
             ViewBag.Pager = pager;
+            ViewBag.count = recsCount;
 
             return View(RecentSecurityActivities);
         }

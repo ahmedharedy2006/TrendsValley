@@ -42,7 +42,9 @@
                 <div class="flex items-center">
                     <div class="flex items-center ms-3">
                         <div class="flex items-center">
-                            <span class="text-green-700 me-3">إسم المستخدم</span>
+                            <span class="text-green-700 me-3">
+                                @User.Identity.Name
+                            </span>
                             <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300 dark:focus:ring-gray-600 inline" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                                 <span class="sr-only">Open user menu</span>
                                 <img class="w-8 h-8 rounded-full" src="~/pics/admin.png" alt="user photo">

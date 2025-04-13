@@ -53,6 +53,7 @@ namespace TrendsValley.Areas.Admin.Controllers
 
             ViewBag.Pager = pager;
             ViewBag.SearchTerm = searchTerm;
+            ViewBag.count = recsCount;
 
             return View(objList);
         }
