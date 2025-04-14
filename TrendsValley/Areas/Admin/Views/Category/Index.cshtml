@@ -18,16 +18,16 @@
 
 <link href="~/css/InProduct.css" rel="stylesheet" />
 
-<main class="backImgBody" style="background-image: url('../pics/abstract-seamless-white-and-grey-square-3d-pattern-background-modern-geometric-texture-design-illustration-vector.jpg');
+<main class="backImgBody" style="background-image: url('https://static.vecteezy.com/system/resources/previews/001/968/633/non_2x/abstract-seamless-white-and-grey-square-3d-pattern-background-modern-geometric-texture-design-illustration-vector.jpg');
     background-repeat: repeat;
     background-size: 300px;
     height: 100px;
     margin-top:-30px;
     margin-left:-20px;
     margin-right:-20px;">
-    <div class="" style="height: 100px; width: 100%">
+    <div style="height: 100px; width: 100%">
         <div class="flex justify-between items-center flex-wrap mt-0 p-2" style="height: 100px;">
-            <div class="" dir="rtl">
+            <div>
                 <p class="text-3xl font-semibold dark:text-black">
                     @LocalizationService.Translate("CategoryTitle")
                 </p>
@@ -40,11 +40,23 @@
         </div>
      </div>
     <!-- Search Section -->
+
     <div class="text-md dark:text-black font-bold p-4 sm:ml-2" style="margin-left:-20px; margin-right:-20px; background-color: white; border-top: 1px solid black; border-bottom: 1px solid black">
-        <p class="bg-whtie">&nbsp; &nbsp; @LocalizationService.Translate("Search")</p>
+        
+            <div class="flex justify-between items-center flex-wrap mt-0 p-2">
+                <div>
+                    <p class="bg-whtie">&nbsp; &nbsp; @LocalizationService.Translate("Search")</p>
+                </div>
+                <div class="sm:mt-4 lg:mt-0 mt-4 bg-white" >
+                <a asp-action="Upsert" class="text-xl focus:outline-none text-white cursor-pointer bg-gray-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300  p-2 border-1 me-2 mb-2  dark:hover:bg-green-700 dark:focus:ring-green-800" style="margin: 0px; background-color:#00A63E; color: white; ">
+                    Add Category +
+                </a>
+                </div>
+            </div>
     </div>
 
-    <form asp-action="Index" method="get" class="flex items-center justify-around flex-wrap" style="background-image: url('../pics/abstract-seamless-white-and-grey-square-3d-pattern-background-modern-geometric-texture-design-illustration-vector.jpg');
+
+    <form asp-action="Index" method="get" class="flex items-center justify-around flex-wrap" style="background-image: url('https://static.vecteezy.com/system/resources/previews/001/968/633/non_2x/abstract-seamless-white-and-grey-square-3d-pattern-background-modern-geometric-texture-design-illustration-vector.jpg');
     background-repeat: repeat;
     background-size: 300px;
     height: 150px;

@@ -40,7 +40,17 @@
         </div>
     </div>
     <div class="text-md dark:text-black font-bold p-4 sm:ml-2" style="margin-left:-20px; margin-right:-20px; background-color: white; border-top: 1px solid black; border-bottom: 1px solid black">
-        <p class="bg-whtie">&nbsp; &nbsp; @LocalizationService.Translate("Search")</p>
+        
+        <div class="flex justify-between items-center flex-wrap mt-0 p-2">
+            <div>
+                <p class="bg-whtie">&nbsp; &nbsp; @LocalizationService.Translate("Search")</p>
+            </div>
+            <div class="sm:mt-4 lg:mt-0 mt-4 bg-white" >
+                <a asp-controller="Auth" asp-action="Register" class="text-xl focus:outline-none text-white cursor-pointer bg-gray-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300  p-2 border-1 me-2 mb-2  dark:hover:bg-green-700 dark:focus:ring-green-800" style="margin: 0px; background-color:#00A63E; color: white; ">
+                    Add Admin +
+                </a>
+            </div>
+        </div>
     </div>
 
     <form asp-action="Index" method="get" class="flex items-center justify-around flex-wrap" style="background-image: url('../pics/abstract-seamless-white-and-grey-square-3d-pattern-background-modern-geometric-texture-design-illustration-vector.jpg');
