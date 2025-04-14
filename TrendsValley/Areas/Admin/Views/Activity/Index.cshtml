@@ -18,7 +18,7 @@
 
 <link href="~/css/InProduct.css" rel="stylesheet" />
 
-<main class="backImgBody" style="background-image: url('../pics/abstract-seamless-white-and-grey-square-3d-pattern-background-modern-geometric-texture-design-illustration-vector.jpg');
+<main class="backImgBody" style="background-image: url('https://static.vecteezy.com/system/resources/previews/001/968/633/non_2x/abstract-seamless-white-and-grey-square-3d-pattern-background-modern-geometric-texture-design-illustration-vector.jpg');
     background-repeat: repeat;
     background-size: 300px;
     height: 100px;
@@ -44,7 +44,14 @@
     </div>
 
     <!-- Search Form - Now points to Search action -->
-    <div style="margin-left:-20px; margin-right:-20px; background-color: white; padding: 20px;">
+    <div  style="
+ background-image: url('https://static.vecteezy.com/system/resources/previews/001/968/633/non_2x/abstract-seamless-white-and-grey-square-3d-pattern-background-modern-geometric-texture-design-illustration-vector.jpg');
+background-repeat: repeat;
+background-size: 300px;
+height: 150px;
+margin-left:-20px;
+margin-right:-20px;
+padding-top:0px;">
         <form asp-controller="Activity" asp-action="Search" method="get">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                 <!-- General Search -->
@@ -116,7 +123,7 @@
                             @cat.User.UserName
                         </th>
                         <th scope="row" class="px-6 py-4 font-medium text-black text-gray-900 text-center whitespace-nowrap">
-                            @cat.ActivityType
+                            @cat.Description
                         </th>
                         <td class="px-6 py-4 text-center">
                             @cat.ActivityDate
