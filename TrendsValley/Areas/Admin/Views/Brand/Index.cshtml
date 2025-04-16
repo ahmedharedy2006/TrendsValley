@@ -47,7 +47,7 @@
             </div>
             <div class="sm:mt-4 lg:mt-0 mt-4 bg-white" >
                 <a asp-action="Upsert" class="text-xl focus:outline-none text-white cursor-pointer bg-gray-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300  p-2 border-1 me-2 mb-2  dark:hover:bg-green-700 dark:focus:ring-green-800" style="margin: 0px; background-color:#00A63E; color: white; ">
-                    Add Brand +
+                    @LocalizationService.Translate("BrandAddButton") +
                 </a>
             </div>
         </div>
@@ -90,13 +90,14 @@
                 <tr>
 
                     <th scope="col" class="px-6 py-3 text-center">
-                        ID
+                        @LocalizationService.Translate("id")
                     </th>
                     <th scope="col" class="px-6 py-3 text-center">
-                        State
+                        @LocalizationService.Translate("Brand2ndColumnHeader")
                     </th>
                     <th scope="col" class="px-6 py-3 text-center">
-                        Action
+                        @LocalizationService.Translate("Brand3rdColumnHeader")
+
                     </th>
                 </tr>
             </thead>
@@ -117,7 +118,9 @@
                             <a asp-action="Upsert" asp-route-Id="@cat.Brand_Id" class="focus:outline-none me-3 text-white bg-yellow-400 cursor-pointer hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:focus:ring-yellow-900">
                                 <i class="fa-solid fa-pen"></i>
                             </a>
-                            <a href="javascript:void(0);" onclick="if(confirm('Are You Sure You Want To Delete This Item and All It's Related Data ?')) window.location.href='/Admin/Brand/delete/@cat.Brand_Id'" class="focus:outline-none m-auto text-white bg-red-700 hover:bg-red-800 cursor-pointer focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" style="margin: 0;">
+                            <a href="javascript:void(0);"
+                               onclick="if (confirm('Are you sure you want to delete this item and all its related data?')) window.location.href='@Url.Action("Delete", "Brand", new { id = cat.Brand_Id })';"
+                               class="focus:outline-none m-auto text-white bg-red-700 hover:bg-red-800 cursor-pointer focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-900" style="margin: 0;">
                                 <i class="fa-solid fa-xmark"></i>
                             </a>
                         </td>

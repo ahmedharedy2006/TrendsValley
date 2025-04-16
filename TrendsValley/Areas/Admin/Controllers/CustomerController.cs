@@ -5,6 +5,7 @@ using TrendsValley.Utilities;
 
 namespace TrendsValley.Areas.Admin.Controllers
 {
+    [Area("Admin")]
     public class CustomerController : Controller
     {
         private readonly AppDbContext _db;

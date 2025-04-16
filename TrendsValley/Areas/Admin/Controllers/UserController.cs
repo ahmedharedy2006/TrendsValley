@@ -1,6 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Security.Claims;
 using TrendsValley.DataAccess.Data;
 using TrendsValley.Models.Models;
 using TrendsValley.Utilities;
@@ -13,11 +15,13 @@ namespace TrendsValley.Areas.Admin.Controllers
     public class UserController : Controller
     {
         private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
         private readonly AppDbContext _db;
 
-        public UserController(UserManager<AppUser> userManager, AppDbContext db)
+        public UserController(UserManager<AppUser> userManager, SignInManager<AppUser> signInManager , AppDbContext db)
         {
             _userManager = userManager;
+            _signInManager = signInManager;
             _db = db;
         }
 
@@ -156,6 +160,47 @@ namespace TrendsValley.Areas.Admin.Controllers
 
             // Redirect to the Index action
             return RedirectToAction(nameof(Index));
+        }
+
+
+        public async Task<IActionResult> Delete(string userId)
+        {
+            var user = await _userManager.FindByIdAsync(userId);
+
+            var CurrentuserId = User.FindFirstValue(ClaimTypes.NameIdentifier);
+
+            if (user == null)
+            {
+                return NotFound();
+            }
+
+            if (User.IsInRole(SD.Admin))
+            {
+                return RedirectToAction("Index");
+            }
+            var userDervices = await _db.UserDevices.Where(u => u.UserId == userId).ToListAsync();
+            var carts = await _db.Carts.Where(u => u.UserId == userId).ToListAsync();
+            var orders = await _db.OrderHeaders.Where(u => u.AppUserId == userId).ToListAsync();
+
+            _db.UserDevices.RemoveRange(userDervices);
+            _db.Carts.RemoveRange(carts);
+            _db.OrderHeaders.RemoveRange(orders);
+            await _db.SaveChangesAsync();
+
+            var result = await _userManager.DeleteAsync(user);
+            if (result.Succeeded)
+            {
+                
+
+                if (userId == CurrentuserId)
+                {
+                    await _signInManager.SignOutAsync();
+                }
+
+                
+                return RedirectToAction("Index");
+            }
+            return View("Error");
         }
     }
 }

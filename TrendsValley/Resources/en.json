@@ -33,10 +33,11 @@
   "Customer2ndColumnHeader3": "Email",
   "Customer2ndColumnHeader4": "Phone Number",
   "Customer3rdColumnHeader": "Actions",
-
+  
 
 
   "id": "Id",
-  "search": "Search"
-
+  "search": "Search",
+  "No": "No of Records",
+  "Date": "Date"
 }

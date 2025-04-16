@@ -26,5 +26,9 @@ namespace TrendsValley.Models.ViewModels
 
         public IEnumerable<SelectListItem> CityList { get; set; }
 
+        public IEnumerable<SelectListItem> RoleList { get; set; }
+
+        public string role { get; set; }
+
     }
 }

@@ -253,7 +253,7 @@ namespace TrendsValley.Areas.Admin.Controllers
 
         public IActionResult Register()
         {
-            CustomerRegisterViewModel obj = new();
+            RegisterViewModel obj = new();
 
             obj.CityList = _db.cities.Select(i => new SelectListItem
             {
@@ -266,6 +266,13 @@ namespace TrendsValley.Areas.Admin.Controllers
                 Text = i.Name,
                 Value = i.Id.ToString()
             });
+
+            obj.RoleList = _db.Roles.Select(i => new SelectListItem
+            {
+                Text = i.Name,
+                Value = i.Name
+            });
+
             return View(obj);
         }
 
@@ -298,16 +305,10 @@ namespace TrendsValley.Areas.Admin.Controllers
 
             if (result.Succeeded)
             {
-                await _userManager.AddToRoleAsync(user, SD.User);
+                await _userManager.AddToRoleAsync(user, obj.role);
+                
+                return RedirectToAction("Index" , "User");
 
-                var verificationCode = new Random().Next(100000, 999999).ToString();
-                var emailBody = GenerateEmailConfirmationEmail(user, verificationCode);
-                await _userManager.AddClaimAsync(user, new Claim("EmailVerificationCode", verificationCode));
-
-                await _emailSender.SendEmailAsync(user.Email, "Email Confirmation Code",
-                    emailBody);
-
-                return RedirectToAction("VerifyEmailCode", new { userId = user.Id });
             }
 
             obj.CityList = _db.cities.Select(i => new SelectListItem
@@ -324,138 +325,7 @@ namespace TrendsValley.Areas.Admin.Controllers
             return View(obj);
         }
 
-        private string GenerateEmailConfirmationEmail(AppUser user, string confirmationCode)
-        {
-            return $@"
-<!DOCTYPE html>
-<html lang='en'>
-<head>
-    <meta charset='UTF-8'>
-    <meta name='viewport' content='width=device-width, initial-scale=1.0'>
-    <style>
-        body {{
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f4;
-            margin: 0;
-            padding: 20px;
-        }}
-        .email-container {{
-            max-width: 600px;
-            margin: 0 auto;
-            background-color: #ffffff;
-            padding: 30px;
-            border-radius: 8px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-        }}
-        .header {{
-            text-align: center;
-            margin-bottom: 25px;
-            border-bottom: 1px solid #eaeaea;
-            padding-bottom: 15px;
-        }}
-        .header h1 {{
-            color: #6366f1;
-            margin: 0;
-            font-size: 24px;
-        }}
-        .content {{
-            margin-bottom: 25px;
-            line-height: 1.6;
-        }}
-        .content p {{
-            font-size: 16px;
-            color: #333333;
-            margin-bottom: 15px;
-        }}
-        .verification-code {{
-            font-size: 28px;
-            font-weight: bold;
-            color: #6366f1;
-            letter-spacing: 3px;
-            text-align: center;
-            margin: 25px 0;
-            padding: 15px;
-            background-color: #f8f9fa;
-            border-radius: 6px;
-            border: 1px dashed #6366f1;
-        }}
-        .security-alert {{
-            background-color: #f8f9fa;
-            border-left: 4px solid #6366f1;
-            padding: 15px;
-            margin: 20px 0;
-            border-radius: 4px;
-        }}
-        .footer {{
-            text-align: center;
-            font-size: 14px;
-            color: #777;
-            margin-top: 25px;
-            border-top: 1px solid #eaeaea;
-            padding-top: 15px;
-        }}
-        .button {{
-            display: inline-block;
-            padding: 12px 24px;
-            background-color: #6366f1;
-            color: white;
-            text-decoration: none;
-            border-radius: 4px;
-            margin: 20px auto;
-            text-align: center;
-        }}
-        .info-item {{
-            margin-bottom: 8px;
-        }}
-    </style>
-</head>
-<body>
-    <div class='email-container'>
-        <div class='header'>
-            <h1>Email Verification</h1>
-        </div>
-        
-        <div class='content'>
-            <p>Hello {user.Fname + " " + user.Lname},</p>
-            
-            <p>Thank you for registering with Trendsvalley! Please use the following verification code to confirm your email address:</p>
-            
-            <div class='verification-code'>
-                {confirmationCode}
-            </div>
-            
-            <p>This code will expire in 15 minutes. If you didn't request this, please ignore this email.</p>
-            
-            <div class='security-alert'>
-                <p><strong>Security Tip:</strong> Never share this code with anyone. Trendsvalley will never ask for your verification code.</p>
-            </div>
-            
-            <p>Alternatively, you can click the button below to verify your email:</p>
-            
-            <a href=""{GenerateVerificationLink(user, confirmationCode)}"" class='button'>Verify Email Address</a>
-            
-            <p>If the button doesn't work, copy and paste this link into your browser:</p>
-            <p style=""word-break: break-all;"">{GenerateVerificationLink(user, confirmationCode)}</p>
-        </div>
-        
-        <div class='footer'>
-            <p>&copy; {DateTime.Now.Year} Cara-Store. All rights reserved.</p>
-            <p>This email was sent to {user.Email} as part of our verification process.</p>
-        </div>
-    </div>
-</body>
-</html>";
-        }
 
-        private string GenerateVerificationLink(AppUser user, string code)
-        {
-            return Url.Action(
-                "VerifyEmailCode",
-                "Auth",
-                new { userId = user.Id, code = code },
-                protocol: HttpContext.Request.Scheme
-            );
-        }
         [HttpGet]
         [AllowAnonymous]
         public async Task<IActionResult> VerifyEmailCode(string userId)
