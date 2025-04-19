@@ -9,6 +9,7 @@
 
 
 
+
 <!DOCTYPE HTML>
 <html lang="en">
 
@@ -56,13 +57,15 @@
                         <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-sm shadow-sm dark:bg-gray-700 dark:divide-gray-600" id="dropdown-user">
                             <ul class="py-1" role="none">
                                 <li>
-                                    <a asp-controller="Dashboard" asp-action="SetLanguage" asp-route-lang="en">🇬🇧 English</a>
+                                    <a asp-controller="Dashboard" asp-action="SetLanguage" asp-route-lang="en" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">🇬🇧 English</a>
                                 </li>
                                 <li>
-                                    <a asp-controller="Dashboard" asp-action="SetLanguage" asp-route-lang="ar">🇸🇦 Arabic</a>
+                                    <a asp-controller="Dashboard" asp-action="SetLanguage" asp-route-lang="ar" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white">🇸🇦 Arabic</a>
                                 </li>
                                 <li>
-                                    <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</a>
+                                    <form asp-action="logOut" asp-controller="Auth">
+                                    <button type="submit" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 dark:text-gray-300 dark:hover:bg-gray-600 dark:hover:text-white" role="menuitem">Sign out</button>
+                                    </form>
                                 </li>
                             </ul>
                         </div>

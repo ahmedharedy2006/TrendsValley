@@ -13,7 +13,6 @@ using TrendsValley.Models.ViewModels;
 namespace TrendsValley.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
     public class ProductController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;

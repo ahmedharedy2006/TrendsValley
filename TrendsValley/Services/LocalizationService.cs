@@ -17,6 +17,10 @@ namespace TrendsValley.Services
         public void SetLanguage(string lang)
         {
             // Store the language in the session
+            if (string.IsNullOrEmpty(lang))
+            {
+                lang = "en"; // default language
+            }
             _httpContextAccessor.HttpContext.Session.SetString("lang", lang);
             Load(lang);
         }

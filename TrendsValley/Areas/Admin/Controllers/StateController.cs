@@ -9,7 +9,6 @@ using TrendsValley.Models.Models;
 namespace TrendsValley.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
     public class StateController : Controller
     {
         private readonly IStateRepo _stateRepoo;

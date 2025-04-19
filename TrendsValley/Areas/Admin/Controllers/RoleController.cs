@@ -234,8 +234,6 @@ namespace TrendsValley.Areas.Admin.Controllers
         }
 
 
-        [HttpPost]
-        [ValidateAntiForgeryToken]
         public async Task<IActionResult> Delete(string roleId)
         {
 

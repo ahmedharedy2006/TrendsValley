@@ -55,13 +55,7 @@ padding-top:0px;">
         <form asp-controller="Activity" asp-action="Search" method="get">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-4">
                 <!-- General Search -->
-                <div>
-                    <label class="block text-sm font-medium text-gray-700">Search All</label>
-                    <input class="search__input w-full" type="search"
-                           placeholder="Search all fields..."
-                           name="searchTerm"
-                           value="@Context.Request.Query["searchTerm"]">
-                </div>
+            
 
                 <!-- Name Search -->
                 <div>
@@ -72,6 +66,13 @@ padding-top:0px;">
                            value="@Context.Request.Query["nameSearch"]">
                 </div>
 
+                <div>
+                    <label class="block text-sm font-medium text-gray-700">Search By Action</label>
+                    <input class="search__input w-full" type="search"
+                           placeholder="Search all fields..."
+                           name="searchTerm"
+                           value="@Context.Request.Query["searchTerm"]">
+                </div>
                 <!-- Date Range Search -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700">From Date</label>
@@ -105,7 +106,7 @@ padding-top:0px;">
                         @LocalizationService.Translate("Admin2ndColumnHeader")
                     </th>
                     <th scope="col" class="px-6 py-3 text-center">
-                        @LocalizationService.Translate("Customer3rdColumnHeader")
+                        @LocalizationService.Translate("Activity2ndColumnHeader2")
                     </th>
                     <th scope="col" class="px-6 py-3 text-center">
                         @LocalizationService.Translate("Date")

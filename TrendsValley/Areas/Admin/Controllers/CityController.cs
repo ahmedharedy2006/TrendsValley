@@ -10,7 +10,6 @@ using TrendsValley.DataAccess.Repository;
 namespace TrendsValley.Areas.Admin.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
 
     public class CityController : Controller
     {

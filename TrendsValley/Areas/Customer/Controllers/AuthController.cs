@@ -109,11 +109,7 @@ namespace TrendsValley.Areas.Customer.Controllers
                 phoneNumber = obj.appUser.phoneNumber,
             };
 
-            if (await _userService.UserExists(obj.appUser.Email))
-            {
-                ViewBag.Message = "Username already exists!";
-                return View();
-            }
+         
 
             var success = await _userService.RegisterUser(user , SD.User);
             if (success)

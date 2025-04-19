@@ -33,8 +33,9 @@
   "Customer2ndColumnHeader3": "Email",
   "Customer2ndColumnHeader4": "Phone Number",
   "Customer3rdColumnHeader": "Actions",
-  
 
+  "ActivityTitle": "Activities",
+  "Activity2ndColumnHeader2": "Activity Name",
 
   "id": "Id",
   "search": "Search",

@@ -65,7 +65,7 @@ builder.Services.AddAuthentication(options =>
 .AddCookie(CookieAuthenticationDefaults.AuthenticationScheme, options =>
 {
     options.LoginPath = "/Admin/Auth/SignIn";  // Identity Login Path
-    options.AccessDeniedPath = "/Customer/Home/Index";
+    options.AccessDeniedPath = "/Admin/Dashboard/Index";
 })
 .AddCookie("MyCustomAuth", options =>
 {

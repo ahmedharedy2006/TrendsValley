@@ -7,7 +7,6 @@ using TrendsValley.Services;
 namespace TrendsValley.Controllers
 {
     [Area("Admin")]
-    [Authorize(Roles = "Admin")]
     public class DashboardController : Controller
     {
         private readonly LocalizationService _localizationService;
